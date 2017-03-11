@@ -1,8 +1,8 @@
-var MyInt:int = 10
+var MyInt int 10
 
-output(MyInt)
-output("Hello test!")
+output MyInt
+output Hello test
 
-if MyInt == 10 {
-    MyInt = 20
-}
+if MyInt 10 
+    MyInt 20
+

@@ -121,7 +121,7 @@ namespace swing
 				
 				/// identifier로 추가.
 				for (; wordIter != word.end() && (std::isalnum(*wordIter) || *wordIter == '_'); ++wordIter) { }
-				_tokenList.emplace_back(TokenID::Identifier, _sourceLine, std::string(word.begin(), std::prev(wordIter)));
+				_tokenList.emplace_back(TokenID::Identifier, _sourceLine, std::string(word.begin(), wordIter));
 				
 				/// 뒤에 남은 문자열은 재귀호출로 처리.
 				/// ex) functionCall(args) 같은 경우 functionCall을 생성하고 남은(args)를 재귀호출로 처리.
@@ -136,11 +136,13 @@ namespace swing
 			///숫자일 경우
 			if (std::isdigit(word[0]))
 			{
+				bool isDecimal = true;
 				/// 0xAB, 0b01010, 0o17등 2,8,16진수 처리
 				if (word.size() != 1 && word[0] == '0')
 				{
 					if (word[1] == 'b' || word[1] == 'o' || word[1] == 'x')
 					{
+						isDecimal = false;
 						char* remained = nullptr;
 
 						auto iter = word.begin(); ++iter; ++iter;
@@ -153,14 +155,14 @@ namespace swing
 						}
 						_tokenList.emplace_back(TokenID::Literal_Number, _sourceLine, num);
 
-						if (remained != nullptr) { GenerateToken(remained); }
+						if (remained != nullptr && !std::isalnum(remained[0])) { GenerateToken(remained); }
 					}
 				}
 				///일반적인 10진수
-				else
+				if(isDecimal)
 				{
 					for (; wordIter != word.end() && (std::isdigit(*wordIter) || *wordIter == '.'); ++wordIter) {}
-					num = std::stod(std::string(wordIter, word.end()));
+					num = std::stod(std::string(word.begin(), wordIter));
 					_tokenList.emplace_back(TokenID::Identifier, _sourceLine, num);
 
 					if (wordIter != word.end()) { GenerateToken(std::string(wordIter, word.end())); }
@@ -183,7 +185,7 @@ namespace swing
 		}
 		catch (...)
 		{
-			std::cout << "Lexer Error : UnknownError " << std::endl;
+			std::cout << "Lexer Error : UnknownErrors" << std::endl;
 			exit(-1);
 		}
 	}
