@@ -4,7 +4,7 @@ project (SWING)  # 필수 정보
 
 set(CMAKE_SUPPRESS_REGENERATION true)
 
-include_directories(${PROJECT_SOURCE_DIR}/llvm)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 
