@@ -72,7 +72,8 @@ enum class TokenID
 
 	Identifier,	//변수나 클래스나 함수등 사용자 지정 이름
 
-	Literal_Number,	//상수
+	Literal_Integer, //정수
+	Literal_Double, //부동소수점
 	Literal_Letter,	//문자
 	Literal_String,	//문자열
 

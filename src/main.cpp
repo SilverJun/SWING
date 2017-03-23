@@ -1,6 +1,5 @@
 #include <iostream>
 #include "Lexer.h"
-#include <regex>
 
 #include "llvm/ADT/APFloat.h"
 #include "llvm/ADT/STLExtras.h"
@@ -16,7 +15,7 @@
 
 int main(int argc, char* argv[])
 {
-	swing::Lexer lex;
+	/*swing::Lexer lex;
 	lex.Initialize();
 	lex.LoadSourceFile("C:/Users/jange/Desktop/SWING/example/ex01.swing");
 	lex.GenerateTokenList();
@@ -25,7 +24,7 @@ int main(int argc, char* argv[])
 	for (auto i = lists.begin(); i != lists.end(); i++)
 	{
 		std::cout << (*i)._name << " " << (*i)._number << std::endl;
-	}
+	}*/
 
 	/*std::string line("aasas \"asdfasdf asdfasdf\" asssas");
 	std::regex reg("\"(.*)\"");
@@ -39,6 +38,8 @@ int main(int argc, char* argv[])
 
 		line = sm.suffix();
 	}*/
+
+	//std::cout << std::stoi("fe10", nullptr, 16) << std::endl;
 
 	system("pause");
 

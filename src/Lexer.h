@@ -6,9 +6,9 @@
 
 namespace swing
 {
-
 	class Lexer
 	{
+	public:
 		struct Keyword
 		{
 			TokenID _id;
@@ -17,28 +17,38 @@ namespace swing
 			Keyword(TokenID id, std::string word) : _id(id), _word(word) {}
 		};
 
+	private:
+		static std::vector<Keyword> _keywordList;
+
 		TokenList _tokenList;
-		std::vector<Keyword> _keywordList;
 		std::string _sourceCode;
 
 		int _sourceLine = 0;
 
 	public:
+		Lexer::Lexer();
+
+		static void InitializeKeyword();
+
 		void Initialize();
+
 		void LoadSourceFile(std::string filename);
+		void SetSourceCode(std::string source);
+
 		void GenerateTokenList();
 
-	private:
-		void GenerateToken(std::string word);
-
-
-	public:
+		void LexCharacter(std::string::iterator& iter);
+		void LexNumber(std::string::iterator& iter);
+		void LexPunct(std::string::iterator& iter);
+		void LexStringLiteral(std::string::iterator& iter);
+		void SkipToLineAnnotation(std::string::iterator& iter);
+		void SkipToBlockAnnotation(std::string::iterator& iter);
+		
 		TokenList GetTokenList() const
 		{
 			return _tokenList;
 		}
 	};
-
 
 }
 

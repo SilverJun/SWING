@@ -3,33 +3,68 @@
 
 #include <fstream>
 #include <iostream>
-#include <regex>
 #include <sstream>
 #include <cctype>
+#include <locale>
+#include <iterator>
+
+#define CASE_WHITE_SPACE	case ' ': case '\r': case '\t': case '\n':
+
+#define CASE_LOWER_ALPHA	case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i': \
+							case 'j': case 'k': case 'l': case 'm': case 'n': case 'o': case 'p': case 'q': case 'r': \
+							case 's': case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z': 
+
+#define CASE_UPPER_ALPHA	case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G': case 'H': case 'I': \
+							case 'J': case 'K': case 'L': case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R': \
+							case 'S': case 'T': case 'U': case 'V': case 'W': case 'X': case 'Y': case 'Z': 
+
+#define CASE_NUMBER			case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+
+#define CASE_PUNCT			case '+': case '-': case '*': case '%': case '=': case '<': case '>': case '!': case ':': \
+							case '?': case '&': case '|': case '^': case '(': case ')': case '{': case '}': case '[': \
+							case ']': 
+
+std::vector<swing::Lexer::Keyword> swing::Lexer::_keywordList = std::vector<Keyword>();
 
 namespace swing
 {
-	void Lexer::Initialize()
+	Lexer::Lexer()
+	{
+		_sourceCode.clear();
+		_tokenList.clear();
+		_sourceLine = 0;
+	}
+
+	void Lexer::InitializeKeyword()
 	{
 		/// 키워드 초기화
-		_keywordList.emplace_back(TokenID::Type_Var, "var");
-		_keywordList.emplace_back(TokenID::Type_Let, "let");
-		_keywordList.emplace_back(TokenID::Type_Nil, "nil");
-		_keywordList.emplace_back(TokenID::Type_Int, "int");
-		_keywordList.emplace_back(TokenID::Type_Double, "double");
-		_keywordList.emplace_back(TokenID::Type_String, "string");
-		_keywordList.emplace_back(TokenID::Type_Array, "Array");
-		_keywordList.emplace_back(TokenID::Type_Dictionary, "Dictionary");
-		_keywordList.emplace_back(TokenID::Type_Tuple, "Tuple");
+		std::vector<Keyword> kList = {
+			{ TokenID::Type_Var, "var" },
+			{ TokenID::Type_Let, "let" },
+			{ TokenID::Type_Nil, "nil" },
+			{ TokenID::Type_Int, "int" },
+			{ TokenID::Type_Double, "double" },
+			{ TokenID::Type_String, "string" },
+			{ TokenID::Type_Array, "Array" },
+			{ TokenID::Type_Dictionary, "Dictionary" },
+			{ TokenID::Type_Tuple, "Tuple" },
 
-		_keywordList.emplace_back(TokenID::Stmt_If, "if");
-		_keywordList.emplace_back(TokenID::Stmt_Else, "else");
-		_keywordList.emplace_back(TokenID::Stmt_Guard, "guard");
-		_keywordList.emplace_back(TokenID::Stmt_While, "while");
-		_keywordList.emplace_back(TokenID::Stmt_For, "for");
-		_keywordList.emplace_back(TokenID::Stmt_In, "in");
+			{ TokenID::Stmt_If, "if" },
+			{ TokenID::Stmt_Else, "else" },
+			{ TokenID::Stmt_Guard, "guard" },
+			{ TokenID::Stmt_While, "while" },
+			{ TokenID::Stmt_For, "for" },
+			{ TokenID::Stmt_In, "in" }
+		};
 
-		///
+		_keywordList.clear();
+
+		_keywordList = kList;
+	}
+
+	void Lexer::Initialize()
+	{
+		InitializeKeyword();
 
 		_sourceCode.clear();
 		_tokenList.clear();
@@ -45,7 +80,6 @@ namespace swing
 		if (!srcFile)
 		{
 			std::cout << "Error : FileOpenError!" << std::endl;
-			system("pause");
 			exit(-1);
 		}
 
@@ -59,135 +93,157 @@ namespace swing
 		delete srcFile;
 	}
 
+	void Lexer::SetSourceCode(std::string source)
+	{
+		_sourceCode.clear();
+		_sourceCode = source;
+	}
+
 	void Lexer::GenerateTokenList()
 	{
-		/**
-		 *	1. 한줄을 읽어들인다.
-		 *	2. 한줄에서 공백 단위로 파싱을 한다.
-		 *	3. 추출된 한 단어를 준비된 키워드, 연산자 등을 비교하여 토큰생성
-		 *	4. 반복
-		 */
-
-		std::stringstream ss(_sourceCode);
-		std::string line;
-		
-		/// 1. 한줄을 읽어들인다.
-		for (_sourceLine = 1; std::getline(ss, line); ++_sourceLine)
+		try
 		{
-			if (line.empty()){ continue; }		///빈 문자열 처리
-
-			std::regex reg("\\S+(\"(.*)\")?(\'.\')?");
-			std::smatch sm;
-
-			/// 2. 한줄에서 공백 단위로 파싱을 한다.
-			for (std::string word; regex_search(line, sm, reg); line = sm.suffix())
+			for (auto iter = _sourceCode.begin(); iter != _sourceCode.end(); ++iter)
 			{
-				/// 3. 추출된 한 단어를 준비된 키워드, 연산자 등을 비교하여 토큰생성
-				word = sm.str();
-				std::cout << word;
+				switch (*iter)
+				{
+				CASE_WHITE_SPACE
+					continue;
 
-				GenerateToken(word);
+				case '/':
+					if (*next(iter) == '/') { SkipToLineAnnotation(iter); }		/// slash-slash line annotation "//"
+					else if (*next(iter) == '*') { SkipToBlockAnnotation(iter); }		/// slash-star block annotation "/*"
+					else { LexPunct(iter); }		/// operators
+					break;
+
+				CASE_LOWER_ALPHA
+				CASE_UPPER_ALPHA
+				case '_':
+					LexCharacter(iter);
+					break;
+
+				CASE_NUMBER
+					LexNumber(iter);
+					break;
+
+				CASE_PUNCT
+					LexPunct(iter);
+					break;
+
+
+
+				default:
+					throw Error(_sourceLine, "Unexcepted Token : " + *iter);
+				}
 			}
-
-			std::cout << std::endl;
 		}
+		catch (Error& e)
+		{
+			std::cout << "Lexer Error : " << e.what() << std::endl;
+			exit(1);
+		}
+		catch (std::invalid_argument& e)
+		{
+			std::cout << "Lexer Error : " << e.what() << std::endl;
+		}
+		catch (std::out_of_range& e)
+		{
+			std::cout << "Lexer Error : " << e.what() << std::endl;
+		}
+		catch (...)
+		{
+			std::cout << "Unexpected Error in Lexer line " + std::to_string(_sourceLine) << std::endl;
+			exit(1);
+		}
+		
 
 		_tokenList.emplace_back(TokenID::Eof, _sourceLine + 1, 0, "");
 	}
 
-	void Lexer::GenerateToken(std::string word)
+	void Lexer::LexCharacter(std::string::iterator& iter)
 	{
-		//if (word.empty()){ return; }
-		/**
-		 * 첫번째가 문자, 숫자, 특별한문자인가?
-		 *     문자-> 키워드, identifier, 띄어쓰기 안한 표현식 처리 ex) variable+1021
-		 *     숫자-> 숫자(0b,0o,ox체크, 부동 소수점 포함), 띄어쓰기 안한 표현식처리
-		 *     특별-> 큰따옴표, 작은따옴표 그외 연산자
-		 */
-		try
+		/// Identifier ::= [a-zA-Z_][0-9a-zA-z_]*
+
+		std::string word;
+		for (; isalnum(*iter) || *iter == '_'; word += *iter, ++iter) {}
+
+		/// 키워드인지 비교.
+		for (auto kw = _keywordList.begin(); kw != _keywordList.end(); ++kw)
 		{
-			std::string str;			///처리 과정에서 필요한 문자열을 담음.
-			double num;
-			auto wordIter = word.begin();
-
-			///문자일 경우
-			if (std::isalpha(word[0]))
+			if (word == (*kw)._word)
 			{
-				/// 키워드인지 비교.
-				for (auto iter = _keywordList.begin(); iter != _keywordList.end(); ++iter)
-				{
-					if (word == (*iter)._word) { _tokenList.emplace_back((*iter)._id, _sourceLine, word); return; }
-				}
-				
-				/// identifier로 추가.
-				for (; wordIter != word.end() && (std::isalnum(*wordIter) || *wordIter == '_'); ++wordIter) { }
-				_tokenList.emplace_back(TokenID::Identifier, _sourceLine, std::string(word.begin(), wordIter));
-				
-				/// 뒤에 남은 문자열은 재귀호출로 처리.
-				/// ex) functionCall(args) 같은 경우 functionCall을 생성하고 남은(args)를 재귀호출로 처리.
-				if (wordIter != word.end())
-				{
-					std::string recheckWord(wordIter, word.end());
-					GenerateToken(recheckWord);
-				}
-
+				_tokenList.emplace_back((*kw)._id, _sourceLine, word);
 				return;
 			}
-			///숫자일 경우
-			if (std::isdigit(word[0]))
-			{
-				bool isDecimal = true;
-				/// 0xAB, 0b01010, 0o17등 2,8,16진수 처리
-				if (word.size() != 1 && word[0] == '0')
-				{
-					if (word[1] == 'b' || word[1] == 'o' || word[1] == 'x')
-					{
-						isDecimal = false;
-						char* remained = nullptr;
-
-						auto iter = word.begin(); ++iter; ++iter;
-						std::string tmp(iter, word.end());
-						switch (word[1])
-						{		///뒤에 문자열을 편리하게 처리하기위해 C함수를 사용. C++의 경우 문자열로 반환되지 않고 인덱스값으로 반환되기 때문.
-						case 'b': num = strtol(tmp.c_str(), &remained, 2); break;
-						case 'o': num = strtol(tmp.c_str(), &remained, 8); break;
-						case 'x': num = strtol(tmp.c_str(), &remained, 16); break;
-						}
-						_tokenList.emplace_back(TokenID::Literal_Number, _sourceLine, num);
-
-						if (remained != nullptr && !std::isalnum(remained[0])) { GenerateToken(remained); }
-					}
-				}
-				///일반적인 10진수
-				if(isDecimal)
-				{
-					for (; wordIter != word.end() && (std::isdigit(*wordIter) || *wordIter == '.'); ++wordIter) {}
-					num = std::stod(std::string(word.begin(), wordIter));
-					_tokenList.emplace_back(TokenID::Identifier, _sourceLine, num);
-
-					if (wordIter != word.end()) { GenerateToken(std::string(wordIter, word.end())); }
-				}
-
-				return;
-			}
-			if (std::ispunct(word[0]))	///특수문자일 경우
-			{
-				// Todo : 기능구현
-				return;
-			}
-			//앞에서 리턴해서 함수를 종료하지 못하면 정의하지 않은 문자열이므로 에러처리.
-			throw Error(_sourceLine, "Undefined Charactor " +  word[0] + std::string("in ") + word);
 		}
-		catch(Error& e)
+
+		/// identifier로 추가.
+		_tokenList.emplace_back(TokenID::Identifier, _sourceLine, word);
+	}
+
+	void Lexer::LexNumber(std::string::iterator& iter)
+	{
+		/// Integer	::= [0-9][0-9]*
+		/// Hexa	::= 0x[0-9a-fA-F][0-9a-fA-F]*
+		/// Octal	::= 0o[0-7][0-7]*
+		/// Binary	::= 0b[01][01]*
+		/// Double	::= [0-9][0-9]*.[0-9][0-9]*
+		
+		std::string word;
+
+		/// 0xAB, 0b01010, 0o17등 2,8,16진수 처리
+		word = *iter;
+		word += *next(iter);
+
+		if (word == "0x" || word == "0o" || word == "0b")
 		{
-			std::cout << "Lexer Error : " << e.what() << std::endl;
-			exit(-1);
+			int base = 10;		/// 2 - binary, 8 - octa, 10 - decimal, 16 - hexa
+			switch (*++iter)
+			{
+			case 'b': base = 2; break;
+			case 'o': base = 8; break;
+			case 'x': base = 16; break;
+			}
+
+			auto start = ++iter;
+			for (; iter != _sourceCode.end(); ++iter) { if (!std::isxdigit(*iter)) { break; } }			/// xdigit이 아닐때 까지 iter를 증가한다.
+
+			_tokenList.emplace_back(TokenID::Literal_Integer, _sourceLine, stoi(std::string(start, prev(iter)), nullptr, base));
 		}
-		catch (...)
+
+		auto start = iter;
+		bool hasPoint = false;
+		for (; iter != _sourceCode.end(); ++iter)
 		{
-			std::cout << "Lexer Error : UnknownErrors" << std::endl;
-			exit(-1);
+			if (!hasPoint && *iter == '.') { hasPoint = true; }
+			else if (!std::isdigit(*iter)) { break; }
 		}
+
+		_tokenList.emplace_back(hasPoint? TokenID::Literal_Double: TokenID::Literal_Integer, _sourceLine, stod(std::string(start, --iter), nullptr));
+	}
+
+	void Lexer::LexPunct(std::string::iterator& iter)
+	{
+
+	}
+
+	void Lexer::LexStringLiteral(std::string::iterator& iter)
+	{
+		/// " 문자열 \(문자열 보간) 문자열 "
+		/// \ + ( 있으면 Lexer새로 생성하고 괄호 안에 있는 것만 따로 Lex시킨다음 토큰 리스트를 이어 붙인다.
+		/// \ ( TokenList )
+
+
+	}
+
+	void Lexer::SkipToLineAnnotation(std::string::iterator& iter)
+	{
+
+	}
+
+	void Lexer::SkipToBlockAnnotation(std::string::iterator& iter)
+	{
+
 	}
 
 }
