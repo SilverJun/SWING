@@ -3,7 +3,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <cctype>
 #include <locale>
 #include <iterator>
@@ -22,9 +21,7 @@
 
 #define CASE_PUNCT			case '+': case '-': case '*': case '%': case '=': case '<': case '>': case '!': case ':': \
 							case '?': case '&': case '|': case '^': case '(': case ')': case '{': case '}': case '[': \
-							case ']': 
-
-std::vector<swing::Lexer::Keyword> swing::Lexer::_keywordList = std::vector<Keyword>();
+							case ']': case '.': case ',':
 
 namespace swing
 {
@@ -37,35 +34,14 @@ namespace swing
 
 	void Lexer::InitializeKeyword()
 	{
+		if (!_keywordList.empty()) { return; }
+
 		/// 키워드 초기화
-		std::vector<Keyword> kList = {
-			{ TokenID::Type_Var, "var" },
-			{ TokenID::Type_Let, "let" },
-			{ TokenID::Type_Nil, "nil" },
-			{ TokenID::Type_Int, "int" },
-			{ TokenID::Type_Double, "double" },
-			{ TokenID::Type_String, "string" },
-			{ TokenID::Type_Array, "Array" },
-			{ TokenID::Type_Dictionary, "Dictionary" },
-			{ TokenID::Type_Tuple, "Tuple" },
-
-			{ TokenID::Stmt_If, "if" },
-			{ TokenID::Stmt_Else, "else" },
-			{ TokenID::Stmt_Guard, "guard" },
-			{ TokenID::Stmt_While, "while" },
-			{ TokenID::Stmt_For, "for" },
-			{ TokenID::Stmt_In, "in" }
-		};
-
-		_keywordList.clear();
-
-		_keywordList = kList;
+		
 	}
 
-	void Lexer::Initialize()
+	void Lexer::InitializeLexer()
 	{
-		InitializeKeyword();
-
 		_sourceCode.clear();
 		_tokenList.clear();
 		_sourceLine = 0;
@@ -101,6 +77,9 @@ namespace swing
 
 	void Lexer::GenerateTokenList()
 	{
+		InitializeKeyword();
+		InitializeLexer();
+
 		try
 		{
 			for (auto iter = _sourceCode.begin(); iter != _sourceCode.end(); ++iter)
@@ -115,9 +94,17 @@ namespace swing
 					else if (*next(iter) == '*') { SkipToBlockAnnotation(iter); }		/// slash-star block annotation "/*"
 					else { LexPunct(iter); }		/// operators
 					break;
+				
+				case '\'':
+					LexCharacterLiteral(iter);
+					break;
 
-				CASE_LOWER_ALPHA
+				case '\"':
+					LexStringLiteral(iter);
+					break;
+
 				CASE_UPPER_ALPHA
+				CASE_LOWER_ALPHA
 				case '_':
 					LexCharacter(iter);
 					break;
@@ -155,7 +142,6 @@ namespace swing
 			std::cout << "Unexpected Error in Lexer line " + std::to_string(_sourceLine) << std::endl;
 			exit(1);
 		}
-		
 
 		_tokenList.emplace_back(TokenID::Eof, _sourceLine + 1, 0, "");
 	}
@@ -224,7 +210,114 @@ namespace swing
 
 	void Lexer::LexPunct(std::string::iterator& iter)
 	{
+		auto start = iter;
+		for (;iter != _sourceCode.end() && std::ispunct(*iter) ; ++iter) {}
+		std::string operatorString(start, --iter);
 
+		for (auto it = _operatorList.begin(); it != _operatorList.end(); ++it)
+		{
+			if ((*it)._word == operatorString)
+			{
+				
+			}
+		}
+
+		//switch (*iter) 
+		//{
+		//case '+':
+		//case '-':
+		//case '*':
+		//case '%':
+		//case '/':
+		//case '(':
+		//case ')':
+		//case '{':
+		//case '}':
+		//case '[':
+		//case ']':
+		//case ',':
+		//	_tokenList.emplace_back(static_cast<TokenID>(*iter), _sourceLine, *iter);
+		//	break;
+		//case '=':
+		//	if (*next(iter) == '=') { _tokenList.emplace_back(TokenID::Equal, _sourceLine, *iter); }	/// '=='
+		//	else { }
+		//	break;
+		//case '<':
+		//	break;
+		//case '>':
+		//	break;
+		//case '!':
+		//	break;
+		//case ':':
+		//	break;
+		//case '?':
+		//	break;
+		//case '&':
+		//	break;
+		//case '|':
+		//	break;
+		//case '^':
+		//	break;
+		//case '.':
+		//	break;
+		//default:
+		//	throw Error(_sourceLine, "Unexpected Punct " + *iter);
+		//}
+	}
+
+	void Lexer::LexCharacterLiteral(std::string::iterator& iter)
+	{
+		/// Character ::= '_|[\][ntr0\'"]'
+
+		if (*iter == '\\')
+		{
+			LexEscapeSquence(iter);
+		}
+		else
+		{
+			_tokenList.emplace_back(TokenID::Literal_Letter, _sourceLine, *iter);
+		}
+
+		if (*iter != '\'') { throw Error(_sourceLine, "LexCharacterLiteral Error, Character is more than one."); }
+	}
+
+	void Lexer::LexEscapeSquence(std::string::iterator& iter)
+	{
+		/// Escape_sequence ::= [\]n | [\]t | [\]r | [\]0 | [\]\ | [\]' | [\]"
+
+		switch (*++iter)
+		{
+		case 'n':
+			_tokenList.emplace_back(TokenID::Literal_Letter, _sourceLine, '\n');
+			break;
+
+		case 't':
+			_tokenList.emplace_back(TokenID::Literal_Letter, _sourceLine, '\t');
+			break;
+
+		case 'r':
+			_tokenList.emplace_back(TokenID::Literal_Letter, _sourceLine, '\r');
+			break;
+			
+		case '0':
+			_tokenList.emplace_back(TokenID::Literal_Letter, _sourceLine, '\0');
+			break;
+
+		case '\\':
+			_tokenList.emplace_back(TokenID::Literal_Letter, _sourceLine, '\\');
+			break;
+
+		case '\'':
+			_tokenList.emplace_back(TokenID::Literal_Letter, _sourceLine, '\'');
+			break;
+
+		case '\"':
+			_tokenList.emplace_back(TokenID::Literal_Letter, _sourceLine, '\"');
+			break;
+
+		default:
+			throw Error(_sourceLine, "Escape_sequence error \\" + *iter);
+		}
 	}
 
 	void Lexer::LexStringLiteral(std::string::iterator& iter)
@@ -232,6 +325,7 @@ namespace swing
 		/// " 문자열 \(문자열 보간) 문자열 "
 		/// \ + ( 있으면 Lexer새로 생성하고 괄호 안에 있는 것만 따로 Lex시킨다음 토큰 리스트를 이어 붙인다.
 		/// \ ( TokenList )
+
 
 
 	}
