@@ -77,7 +77,6 @@ namespace swing
 
 	void Lexer::GenerateTokenList()
 	{
-		InitializeKeyword();
 		InitializeLexer();
 
 		try
@@ -87,6 +86,7 @@ namespace swing
 				switch (*iter)
 				{
 				CASE_WHITE_SPACE
+					if (*iter == '\n') { ++_sourceLine; }
 					continue;
 
 				case '/':
@@ -216,53 +216,14 @@ namespace swing
 
 		for (auto it = _operatorList.begin(); it != _operatorList.end(); ++it)
 		{
-			if ((*it)._word == operatorString)
+			if (operatorString == (*it)._word)
 			{
-				
+				_tokenList.emplace_back((*it)._id, _sourceLine, (*it)._word);
+				return;
 			}
 		}
 
-		//switch (*iter) 
-		//{
-		//case '+':
-		//case '-':
-		//case '*':
-		//case '%':
-		//case '/':
-		//case '(':
-		//case ')':
-		//case '{':
-		//case '}':
-		//case '[':
-		//case ']':
-		//case ',':
-		//	_tokenList.emplace_back(static_cast<TokenID>(*iter), _sourceLine, *iter);
-		//	break;
-		//case '=':
-		//	if (*next(iter) == '=') { _tokenList.emplace_back(TokenID::Equal, _sourceLine, *iter); }	/// '=='
-		//	else { }
-		//	break;
-		//case '<':
-		//	break;
-		//case '>':
-		//	break;
-		//case '!':
-		//	break;
-		//case ':':
-		//	break;
-		//case '?':
-		//	break;
-		//case '&':
-		//	break;
-		//case '|':
-		//	break;
-		//case '^':
-		//	break;
-		//case '.':
-		//	break;
-		//default:
-		//	throw Error(_sourceLine, "Unexpected Punct " + *iter);
-		//}
+		_tokenList.emplace_back(TokenID::Operator_UserDefined, _sourceLine, operatorString);
 	}
 
 	void Lexer::LexCharacterLiteral(std::string::iterator& iter)

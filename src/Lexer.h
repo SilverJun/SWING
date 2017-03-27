@@ -19,7 +19,7 @@ namespace swing
 	public:
 		Lexer::Lexer();
 
-		void InitializeKeyword();
+		void InitializeKeyword(std::vector<Keyword> keywords);
 
 		void InitializeLexer();
 

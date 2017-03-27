@@ -13,15 +13,16 @@ namespace swing
 		Unknown,
 
 		Comma = ',',
-		Assignment = '=',
+		Equal = '=',
 		Quotmark = '"',
-		Plus = '+',
-		Minus = '-',
-		Multi = '*',
-		Divide = '/',
-		Mod = '%',
-		And = '&',
-		Or = '|',
+		Cross = '+',
+		Hyphen = '-',
+		Asterisk = '*',
+		ForwardSlash = '/',
+		Percent = '%',
+		Ampersand = '&',
+		Bar = '|',
+		Circumflex = '^',
 		Less = '<',
 		Great = '>',
 		Exclamation = '!',
@@ -45,7 +46,7 @@ namespace swing
 		Type_Array,
 		Type_Dictionary,
 		Type_Tuple,
-		Type_UserType,
+		Type_UserDefined,
 
 		Stmt_If,
 		Stmt_Else,
@@ -72,12 +73,16 @@ namespace swing
 		Operator_Infix,
 		Operator_Postfix,
 
+		Operator_UserDefined,
+
 		Identifier,	//변수나 클래스나 함수등 사용자 지정 이름
 
 		Literal_Integer, //정수
 		Literal_Double, //부동소수점
 		Literal_Letter,	//문자
 		Literal_String,	//문자열
+		StringInterpolation_Start,
+		StringInterpolation_End,
 
 		Annotation_Line,	//주석
 		Annotation_Block_Open,	// /*
@@ -85,7 +90,6 @@ namespace swing
 
 		LessEqual,
 		GreatEqual,
-		Equal,
 		NotEqual,
 
 		Bitwise_And,
@@ -104,7 +108,6 @@ namespace swing
 		Range_Closed,	/// m...n : [m,n]
 		Range_Opend,	/// m..<n : [m,n)
 
-		User_Operator,
 	};
 
 	struct Token

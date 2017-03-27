@@ -27,12 +27,12 @@ namespace swing
 		_keywordList = kList;
 
 		std::vector<Keyword> oList = {
-			{ TokenID::Plus, "+" },
-			{ TokenID::Minus, "-" },
-			{ TokenID::Multi, "*" },
-			{ TokenID::Divide, "/" },
-			{ TokenID::Mod, "%" },
-			{ TokenID::Assignment, "=" },
+			{ TokenID::Cross, "+" },
+			{ TokenID::Hyphen, "-" },
+			{ TokenID::Asterisk, "*" },
+			{ TokenID::ForwardSlash, "/" },
+			{ TokenID::Percent, "%" },
+			{ TokenID::Equal, "=" },
 			{ TokenID::Bitwise_And, "&" },
 			{ TokenID::Bitwise_Or, "|" },
 			{ TokenID::Bitwise_Not, "~" },
@@ -50,6 +50,5 @@ namespace swing
 		_lexer->LoadSourceFile(file);
 		_lexer->GenerateTokenList();
 		_lexer->GetTokenList();
-
 	}
 }
