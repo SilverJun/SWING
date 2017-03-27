@@ -15,6 +15,7 @@ namespace swing
 
 		//ProjectManager
 
+	public:
 		void InitializeCompiler();
 		
 		void CompileProject(/*swing::project*/);

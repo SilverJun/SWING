@@ -49,6 +49,5 @@ namespace swing
 	{
 		_lexer->LoadSourceFile(file);
 		_lexer->GenerateTokenList();
-		_lexer->GetTokenList();
 	}
 }

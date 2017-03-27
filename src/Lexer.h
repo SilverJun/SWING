@@ -9,17 +9,17 @@ namespace swing
 {
 	class Lexer
 	{
-		std::vector<Keyword> _keywordList;
-		std::vector<Keyword> _operatorList;
-		TokenList _tokenList;
+		std::vector<Keyword>* _keywordList;
+		std::vector<Keyword>* _operatorList;
+		TokenList* _tokenList;
 		std::string _sourceCode;
 
-		int _sourceLine = 0;
+		int _sourceLine;
 
 	public:
-		Lexer::Lexer();
+		Lexer::Lexer(TokenList* tokList, std::vector<Keyword>* keywords, std::vector<Keyword>* operators);
 
-		void InitializeKeyword(std::vector<Keyword> keywords);
+		void InitializeKeyword(std::vector<Keyword>* keywords);
 
 		void InitializeLexer();
 
@@ -36,10 +36,10 @@ namespace swing
 		void LexStringLiteral(std::string::iterator& iter);
 		void SkipToLineAnnotation(std::string::iterator& iter);
 		void SkipToBlockAnnotation(std::string::iterator& iter);
-		
-		TokenList GetTokenList() const
+
+		void SetSourceLine(int line)
 		{
-			return _tokenList;
+			_sourceLine = line;
 		}
 	};
 
