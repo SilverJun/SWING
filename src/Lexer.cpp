@@ -25,11 +25,8 @@
 
 namespace swing
 {
-	Lexer::Lexer(TokenList* tokList, std::vector<Keyword>* keywords, std::vector<Keyword>* operators) : _tokenList(tokList), _keywordList(keywords), _operatorList(operators)
+	Lexer::Lexer(TokenList* tokList, std::vector<Keyword>* keywords, std::vector<Keyword>* operators) : _tokenList(tokList), _keywordList(keywords), _operatorList(operators), _sourceCode(""), _sourceLine(1)
 	{
-		_sourceCode.clear();
-		_tokenList->clear();
-		_sourceLine = 1;
 	}
 
 	void Lexer::InitializeKeyword(std::vector<Keyword>* keywords)
@@ -51,9 +48,8 @@ namespace swing
 	{
 		std::fstream* srcFile = new std::fstream(filename, std::ios::in);
 
-		_sourceCode.clear();
 
-		if (!srcFile)
+		if (srcFile->fail())
 		{
 			std::cout << "Error : FileOpenError!" << std::endl;
 			exit(-1);
@@ -65,20 +61,23 @@ namespace swing
 			_sourceCode += c;
 		}
 
+		_sourceCode.resize(_sourceCode.size());
+
 		srcFile->close();
 		delete srcFile;
 	}
 
 	void Lexer::SetSourceCode(std::string source)
 	{
-		_sourceCode.clear();
+		if (_sourceCode.length() != 0)
+		{
+			_sourceCode.clear();
+		}
 		_sourceCode = source;
 	}
 
 	void Lexer::GenerateTokenList()
 	{
-		InitializeLexer();
-
 		try
 		{
 			for (auto iter = _sourceCode.begin(); iter != _sourceCode.end(); ++iter)
@@ -152,6 +151,7 @@ namespace swing
 
 		std::string word;
 		for (; isalnum(*iter) || *iter == '_'; word += *iter, ++iter) {}
+		--iter;
 
 		/// 키워드인지 비교.
 		for (auto kw = _keywordList->begin(); kw != _keywordList->end(); ++kw)
@@ -205,14 +205,14 @@ namespace swing
 			else if (!std::isdigit(*iter)) { break; }
 		}
 
-		_tokenList->emplace_back(hasPoint? TokenID::Literal_Double: TokenID::Literal_Integer, _sourceLine, stod(std::string(start, --iter), nullptr));
+		_tokenList->emplace_back(hasPoint? TokenID::Literal_Double: TokenID::Literal_Integer, _sourceLine, stod(std::string(start, iter--), nullptr));
 	}
 
 	void Lexer::LexPunct(std::string::iterator& iter)
 	{
 		auto start = iter;
-		for (;iter != _sourceCode.end() && std::ispunct(*iter) ; ++iter) {}
-		std::string operatorString(start, --iter);
+		for (;iter != _sourceCode.end() && std::ispunct(*iter) && *iter != '\"' && *iter != '\''; ++iter) {}
+		std::string operatorString(start, iter--);
 
 		for (auto it = _operatorList->begin(); it != _operatorList->end(); ++it)
 		{
@@ -222,7 +222,7 @@ namespace swing
 				return;
 			}
 		}
-
+		
 		_tokenList->emplace_back(TokenID::Operator_UserDefined, _sourceLine, operatorString);
 	}
 
@@ -246,21 +246,21 @@ namespace swing
 	{
 		/// Escape_sequence ::= [\]n | [\]t | [\]r | [\]0 | [\]\ | [\]' | [\]"
 
-		switch (*++iter)
+		switch (*iter)
 		{
-		case 'n':
+		case '\n':
 			_tokenList->emplace_back(TokenID::Literal_Letter, _sourceLine, '\n');
 			break;
 
-		case 't':
+		case '\t':
 			_tokenList->emplace_back(TokenID::Literal_Letter, _sourceLine, '\t');
 			break;
 
-		case 'r':
+		case '\r':
 			_tokenList->emplace_back(TokenID::Literal_Letter, _sourceLine, '\r');
 			break;
 			
-		case '0':
+		case '\0':
 			_tokenList->emplace_back(TokenID::Literal_Letter, _sourceLine, '\0');
 			break;
 
@@ -286,7 +286,7 @@ namespace swing
 		/// " 문자열 \(문자열 보간) 문자열 "
 		/// \ + ( 있으면 Lexer새로 생성하고 괄호 안에 있는 것만 따로 Lex시킨다음 토큰 리스트를 이어 붙인다.
 		/// \ ( TokenList )
-		_tokenList->emplace_back(TokenID::Quotmark, _sourceLine, "");
+		_tokenList->emplace_back(TokenID::Quotmark, _sourceLine, "\"");
 
 		auto endOfInterpolation = [](std::string::iterator& iter) -> std::string
 		{
@@ -299,10 +299,10 @@ namespace swing
 		
 		for (word = *++iter; *iter == '\"'; ++iter)
 		{
-			if (*iter == '\\')
+			if (*iter == '\(')
 			{
-				if (*next(iter) == '(')		/// \(  String Interpolation
-				{
+				//if (*next(iter) == '(')		/// \(  String Interpolation
+				//{
 					Lexer newLexer(_tokenList, _keywordList, _operatorList);
 					newLexer.InitializeKeyword(_keywordList);
 					newLexer.InitializeLexer();
@@ -321,12 +321,10 @@ namespace swing
 					/// "	Quotmark		StringLiteral End
 					///
 					newLexer.GenerateTokenList();
-				}
-				else { LexStringLiteral(iter); }
+				//}
+				
 			}
 		}
-
-		_tokenList->emplace_back(TokenID::Quotmark, _sourceLine, "");
 	}
 
 	void Lexer::SkipToLineAnnotation(std::string::iterator& iter)

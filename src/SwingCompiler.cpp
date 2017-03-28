@@ -43,6 +43,8 @@ namespace swing
 
 		_operatorList.clear();
 		_operatorList = oList;
+
+		
 	}
 
 	void SwingCompiler::CompileFile(std::string file)

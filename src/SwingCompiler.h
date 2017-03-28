@@ -16,12 +16,26 @@ namespace swing
 		//ProjectManager
 
 	public:
+		SwingCompiler()
+		{
+			_tokenLists.push_back(TokenList());
+			_lexer = new Lexer(&_tokenLists.back(), &_keywordList, &_operatorList);
+		}
+
+		~SwingCompiler()
+		{
+			delete _lexer;
+		}
+
 		void InitializeCompiler();
 		
 		void CompileProject(/*swing::project*/);
 		void CompileFile(std::string file);
 
-
+		std::list<TokenList>* getTokenLists()
+		{
+			return &_tokenLists;
+		};
 
 	};
 
