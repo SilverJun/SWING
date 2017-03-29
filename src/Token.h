@@ -84,10 +84,6 @@ namespace swing
 		StringInterpolation_Start,
 		StringInterpolation_End,
 
-		Annotation_Line,	//¡÷ºÆ
-		Annotation_Block_Open,	// /*
-		Annotation_Block_Close,	// */
-
 		LessEqual,
 		GreatEqual,
 		NotEqual,

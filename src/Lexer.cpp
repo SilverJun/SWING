@@ -23,6 +23,8 @@
 							case '?': case '&': case '|': case '^': case '(': case ')': case '{': case '}': case '[': \
 							case ']': case '.': case ',':
 
+#define CASE_ESCAPE_SQUENCE	case '\n': case '\0': case '\t': case '\r': case '\"': case '\'': case '\\':
+
 namespace swing
 {
 	Lexer::Lexer(TokenList* tokList, std::vector<Keyword>* keywords, std::vector<Keyword>* operators) : _tokenList(tokList), _keywordList(keywords), _operatorList(operators), _sourceCode(""), _sourceLine(1)
@@ -179,7 +181,11 @@ namespace swing
 
 		/// 0xAB, 0b01010, 0o17등 2,8,16진수 처리
 		word = *iter;
-		word += *next(iter);
+
+		if (*iter == 0 && iter != _sourceCode.end())
+		{
+			word += *next(iter);
+		}
 
 		if (word == "0x" || word == "0o" || word == "0b")
 		{
@@ -230,12 +236,12 @@ namespace swing
 	{
 		/// Character ::= '_|[\][ntr0\'"]'
 
-		if (*iter == '\\')
+		switch (*++iter)
 		{
+		CASE_ESCAPE_SQUENCE
 			LexEscapeSquence(iter);
-		}
-		else
-		{
+
+		default:
 			_tokenList->emplace_back(TokenID::Literal_Letter, _sourceLine, *iter);
 		}
 
@@ -295,10 +301,9 @@ namespace swing
 			return std::string(start, iter);
 		};
 
-		std::string word;
 		std::string::iterator start;
 
-		for (start = ++iter; iter != _sourceCode.end() && *iter == '\"'; ++iter)
+		for (start = ++iter; iter != _sourceCode.end() && *iter != '\"'; ++iter)
 		{
 			if (*iter == '\\')
 			{
@@ -306,12 +311,12 @@ namespace swing
 				{
 					_tokenList->emplace_back(TokenID::Literal_String, _sourceLine, std::string(start, prev(iter++)));
 					
+					_tokenList->emplace_back(TokenID::StringInterpolation_Start, _sourceLine, "\\(");
+
 					Lexer newLexer(_tokenList, _keywordList, _operatorList);
-					newLexer.InitializeKeyword(_keywordList);
-					newLexer.InitializeLexer();
 					newLexer.SetSourceLine(_sourceLine);
 
-					newLexer.SetSourceCode(endOfInterpolation(iter));
+					newLexer.SetSourceCode(endOfInterpolation(++iter));
 
 					/// Token List Structure
 					///
@@ -324,11 +329,18 @@ namespace swing
 					/// "	Quotmark		StringLiteral End
 					///
 					newLexer.GenerateTokenList();
+
+					_tokenList->emplace_back(TokenID::StringInterpolation_End, _sourceLine, ")");
+
+					start = next(iter);
 				}
 			}
 		}
 
-		_tokenList->emplace_back(TokenID::Literal_String, _sourceLine, std::string(start, iter));
+		if (start == iter)
+		{
+			_tokenList->emplace_back(TokenID::Literal_String, _sourceLine, std::string(start, iter));
+		}
 
 		_tokenList->emplace_back(TokenID::Quotmark, _sourceLine, "\"");
 	}

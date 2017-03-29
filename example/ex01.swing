@@ -1,9 +1,9 @@
 var MyInt:int = 10
 
 output(MyInt)
-output("Hello test")
+output("Hello test! \(1+2)")
 
 if MyInt == 10 
 {
-    MyInt 20
+    MyInt = 20
 }
