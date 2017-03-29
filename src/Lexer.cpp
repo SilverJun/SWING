@@ -118,8 +118,6 @@ namespace swing
 					LexPunct(iter);
 					break;
 
-
-
 				default:
 					throw Error(_sourceLine, "Unexcepted Token : " + *iter);
 				}
@@ -132,11 +130,19 @@ namespace swing
 		}
 		catch (std::invalid_argument& e)
 		{
-			std::cout << "Lexer Error : " << e.what() << std::endl;
+			std::cout << "Lexer Error(invalid_argument) : " << e.what() << std::endl;
 		}
 		catch (std::out_of_range& e)
 		{
-			std::cout << "Lexer Error : " << e.what() << std::endl;
+			std::cout << "Lexer Error(out_of_range) : " << e.what() << std::endl;
+		}
+		catch(std::range_error& e)
+		{
+			std::cout << "Lexer Error(range_error) : " << e.what() << std::endl;
+		}
+		catch(std::system_error& e)
+		{
+			std::cout << "Lexer Error(system_error) code:" << e.code() << " " << e.what() << std::endl;
 		}
 		catch (...)
 		{

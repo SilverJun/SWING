@@ -155,6 +155,15 @@ namespace swing
 	using TokenList = std::list<Token>;
 	using TokenListIter = TokenList::iterator;
 
+	inline std::ostream& operator<<(std::ostream& os, TokenList& list)
+	{
+		for (auto iter = list.begin(); iter != list.end(); ++iter)
+		{
+			os << static_cast<int>((*iter)._id) << " " << (*iter)._name << " " << (*iter)._iNumber << (*iter)._dNumber << (*iter)._char << std::endl;
+		}
+		return os;
+	}
+
 	struct Keyword
 	{
 		TokenID _id;
