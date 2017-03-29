@@ -296,13 +296,16 @@ namespace swing
 		};
 
 		std::string word;
-		
-		for (word = *++iter; *iter == '\"'; ++iter)
+		std::string::iterator start;
+
+		for (start = ++iter; iter != _sourceCode.end() && *iter == '\"'; ++iter)
 		{
-			if (*iter == '\(')
+			if (*iter == '\\')
 			{
-				//if (*next(iter) == '(')		/// \(  String Interpolation
-				//{
+				if (*next(iter) == '(')		/// \(  String Interpolation
+				{
+					_tokenList->emplace_back(TokenID::Literal_String, _sourceLine, std::string(start, prev(iter++)));
+					
 					Lexer newLexer(_tokenList, _keywordList, _operatorList);
 					newLexer.InitializeKeyword(_keywordList);
 					newLexer.InitializeLexer();
@@ -321,10 +324,13 @@ namespace swing
 					/// "	Quotmark		StringLiteral End
 					///
 					newLexer.GenerateTokenList();
-				//}
-				
+				}
 			}
 		}
+
+		_tokenList->emplace_back(TokenID::Literal_String, _sourceLine, std::string(start, iter));
+
+		_tokenList->emplace_back(TokenID::Quotmark, _sourceLine, "\"");
 	}
 
 	void Lexer::SkipToLineAnnotation(std::string::iterator& iter)

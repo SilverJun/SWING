@@ -20,11 +20,11 @@ int main(int argc, char* argv[])
 
 	compiler.InitializeCompiler();
 
-	compiler.CompileFile("C:\\Users\\SilverJun\\Desktop\\프로젝트\\SWING\\example\\ex01.swing");
+	compiler.CompileFile("../../example/ex01.swing");
 
 	for (auto i = compiler.getTokenLists()->begin()->begin(); i != compiler.getTokenLists()->begin()->end(); ++i)
 	{
-		std::cout << static_cast<int>((*i)._id) << " " << (*i)._name << " " << (*i)._iNumber << " " << (*i)._dNumber << std::endl;
+		std::cout << static_cast<int>((*i)._id) << "\t" << (*i)._name << "\t" << (*i)._iNumber << "\t" << (*i)._dNumber << std::endl;
 	}
 
 	system("pause");

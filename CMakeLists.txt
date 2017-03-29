@@ -8,6 +8,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 
-file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/* "*.cpp" "*.h")
+file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/src/*.cpp" "${PROJECT_SOURCE_DIR}/src/*.h")
 
 add_executable(swing ${SOURCES})
