@@ -1,7 +1,7 @@
 var MyInt:int = 10
 
 output(MyInt)
-output("Hello test! \(1+2)")
+output("Hello test! \(1+2) is good!!")
 
 if MyInt == 10 
 {

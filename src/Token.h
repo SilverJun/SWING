@@ -65,6 +65,7 @@ namespace swing
 		Func_Return,
 
 		Struct_Decl,
+		Enum_Decl,
 		Class_Decl,
 		Protocol_Decl,
 		Extension_Decl,
@@ -81,16 +82,32 @@ namespace swing
 		Literal_Double, //부동소수점
 		Literal_Letter,	//문자
 		Literal_String,	//문자열
+
 		StringInterpolation_Start,
 		StringInterpolation_End,
 
-		LessEqual,
-		GreatEqual,
-		NotEqual,
+		Assignment,
+
+		Arithmetic_Add,
+		Arithmetic_Subtract,
+		Arithmetic_Multiply,
+		Arithmetic_Divide,
+		Arithmetic_Modulo,
+		Arithmetic_Power,
+
+		Relational_Equal,
+		Relational_NotEqual,
+		Relational_Greater,
+		Relational_Less,
+		Relational_GreaterEqual,
+		Relational_LessEqual,
 
 		Bitwise_And,
 		Bitwise_Or,
 		Bitwise_Not,
+		Bitwise_Xor,
+		Bitwise_ShiftRight,
+		Bitwise_ShiftLeft,
 
 		Logical_And,
 		Logical_Or,
@@ -98,8 +115,6 @@ namespace swing
 
 		Optional_Nilable,		/// ?
 		Optional_Binding,		/// !
-
-		Power,		/// ^
 
 		Range_Closed,	/// m...n : [m,n]
 		Range_Opend,	/// m..<n : [m,n)

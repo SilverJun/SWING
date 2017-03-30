@@ -15,6 +15,12 @@ namespace swing
 			{ TokenID::Type_Dictionary, "Dictionary" },
 			{ TokenID::Type_Tuple, "Tuple" },
 
+			{ TokenID::Struct_Decl, "struct" },
+			{ TokenID::Enum_Decl, "enum" },
+			{ TokenID::Class_Decl, "class" },
+			{ TokenID::Protocol_Decl, "protocol" },
+			{ TokenID::Extension_Decl, "extension" },
+
 			{ TokenID::Stmt_If, "if" },
 			{ TokenID::Stmt_Else, "else" },
 			{ TokenID::Stmt_Guard, "guard" },
@@ -27,18 +33,28 @@ namespace swing
 		_keywordList = kList;
 
 		std::vector<Keyword> oList = {
-			{ TokenID::Cross, "+" },
-			{ TokenID::Hyphen, "-" },
-			{ TokenID::Asterisk, "*" },
-			{ TokenID::ForwardSlash, "/" },
-			{ TokenID::Percent, "%" },
-			{ TokenID::Equal, "=" },
+			{ TokenID::Arithmetic_Add, "+" },
+			{ TokenID::Arithmetic_Subtract, "-" },
+			{ TokenID::Arithmetic_Multiply, "*" },
+			{ TokenID::Arithmetic_Divide, "/" },
+			{ TokenID::Arithmetic_Modulo, "%" },
+			{ TokenID::Arithmetic_Power, "**" },
+			{ TokenID::Assignment, "=" },
 			{ TokenID::Bitwise_And, "&" },
 			{ TokenID::Bitwise_Or, "|" },
 			{ TokenID::Bitwise_Not, "~" },
+			{ TokenID::Bitwise_Xor, "^" },
+			{ TokenID::Bitwise_ShiftRight, ">>" },
+			{ TokenID::Bitwise_ShiftLeft, "<<" },
 			{ TokenID::Logical_And, "&&" },
 			{ TokenID::Logical_Or, "||" },
 			{ TokenID::Logical_Not, "!" },
+			{ TokenID::Relational_Equal, "==" },
+			{ TokenID::Relational_NotEqual, "!=" },
+			{ TokenID::Relational_Greater, ">" },
+			{ TokenID::Relational_Less, "<" },
+			{ TokenID::Relational_GreaterEqual, ">=" },
+			{ TokenID::Relational_LessEqual, "<=" },
 		};
 
 		_operatorList.clear();

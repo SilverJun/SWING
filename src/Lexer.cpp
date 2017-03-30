@@ -4,8 +4,6 @@
 #include <fstream>
 #include <iostream>
 #include <cctype>
-#include <locale>
-#include <iterator>
 
 #define CASE_WHITE_SPACE	case ' ': case '\r': case '\t': case '\n':
 
@@ -206,7 +204,9 @@ namespace swing
 			auto start = ++iter;
 			for (; iter != _sourceCode.end(); ++iter) { if (!std::isxdigit(*iter)) { break; } }			/// xdigit이 아닐때 까지 iter를 증가한다.
 
-			_tokenList->emplace_back(TokenID::Literal_Integer, _sourceLine, stoi(std::string(start, prev(iter)), nullptr, base));
+			std::string number(start, prev(iter));
+
+			_tokenList->emplace_back(TokenID::Literal_Integer, _sourceLine, stoi(number, nullptr, base), number);
 		}
 
 		auto start = iter;
@@ -216,8 +216,8 @@ namespace swing
 			if (!hasPoint && *iter == '.') { hasPoint = true; }
 			else if (!std::isdigit(*iter)) { break; }
 		}
-
-		_tokenList->emplace_back(hasPoint? TokenID::Literal_Double: TokenID::Literal_Integer, _sourceLine, stod(std::string(start, iter--), nullptr));
+		std::string number(start, iter--);
+		_tokenList->emplace_back(hasPoint ? TokenID::Literal_Double : TokenID::Literal_Integer, _sourceLine, stod(number, nullptr), number);
 	}
 
 	void Lexer::LexPunct(std::string::iterator& iter)
@@ -303,8 +303,19 @@ namespace swing
 		auto endOfInterpolation = [](std::string::iterator& iter) -> std::string
 		{
 			std::string::iterator start; 
-			for (start = iter; *iter != ')'; ++iter) {}
-			return std::string(start, iter);
+			int paranCount = 1;
+			for (start = iter; paranCount; ++iter) 
+			{ 
+				if (*iter == '(') 
+				{
+					++paranCount;
+				} 
+				else if (*iter == ')')
+				{
+					--paranCount;
+				}
+			}
+			return std::string(start, --iter);
 		};
 
 		std::string::iterator start;
@@ -335,7 +346,7 @@ namespace swing
 					/// "	Quotmark		StringLiteral End
 					///
 					newLexer.GenerateTokenList();
-
+					_tokenList->pop_back();			//EOF TokenPop
 					_tokenList->emplace_back(TokenID::StringInterpolation_End, _sourceLine, ")");
 
 					start = next(iter);
@@ -343,7 +354,7 @@ namespace swing
 			}
 		}
 
-		if (start == iter)
+		if (start != iter)
 		{
 			_tokenList->emplace_back(TokenID::Literal_String, _sourceLine, std::string(start, iter));
 		}
