@@ -3,6 +3,11 @@
 #include "Operator.h"
 #include "Token.h"
 
+#include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/LLVMContext.h"
+#include "llvm/IR/LegacyPassManager.h"
+#include "llvm/IR/Module.h"
+
 namespace swing
 {
 	class SwingCompiler
@@ -15,7 +20,24 @@ namespace swing
 
 		//ProjectManager
 
+		static llvm::LLVMContext _llvmContext;
+		static llvm::Module _module;
+		static llvm::IRBuilder<> _builder;
+
 	public:
+		static llvm::LLVMContext& GetLLVMContext()
+		{
+			return _llvmContext;
+		}
+		static llvm::Module& GetModule()
+		{
+			return _module;
+		}
+		static llvm::IRBuilder<>& GetBuilder()
+		{
+			return _builder;
+		}
+
 		SwingCompiler()
 		{
 			_tokenLists.push_back(TokenList());
@@ -29,15 +51,15 @@ namespace swing
 
 		void InitializeCompiler();
 		
-		void CompileProject(/*swing::project*/);
+		//void SetProject(Project* project);
+		void CompileProject();
 		void CompileFile(std::string file);
 
 		std::list<TokenList>* getTokenLists()
 		{
 			return &_tokenLists;
-		};
+		}
 
 	};
-
 }
 

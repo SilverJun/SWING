@@ -2,6 +2,8 @@
 
 namespace swing
 {
+	static llvm::IRBuilder<> _Builder(SwingCompiler::GetLLVMContext());
+
 	void SwingCompiler::InitializeCompiler()
 	{
 		std::vector<Keyword> kList = {
@@ -59,8 +61,11 @@ namespace swing
 
 		_operatorList.clear();
 		_operatorList = oList;
+	}
 
-		
+	void SwingCompiler::CompileProject()
+	{
+
 	}
 
 	void SwingCompiler::CompileFile(std::string file)
