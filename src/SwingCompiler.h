@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿#ifndef _SWING_COMPILER_H_
+#define _SWING_COMPILER_H_
+
 #include "Lexer.h"
 #include "Operator.h"
 #include "Token.h"
@@ -63,3 +65,4 @@ namespace swing
 	};
 }
 
+#endif
