@@ -1,5 +1,10 @@
 ﻿#include "Project.h"
 
+#include <fstream>
+#include <iostream>
+
+#include "rapidjson/istreamwrapper.h"
+
 namespace swing
 {
 	Project::Project(std::string projName, std::string projFolderPath)
@@ -7,6 +12,13 @@ namespace swing
 	}
 
 	Project::Project(std::string projFile)
+	{
+		std::ifstream projIfs(projFile);
+
+		_projJson.ParseStream(projIfs);
+	}
+
+	Project::~Project()
 	{
 	}
 

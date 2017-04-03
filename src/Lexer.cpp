@@ -46,25 +46,11 @@ namespace swing
 
 	void Lexer::LoadSourceFile(std::string filename)
 	{
-		std::fstream* srcFile = new std::fstream(filename, std::ios::in);
+		std::ifstream file(filename);
 
+		_sourceCode = std::string(std::istreambuf_iterator<char>(file),
+			std::istreambuf_iterator<char>());
 
-		if (srcFile->fail())
-		{
-			std::cout << "Error : FileOpenError!" << std::endl;
-			exit(-1);
-		}
-
-		char c;
-		while ((c = srcFile->get()) != -1)
-		{
-			_sourceCode += c;
-		}
-
-		_sourceCode.resize(_sourceCode.size());
-
-		srcFile->close();
-		delete srcFile;
 	}
 
 	void Lexer::SetSourceCode(std::string source)
