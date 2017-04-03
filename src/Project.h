@@ -10,9 +10,9 @@ namespace swing
 	class Project
 	{
 		std::string _projName;		/// ProjectName
-		std::string _projPath;		/// folder where project is in.
-		std::string _binFileName;
-		std::list<std::string> _sources;
+		std::string _projPath;		/// folder where project is.
+		std::string _binFileName;	/// executive file name
+		std::list<std::string> _sourcesPath;		/// source Paths
 
 		rapidjson::Document _projJson;
 
@@ -26,7 +26,8 @@ namespace swing
 		void SetProjectPath(std::string path);
 		void SetBinFileName(std::string name);
 
-
+		void SaveProjectFile();
+		void LoadProjectFile();
 	};
 }
 

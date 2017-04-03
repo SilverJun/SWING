@@ -48,6 +48,12 @@ namespace swing
 	{
 		std::ifstream file(filename);
 
+		if(!file.is_open())
+		{
+			std::cout << "File open Error, " << filename << std::endl;
+			exit(1);
+		}
+
 		_sourceCode = std::string(std::istreambuf_iterator<char>(file),
 			std::istreambuf_iterator<char>());
 
