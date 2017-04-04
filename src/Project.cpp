@@ -5,11 +5,43 @@
 
 #include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
+#include "rapidjson/allocators.h"
 
 namespace swing
 {
 	Project::Project(std::string projName, std::string projFolderPath) : _projName(projName), _projPath(projFolderPath)
 	{
+		_projJson.Clear();
+
+		rapidjson::Value Root(rapidjson::kObjectType);
+
+		rapidjson::Document::AllocatorType& allocator = _projJson.GetAllocator();
+
+		Root.AddMember("ProjectName", rapidjson::Value(_projName.c_str(), allocator), allocator);
+		Root.AddMember("ProjectPath", rapidjson::Value(_projPath.c_str(), allocator), allocator);
+
+		/// add base main swing file automatically.
+
+		std::fstream baseFile(_projPath + "/main.swing", std::ios::out);
+
+		if (baseFile.is_open())
+		{
+			baseFile << "output(\"Hello Swing Language!\")";
+			_sourcesPath.push_back(_projPath + "/main.swing");
+
+			rapidjson::Value sourceList(rapidjson::kArrayType);
+
+			sourceList.PushBack(rapidjson::Value(_sourcesPath.back().c_str(), allocator), allocator);
+
+			/*for (auto iter = _sourcesPath.begin(); iter != _sourcesPath.end(); ++iter)
+			{
+				sourceList.PushBack(rapidjson::Value((*iter).c_str(), allocator), allocator);
+			}*/
+
+			Root.AddMember("SourcePath", sourceList, allocator);
+		}
+
+		_projJson.CopyFrom(Root, allocator);
 
 		SaveProjectFile();
 	}
