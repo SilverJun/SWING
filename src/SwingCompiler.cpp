@@ -2,8 +2,6 @@
 
 namespace swing
 {
-	static llvm::IRBuilder<> _Builder(SwingCompiler::GetLLVMContext());
-
 	void SwingCompiler::InitializeCompiler()
 	{
 		std::vector<Keyword> kList = {

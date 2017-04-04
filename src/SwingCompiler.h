@@ -22,25 +22,25 @@ namespace swing
 
 		//ProjectManager
 
-		static llvm::LLVMContext _llvmContext;
-		static llvm::Module _module;
-		static llvm::IRBuilder<> _builder;
+		llvm::LLVMContext _llvmContext;
+		llvm::Module _module;
+		llvm::IRBuilder<> _builder;
 
 	public:
-		static llvm::LLVMContext& GetLLVMContext()
+		llvm::LLVMContext& GetLLVMContext()
 		{
 			return _llvmContext;
 		}
-		static llvm::Module& GetModule()
+		llvm::Module& GetModule()
 		{
 			return _module;
 		}
-		static llvm::IRBuilder<>& GetBuilder()
+		llvm::IRBuilder<>& GetBuilder()
 		{
 			return _builder;
 		}
 
-		SwingCompiler()
+		SwingCompiler() :_module("SwingCompiler", _llvmContext), _builder(_llvmContext)
 		{
 			_tokenLists.push_back(TokenList());
 			_lexer = new Lexer(&_tokenLists.back(), &_keywordList, &_operatorList);

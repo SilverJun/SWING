@@ -17,8 +17,8 @@ int main(int argc, char* argv[])
 		std::cout << static_cast<int>((*i)._id) << "\t" << (*i)._name << "\t" << (*i)._iNumber << "\t" << (*i)._dNumber << std::endl;
 	}*/
 
-	swing::Project("Test","C:/Users/smart/Desktop/test");
-
+	//swing::Project("Test","C:/Users/SilverJun/Desktop/test");
+	swing::Project("C:/Users/SilverJun/Desktop/test/Test.swingproj");
 
 	system("pause");
 
