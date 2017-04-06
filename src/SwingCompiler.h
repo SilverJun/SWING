@@ -1,6 +1,9 @@
 ﻿#ifndef _SWING_COMPILER_H_
 #define _SWING_COMPILER_H_
 
+#include <memory>
+#include <mutex>
+
 #include "Lexer.h"
 #include "Operator.h"
 #include "Token.h"
@@ -14,6 +17,9 @@ namespace swing
 {
 	class SwingCompiler
 	{
+		static std::unique_ptr<SwingCompiler> _instance;
+		static std::once_flag _InitInstance;
+
 		std::vector<Keyword> _keywordList;
 		std::vector<Keyword> _operatorList;
 		std::list<TokenList> _tokenLists;
@@ -26,7 +32,27 @@ namespace swing
 		llvm::Module _module;
 		llvm::IRBuilder<> _builder;
 
+		SwingCompiler();
+
+		~SwingCompiler()
+		{
+			delete _lexer;
+		}
+
+		SwingCompiler(const SwingCompiler& src) = delete;
+		SwingCompiler& operator=(const SwingCompiler& rhs) = delete;
+
 	public:
+		static SwingCompiler& GetInstance()
+		{
+			std::call_once(_InitInstance, []()
+			{
+				_instance.reset(new SwingCompiler);
+			});
+
+			return *_instance.get();
+		}
+
 		llvm::LLVMContext& GetLLVMContext()
 		{
 			return _llvmContext;
@@ -39,20 +65,6 @@ namespace swing
 		{
 			return _builder;
 		}
-
-		SwingCompiler() :_module("SwingCompiler", _llvmContext), _builder(_llvmContext)
-		{
-			_tokenLists.push_back(TokenList());
-			_lexer = new Lexer(&_tokenLists.back(), &_keywordList, &_operatorList);
-		}
-
-		~SwingCompiler()
-		{
-			delete _lexer;
-		}
-
-		void InitializeCompiler();
-		
 		//void SetProject(Project* project);
 		void CompileProject();
 		void CompileFile(std::string file);
@@ -63,6 +75,11 @@ namespace swing
 		}
 
 	};
+
+	std::unique_ptr<SwingCompiler> SwingCompiler::_instance;
+	std::once_flag SwingCompiler::_InitInstance;
 }
+
+#define g_SwingCompiler	swing::SwingCompiler::GetInstance()
 
 #endif

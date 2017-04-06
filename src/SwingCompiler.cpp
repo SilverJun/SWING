@@ -1,9 +1,18 @@
 ﻿#include "SwingCompiler.h"
 
+#include "llvm/Support/TargetSelect.h"
+
 namespace swing
 {
-	void SwingCompiler::InitializeCompiler()
+	SwingCompiler::SwingCompiler() :_module("SwingCompiler", _llvmContext), _builder(_llvmContext)
 	{
+		llvm::InitializeNativeTarget();
+		llvm::InitializeNativeTargetAsmParser();
+		llvm::InitializeNativeTargetAsmPrinter();
+
+		_tokenLists.push_back(TokenList());
+		_lexer = new Lexer(&_tokenLists.back(), &_keywordList, &_operatorList);
+
 		std::vector<Keyword> kList = {
 			{ TokenID::Type_Var, "var" },
 			{ TokenID::Type_Let, "let" },
@@ -28,8 +37,6 @@ namespace swing
 			{ TokenID::Stmt_For, "for" },
 			{ TokenID::Stmt_In, "in" }
 		};
-
-		_keywordList.clear();
 		_keywordList = kList;
 
 		std::vector<Keyword> oList = {
@@ -56,8 +63,6 @@ namespace swing
 			{ TokenID::Relational_GreaterEqual, ">=" },
 			{ TokenID::Relational_LessEqual, "<=" },
 		};
-
-		_operatorList.clear();
 		_operatorList = oList;
 	}
 

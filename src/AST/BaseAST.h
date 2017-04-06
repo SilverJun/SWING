@@ -3,13 +3,14 @@
 
 #include "llvm/IR/Value.h"
 
-class BaseAST
+namespace swing
 {
-	virtual ~BaseAST() = delete;
-
-public:
-	virtual llvm::Value* CodeGen() = 0;
-
-};
+	class BaseAST
+	{
+	public:
+		virtual ~BaseAST() {}
+		virtual llvm::Value* CodeGen() = 0;
+	};
+}
 
 #endif

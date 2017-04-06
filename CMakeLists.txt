@@ -5,6 +5,8 @@ project (SWING)  # 필수 정보
 set(CMAKE_SUPPRESS_REGENERATION true)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/src/AST)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
 

@@ -20,11 +20,8 @@ namespace swing
 		OperatorType _opType;
 		TokenID _tokenID;
 
-		std::function<void* (void*, void*)> _operateFunction;
-
 		/// swing::Type
 
-	public:
 		OperatorData()
 		{
 			
