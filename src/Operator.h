@@ -2,6 +2,7 @@
 #define _SWING_OPERATOR_H_
 
 #include <string>
+#include <functional>
 #include "Token.h"
 
 namespace swing
@@ -18,6 +19,10 @@ namespace swing
 		std::string _operatorName;
 		OperatorType _opType;
 		TokenID _tokenID;
+
+		std::function<void* (void*, void*)> _operateFunction;
+
+		/// swing::Type
 
 	public:
 		OperatorData()
