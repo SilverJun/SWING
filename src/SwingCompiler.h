@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <mutex>
+#include <unordered_map>
 
 #include "Lexer.h"
 #include "Operator.h"
@@ -23,6 +24,7 @@ namespace swing
 		std::vector<Keyword> _keywordList;
 		std::vector<Keyword> _operatorList;
 		std::list<TokenList> _tokenLists;
+		//std::unordered_map<std::string, llvm::Value*> _userType;
 
 		Lexer* _lexer;
 

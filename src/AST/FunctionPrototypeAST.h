@@ -22,6 +22,22 @@ namespace swing
 			llvm::Function *F =
 				llvm::Function::Create(FT, llvm::Function::ExternalLinkage, _funcName, &g_SwingCompiler.GetModule());
 
+			/*
+			 *std::unordered_map<std::string, Type> _userTypes;
+
+			_userTypes[TypeName] = Type
+
+				class Type {
+				llvm::Type* _type;
+			};
+
+			class StructType : Type {
+				_type = llvm::StructType;
+
+				std::unordered_map<std::string, std::functional<llvm::Value* (std::unordered_map<std::string, Type>)>>
+			};
+			*/
+
 			// 내 생각에는 모듈 하나에 같은이름 함수는 하나만 들어간다. Name mangling을 사용하자.
 			// 반복자가 들어있는 반복문은 왠만하면 다 범위기반for로 바꾸자.
 			unsigned Idx = 0;
