@@ -1,5 +1,6 @@
 ﻿#include "SwingCompiler.h"
 
+#include "Type.h"
 #include "llvm/Support/TargetSelect.h"
 
 namespace swing
@@ -67,6 +68,8 @@ namespace swing
 			{ TokenID::Relational_LessEqual, "<=" },
 		};
 		_operatorList = oList;
+
+
 	}
 
 	void SwingCompiler::CompileProject()

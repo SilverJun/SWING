@@ -16,6 +16,8 @@
 
 namespace swing
 {
+	class Type;
+
 	class SwingCompiler
 	{
 		static std::unique_ptr<SwingCompiler> _instance;
@@ -24,7 +26,7 @@ namespace swing
 		std::vector<Keyword> _keywordList;
 		std::vector<Keyword> _operatorList;
 		std::list<TokenList> _tokenLists;
-		//std::unordered_map<std::string, llvm::Value*> _userType;
+		std::vector<Type> _types;
 
 		Lexer* _lexer;
 

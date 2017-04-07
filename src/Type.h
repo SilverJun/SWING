@@ -1,23 +1,28 @@
 ﻿#ifndef _SWING_TYPE_H_
 #define _SWING_TYPE_H_
 
+#include "SwingCompiler.h"
+
 #include <string>
 #include <llvm/IR/Type.h>
 
 namespace swing
 {
-	class Type
+	struct Type
 	{
 		std::string _typeName;
 		llvm::Type* _typeInfo;
 
-	public:
-		Type(std::string name, llvm::Type* type) : _typeName(name), _typeInfo(type)
-		{
-		}
+		Type() : _typeName(""), _typeInfo(nullptr) {}
+		virtual ~Type(){}
+	};
 
-		virtual ~Type()
+	struct Int : Type
+	{
+		Int() : Type()
 		{
+			this->_typeName = "Int";
+			this->_typeInfo = llvm::StructType::create();
 		}
 	};
 
