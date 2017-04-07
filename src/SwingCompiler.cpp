@@ -4,6 +4,9 @@
 
 namespace swing
 {
+	std::unique_ptr<SwingCompiler> SwingCompiler::_instance;
+	std::once_flag SwingCompiler::_InitInstance;
+
 	SwingCompiler::SwingCompiler() :_module("SwingCompiler", _llvmContext), _builder(_llvmContext)
 	{
 		llvm::InitializeNativeTarget();

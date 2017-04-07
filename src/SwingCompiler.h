@@ -36,11 +36,6 @@ namespace swing
 
 		SwingCompiler();
 
-		~SwingCompiler()
-		{
-			delete _lexer;
-		}
-
 		SwingCompiler(const SwingCompiler& src) = delete;
 		SwingCompiler& operator=(const SwingCompiler& rhs) = delete;
 
@@ -75,11 +70,12 @@ namespace swing
 		{
 			return &_tokenLists;
 		}
-
+		~SwingCompiler()
+		{
+			delete _lexer;
+		}
 	};
 
-	std::unique_ptr<SwingCompiler> SwingCompiler::_instance;
-	std::once_flag SwingCompiler::_InitInstance;
 }
 
 #define g_SwingCompiler	swing::SwingCompiler::GetInstance()

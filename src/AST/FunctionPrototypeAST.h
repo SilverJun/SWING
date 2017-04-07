@@ -21,9 +21,9 @@ namespace swing
 
 			llvm::Function *F =
 				llvm::Function::Create(FT, llvm::Function::ExternalLinkage, _funcName, &g_SwingCompiler.GetModule());
-
+			
 			/*
-			 *std::unordered_map<std::string, Type> _userTypes;
+			std::unordered_map<std::string, Type> _userTypes;
 
 			_userTypes[TypeName] = Type
 

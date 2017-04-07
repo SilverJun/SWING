@@ -3,6 +3,7 @@
 
 #include <list>
 #include <string>
+#include "Error.h"
 
 namespace swing
 {
@@ -165,6 +166,20 @@ namespace swing
 			_dNumber(0),
 			_name(name)
 		{ }
+
+		void Expect(const TokenID id) const
+		{
+			if (!(this->_id == id))
+			{
+				throw Error(this->_line, "Unexpected Token, Id-"
+					+ std::to_string(static_cast<int>(this->_id))
+					+ " " + this->_name
+					+ std::to_string(this->_iNumber)
+					+ std::to_string(this->_char)
+					+ std::to_string(this->_dNumber)
+				);
+			}
+		}
 	};
 
 	using TokenList = std::list<Token>;

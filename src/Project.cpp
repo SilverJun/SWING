@@ -84,7 +84,7 @@ namespace swing
 
 		if (Root.HasMember("ProjectName"))
 		{
-			Root["ProjectName"] = _projName;
+			Root["ProjectName"] = rapidjson::Value(_projName.c_str(), _projJson.GetAllocator());
 		}
 	}
 
@@ -95,7 +95,7 @@ namespace swing
 
 		if (Root.HasMember("ProjectPath"))
 		{
-			Root["ProjectPath"] = _projPath;
+			Root["ProjectPath"] = rapidjson::Value(_projPath.c_str(), _projJson.GetAllocator());
 		}
 	}
 
@@ -106,7 +106,7 @@ namespace swing
 
 		if (Root.HasMember("BinaryFileName"))
 		{
-			Root["BinaryFileName"] = _binFileName;
+			Root["BinaryFileName"] = rapidjson::Value(_binFileName.c_str(), _projJson.GetAllocator());
 		}
 	}
 
@@ -117,7 +117,7 @@ namespace swing
 
 		if (Root.HasMember("BinaryOutputPath"))
 		{
-			Root["BinaryOutputPath"] = _binOutputPath;
+			Root["BinaryOutputPath"] = rapidjson::Value(_binOutputPath.c_str(), _projJson.GetAllocator());
 		}
 	}
 
@@ -128,7 +128,7 @@ namespace swing
 
 		if (Root.HasMember("SourceFilePath"))
 		{
-			Root["SourceFilePath"] = _sourceFilePath;
+			Root["SourceFilePath"] = rapidjson::Value(_sourceFilePath.c_str(), _projJson.GetAllocator());
 		}
 	}
 
