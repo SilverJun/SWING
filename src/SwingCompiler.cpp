@@ -1,6 +1,5 @@
 ﻿#include "SwingCompiler.h"
 
-#include "Type.h"
 #include "llvm/Support/TargetSelect.h"
 
 namespace swing

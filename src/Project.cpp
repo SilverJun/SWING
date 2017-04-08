@@ -54,6 +54,13 @@ namespace swing
 	{
 		std::ifstream projIfs(projFile);
 
+		if (!projIfs.is_open())
+		{
+			std::cout << "File open Error, " << projFile << std::endl;
+			system("pause");
+			exit(1);
+		}
+
 		_projJson.Parse(std::string(std::istreambuf_iterator<char>(projIfs),
 			std::istreambuf_iterator<char>()).c_str());
 
@@ -163,6 +170,7 @@ namespace swing
 		if (!ifs.is_open())
 		{
 			std::cout << "File open Error, " << _projPath + "/" + _projName + ".swingproj" << std::endl;
+			system("pause");
 			exit(1);
 		}
 

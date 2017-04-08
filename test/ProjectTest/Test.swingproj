@@ -1,0 +1,10 @@
+{
+    "ProjectName": "Test",
+    "ProjectPath": "../../test/ProjectTest",
+    "BinaryFileName": "Test",
+    "BinaryOutputPath": "../../test/ProjectTest",
+    "SourceFilePath": "../../test/ProjectTest",
+    "SourceList": [
+        "../../test/ProjectTest/main.swing"
+    ]
+}
