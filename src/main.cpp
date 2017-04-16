@@ -129,19 +129,15 @@
 
 int main(int argc, char* argv[])
 {
-	/*swing::SwingCompiler compiler;
 
-	compiler.InitializeCompiler();
+	g_SwingCompiler.SetProject(new swing::Project("../../test/ProjectTest/Test.swingproj"));
 
-	compiler.CompileFile("../../example/ex01.swing");
+	g_SwingCompiler.CompileFile("../../example/ex01.swing");
 
-	for (auto i = compiler.getTokenLists()->begin()->begin(); i != compiler.getTokenLists()->begin()->end(); ++i)
+	for (auto i = g_SwingCompiler._tokenLists.begin()->begin(); i != g_SwingCompiler._tokenLists.begin()->end(); ++i)
 	{
 		std::cout << static_cast<int>((*i)._id) << "\t" << (*i)._name << "\t" << (*i)._iNumber << "\t" << (*i)._dNumber << std::endl;
-	}*/
-
-	//swing::Project("Test","../../test/ProjectTest");
-	swing::Project("../../test/ProjectTest/Test.swingproj");
+	}
 
 	system("pause");
 

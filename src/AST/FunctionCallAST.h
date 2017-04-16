@@ -21,7 +21,7 @@ namespace swing
 
 		llvm::Value* CodeGen() override
 		{
-			llvm::Function* CalleeF = g_SwingCompiler.GetModule().getFunction(_callee);
+			llvm::Function* CalleeF = g_Module.getFunction(_callee);
 			if (!CalleeF)
 				throw Error(__LINE__, "FunctionCall Error! in CalleeF");
 
@@ -34,7 +34,7 @@ namespace swing
 				if (!ArgsV.back())
 					return nullptr;
 			}
-			return g_SwingCompiler.GetBuilder().CreateCall(CalleeF, ArgsV, _callee.c_str());
+			return g_Builder.CreateCall(CalleeF, ArgsV, _callee.c_str());
 		}
 	};
 }

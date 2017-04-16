@@ -69,5 +69,9 @@ namespace swing
 }
 
 #define g_SwingCompiler	swing::SwingCompiler::GetInstance()
+#define g_Context	swing::SwingCompiler::GetInstance()._llvmContext
+#define g_Module	swing::SwingCompiler::GetInstance()._module
+#define g_Builder	swing::SwingCompiler::GetInstance()._builder
+
 
 #endif

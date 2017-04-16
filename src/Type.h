@@ -25,6 +25,7 @@ namespace swing
 		Protocol,
 		UserDefined
 	};
+
 	enum class AccessModifier
 	{
 		Private,
@@ -36,11 +37,11 @@ namespace swing
 	{
 	protected:
 		std::vector<llvm::Value*> _value;
-		std::vector<llvm::Function*> _method;
+		std::unordered_map<std::string, llvm::Function*> _method;
 		/// Todo : AccessModifier 적용하기.
 
 	public:
-		Struct(std::string name, std::vector<llvm::Type*> val, std::vector<llvm::Function*> method);
+		Struct(std::string name, std::vector<llvm::Type*> val, std::unordered_map<std::string, llvm::Function*> method);
 		virtual ~Struct(){}
 	};
 
@@ -48,6 +49,8 @@ namespace swing
 	{
 		String(std::string& str);
 		virtual ~String() {}
+
+		std::string _str;
 	};
 }
 

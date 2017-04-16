@@ -17,10 +17,10 @@ namespace swing
 		{
 			std::vector<llvm::Type *> arg;
 			llvm::FunctionType *FT =
-				llvm::FunctionType::get(llvm::StructType::get(llvm::Type::getInt8Ty(g_SwingCompiler.GetLLVMContext())), false);
+				llvm::FunctionType::get(llvm::StructType::get(llvm::Type::getInt8Ty(g_Context)), false);
 
 			llvm::Function *F =
-				llvm::Function::Create(FT, llvm::Function::ExternalLinkage, _funcName, &g_SwingCompiler.GetModule());
+				llvm::Function::Create(FT, llvm::Function::ExternalLinkage, _funcName, &g_Module);
 			
 			/*
 			std::unordered_map<std::string, Type> _userTypes;
