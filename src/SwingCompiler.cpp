@@ -68,7 +68,26 @@ namespace swing
 		};
 		_operatorList = oList;
 
+		_types = {
+			{ "Bool", llvm::Type::getInt1Ty(_llvmContext) },
+			{ "Char", llvm::Type::getIntNTy(_llvmContext, 2) },
+			{ "Int4", llvm::Type::getIntNTy(_llvmContext, 4) },
+			{ "Int8", llvm::Type::getInt8Ty(_llvmContext) },
+			{ "Int16", llvm::Type::getInt16Ty(_llvmContext) },
+			{ "Int", llvm::Type::getInt32Ty(_llvmContext) },
+			{ "UInt4", llvm::Type::getIntNTy(_llvmContext, 4) },
+			{ "UInt8", llvm::Type::getInt8Ty(_llvmContext) },
+			{ "UInt16", llvm::Type::getInt16Ty(_llvmContext) },
+			{ "UInt", llvm::Type::getInt32Ty(_llvmContext) },
+			{ "Float", llvm::Type::getFloatTy(_llvmContext) },
+			{ "Double", llvm::Type::getDoubleTy(_llvmContext) }
+		};
 
+	}
+
+	void SwingCompiler::SetProject(Project* project)
+	{
+		_project = project;
 	}
 
 	void SwingCompiler::CompileProject()
@@ -80,5 +99,10 @@ namespace swing
 	{
 		_lexer->LoadSourceFile(file);
 		_lexer->GenerateTokenList();
+	}
+
+	std::string SwingCompiler::GenerateNameMangling(llvm::Function* func)
+	{
+		return "";
 	}
 }

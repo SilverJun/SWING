@@ -146,7 +146,7 @@ public:
   void addPressureChange(unsigned RegUnit, bool IsDec,
                          const MachineRegisterInfo *MRI);
 
-  void dump(const TargetRegisterInfo &TRI) const;
+  LLVM_DUMP_METHOD void dump(const TargetRegisterInfo &TRI) const;
 };
 
 /// List of registers defined and used by a machine instruction.

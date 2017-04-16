@@ -55,7 +55,6 @@ public:
   DWARFAbbreviationDeclaration();
 
   uint32_t getCode() const { return Code; }
-  uint8_t getCodeByteSize() const { return CodeByteSize; }
   dwarf::Tag getTag() const { return Tag; }
   bool hasChildren() const { return HasChildren; }
 
@@ -67,17 +66,9 @@ public:
   }
 
   dwarf::Form getFormByIndex(uint32_t idx) const {
-    assert(idx < AttributeSpecs.size());
-    return AttributeSpecs[idx].Form;
-  }
-
-  size_t getNumAttributes() const {
-    return AttributeSpecs.size();
-  }
-
-  dwarf::Attribute getAttrByIndex(uint32_t idx) const {
-    assert(idx < AttributeSpecs.size());
-    return AttributeSpecs[idx].Attr;
+    if (idx < AttributeSpecs.size())
+      return AttributeSpecs[idx].Form;
+    return dwarf::Form(0);
   }
 
   /// Get the index of the specified attribute.

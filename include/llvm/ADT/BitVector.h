@@ -539,8 +539,7 @@ private:
   }
 
   void init_words(BitWord *B, unsigned NumWords, bool t) {
-    if (NumWords > 0)
-      memset(B, 0 - (int)t, NumWords*sizeof(BitWord));
+    memset(B, 0 - (int)t, NumWords*sizeof(BitWord));
   }
 
   template<bool AddBits, bool InvertMask>

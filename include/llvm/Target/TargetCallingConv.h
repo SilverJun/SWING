@@ -14,16 +14,14 @@
 #ifndef LLVM_TARGET_TARGETCALLINGCONV_H
 #define LLVM_TARGET_TARGETCALLINGCONV_H
 
-#include "llvm/CodeGen/MachineValueType.h"
 #include "llvm/CodeGen/ValueTypes.h"
+#include "llvm/Support/DataTypes.h"
 #include "llvm/Support/MathExtras.h"
-#include <cassert>
 #include <climits>
-#include <cstdint>
 
 namespace llvm {
-namespace ISD {
 
+namespace ISD {
   struct ArgFlagsTy {
   private:
     static const uint64_t NoFlagSet      = 0ULL;
@@ -73,10 +71,10 @@ namespace ISD {
 
     static const uint64_t One            = 1ULL; ///< 1 of this type, for shifts
 
-    uint64_t Flags = 0;
+    uint64_t Flags;
 
   public:
-    ArgFlagsTy() = default;
+    ArgFlagsTy() : Flags(0) { }
 
     bool isZExt()      const { return Flags & ZExt; }
     void setZExt()     { Flags |= One << ZExtOffs; }
@@ -164,9 +162,9 @@ namespace ISD {
   ///
   struct InputArg {
     ArgFlagsTy Flags;
-    MVT VT = MVT::Other;
+    MVT VT;
     EVT ArgVT;
-    bool Used = false;
+    bool Used;
 
     /// Index original Function's argument.
     unsigned OrigArgIndex;
@@ -178,7 +176,7 @@ namespace ISD {
     /// registers, we got 4 InputArgs with PartOffsets 0, 4, 8 and 12.
     unsigned PartOffset;
 
-    InputArg() = default;
+    InputArg() : VT(MVT::Other), Used(false) {}
     InputArg(ArgFlagsTy flags, EVT vt, EVT argvt, bool used,
              unsigned origIdx, unsigned partOffs)
       : Flags(flags), Used(used), OrigArgIndex(origIdx), PartOffset(partOffs) {
@@ -206,7 +204,7 @@ namespace ISD {
     EVT ArgVT;
 
     /// IsFixed - Is this a "fixed" value, ie not passed through a vararg "...".
-    bool IsFixed = false;
+    bool IsFixed;
 
     /// Index original Function's argument.
     unsigned OrigArgIndex;
@@ -216,7 +214,7 @@ namespace ISD {
     /// registers, we got 4 OutputArgs with PartOffsets 0, 4, 8 and 12.
     unsigned PartOffset;
 
-    OutputArg() = default;
+    OutputArg() : IsFixed(false) {}
     OutputArg(ArgFlagsTy flags, EVT vt, EVT argvt, bool isfixed,
               unsigned origIdx, unsigned partOffs)
       : Flags(flags), IsFixed(isfixed), OrigArgIndex(origIdx),
@@ -225,8 +223,8 @@ namespace ISD {
       ArgVT = argvt;
     }
   };
-
 } // end namespace ISD
-} // end namespace llvm
+
+} // end llvm namespace
 
 #endif // LLVM_TARGET_TARGETCALLINGCONV_H

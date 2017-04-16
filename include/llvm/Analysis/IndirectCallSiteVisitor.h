@@ -21,8 +21,16 @@ struct PGOIndirectCallSiteVisitor
   PGOIndirectCallSiteVisitor() {}
 
   void visitCallSite(CallSite CS) {
-    if (CS.isIndirectCall())
-      IndirectCallInsts.push_back(CS.getInstruction());
+    if (CS.getCalledFunction() || !CS.getCalledValue())
+      return;
+    Instruction *I = CS.getInstruction();
+    if (CallInst *CI = dyn_cast<CallInst>(I)) {
+      if (CI->isInlineAsm())
+        return;
+    }
+    if (isa<Constant>(CS.getCalledValue()))
+      return;
+    IndirectCallInsts.push_back(I);
   }
 };
 

@@ -10,13 +10,11 @@
 #ifndef LLVM_TRANSFORMS_UTILS_GLOBALSTATUS_H
 #define LLVM_TRANSFORMS_UTILS_GLOBALSTATUS_H
 
-#include "llvm/Support/AtomicOrdering.h"
+#include "llvm/IR/Instructions.h"
 
 namespace llvm {
-
-class Constant;
-class Function;
 class Value;
+class Function;
 
 /// It is safe to destroy a constant iff it is only used by constants itself.
 /// Note that constants cannot be cyclic, so this test is pretty easy to
@@ -29,11 +27,11 @@ bool isSafeToDestroyConstant(const Constant *C);
 /// accurate.
 struct GlobalStatus {
   /// True if the global's address is used in a comparison.
-  bool IsCompared = false;
+  bool IsCompared;
 
   /// True if the global is ever loaded.  If the global isn't ever loaded it
   /// can be deleted.
-  bool IsLoaded = false;
+  bool IsLoaded;
 
   /// Keep track of what stores to the global look like.
   enum StoredType {
@@ -53,33 +51,32 @@ struct GlobalStatus {
     /// This global is stored to by multiple values or something else that we
     /// cannot track.
     Stored
-  } StoredType = NotStored;
+  } StoredType;
 
   /// If only one value (besides the initializer constant) is ever stored to
   /// this global, keep track of what value it is.
-  Value *StoredOnceValue = nullptr;
+  Value *StoredOnceValue;
 
   /// These start out null/false.  When the first accessing function is noticed,
   /// it is recorded. When a second different accessing function is noticed,
   /// HasMultipleAccessingFunctions is set to true.
-  const Function *AccessingFunction = nullptr;
-  bool HasMultipleAccessingFunctions = false;
+  const Function *AccessingFunction;
+  bool HasMultipleAccessingFunctions;
 
   /// Set to true if this global has a user that is not an instruction (e.g. a
   /// constant expr or GV initializer).
-  bool HasNonInstructionUser = false;
+  bool HasNonInstructionUser;
 
   /// Set to the strongest atomic ordering requirement.
-  AtomicOrdering Ordering = AtomicOrdering::NotAtomic;
-
-  GlobalStatus();
+  AtomicOrdering Ordering;
 
   /// Look at all uses of the global and fill in the GlobalStatus structure.  If
   /// the global has its address taken, return true to indicate we can't do
   /// anything with it.
   static bool analyzeGlobal(const Value *V, GlobalStatus &GS);
+
+  GlobalStatus();
 };
+}
 
-} // end namespace llvm
-
-#endif // LLVM_TRANSFORMS_UTILS_GLOBALSTATUS_H
+#endif

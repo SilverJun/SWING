@@ -42,7 +42,6 @@ namespace llvm {
   class Instruction;
   class DataLayout;
   class FastMathFlags;
-  class OptimizationRemarkEmitter;
   class TargetLibraryInfo;
   class Type;
   class Value;
@@ -297,8 +296,7 @@ namespace llvm {
   Value *SimplifyInstruction(Instruction *I, const DataLayout &DL,
                              const TargetLibraryInfo *TLI = nullptr,
                              const DominatorTree *DT = nullptr,
-                             AssumptionCache *AC = nullptr,
-                             OptimizationRemarkEmitter *ORE = nullptr);
+                             AssumptionCache *AC = nullptr);
 
   /// Replace all uses of 'I' with 'SimpleV' and simplify the uses recursively.
   ///

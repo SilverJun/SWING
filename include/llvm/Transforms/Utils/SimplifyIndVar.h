@@ -22,6 +22,7 @@ namespace llvm {
 
 class CastInst;
 class DominatorTree;
+class IVUsers;
 class Loop;
 class LoopInfo;
 class PHINode;
@@ -31,13 +32,13 @@ class ScalarEvolution;
 /// simplified by this utility.
 class IVVisitor {
 protected:
-  const DominatorTree *DT = nullptr;
+  const DominatorTree *DT;
 
   virtual void anchor();
 
 public:
-  IVVisitor() = default;
-  virtual ~IVVisitor() = default;
+  IVVisitor() : DT(nullptr) {}
+  virtual ~IVVisitor() {}
 
   const DominatorTree *getDomTree() const { return DT; }
   virtual void visitCast(CastInst *Cast) = 0;
@@ -54,6 +55,6 @@ bool simplifyUsersOfIV(PHINode *CurrIV, ScalarEvolution *SE, DominatorTree *DT,
 bool simplifyLoopIVs(Loop *L, ScalarEvolution *SE, DominatorTree *DT,
                      LoopInfo *LI, SmallVectorImpl<WeakVH> &Dead);
 
-} // end namespace llvm
+} // namespace llvm
 
-#endif // LLVM_TRANSFORMS_UTILS_SIMPLIFYINDVAR_H
+#endif

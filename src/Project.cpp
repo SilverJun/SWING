@@ -2,7 +2,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <algorithm>
 
 #include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
@@ -82,6 +81,11 @@ namespace swing
 
 	Project::~Project()
 	{
+	}
+
+	bool Project::isValid()
+	{
+		return true;
 	}
 
 	void Project::SetProjectName(std::string name)

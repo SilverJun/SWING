@@ -171,9 +171,6 @@ public:
                                 const GlobalValue *GV) const override;
 };
 
-void emitLinkerFlagsForGlobalCOFF(raw_ostream &OS, const GlobalValue *GV,
-                                  const Triple &TT, Mangler &Mangler);
-
 } // end namespace llvm
 
 #endif

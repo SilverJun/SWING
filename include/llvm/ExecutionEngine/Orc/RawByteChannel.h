@@ -48,11 +48,7 @@ public:
   template <typename FunctionIdT, typename SequenceIdT>
   Error startSendMessage(const FunctionIdT &FnId, const SequenceIdT &SeqNo) {
     writeLock.lock();
-    if (auto Err = serializeSeq(*this, FnId, SeqNo)) {
-      writeLock.unlock();
-      return Err;
-    }
-    return Error::success();
+    return serializeSeq(*this, FnId, SeqNo);
   }
 
   /// Notify the channel that we're ending a message send.
@@ -67,11 +63,7 @@ public:
   template <typename FunctionIdT, typename SequenceNumberT>
   Error startReceiveMessage(FunctionIdT &FnId, SequenceNumberT &SeqNo) {
     readLock.lock();
-    if (auto Err = deserializeSeq(*this, FnId, SeqNo)) {
-      readLock.unlock();
-      return Err;
-    }
-    return Error::success();
+    return deserializeSeq(*this, FnId, SeqNo);
   }
 
   /// Notify the channel that we're ending a message receive.

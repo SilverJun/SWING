@@ -123,7 +123,6 @@
 #pragma comment(lib, "../../lib/win/LLVMXCoreDisassembler.lib")
 #pragma comment(lib, "../../lib/win/LLVMXCoreInfo.lib")
 #pragma comment(lib, "../../lib/win/LLVMXRay.lib")
-#pragma comment(lib, "../../lib/win/LTO.lib")
 
 #endif
 

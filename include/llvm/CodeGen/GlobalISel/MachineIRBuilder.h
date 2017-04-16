@@ -108,9 +108,6 @@ public:
   /// Set the debug location to \p DL for all the next build instructions.
   void setDebugLoc(const DebugLoc &DL) { this->DL = DL; }
 
-  /// Get the current instruction's debug location.
-  DebugLoc getDebugLoc() { return DL; }
-
   /// Build and insert <empty> = \p Opcode <empty>.
   /// The insertion point is the one set by the last call of either
   /// setBasicBlock or setMI.
@@ -129,29 +126,6 @@ public:
 
   /// Insert an existing instruction at the insertion point.
   MachineInstrBuilder insertInstr(MachineInstrBuilder MIB);
-
-  /// Build and insert a DBG_VALUE instruction expressing the fact that the
-  /// associated \p Variable lives in \p Reg (suitably modified by \p Expr).
-  MachineInstrBuilder buildDirectDbgValue(unsigned Reg, const MDNode *Variable,
-                                          const MDNode *Expr);
-
-  /// Build and insert a DBG_VALUE instruction expressing the fact that the
-  /// associated \p Variable lives in memory at \p Reg + \p Offset (suitably
-  /// modified by \p Expr).
-  MachineInstrBuilder buildIndirectDbgValue(unsigned Reg, unsigned Offset,
-                                            const MDNode *Variable,
-                                            const MDNode *Expr);
-  /// Build and insert a DBG_VALUE instruction expressing the fact that the
-  /// associated \p Variable lives in the stack slot specified by \p FI
-  /// (suitably modified by \p Expr).
-  MachineInstrBuilder buildFIDbgValue(int FI, const MDNode *Variable,
-                                      const MDNode *Expr);
-
-  /// Build and insert a DBG_VALUE instructions specifying that \p Variable is
-  /// given by \p C (suitably modified by \p Expr).
-  MachineInstrBuilder buildConstDbgValue(const Constant &C, unsigned Offset,
-                                         const MDNode *Variable,
-                                         const MDNode *Expr);
 
   /// Build and insert \p Res<def> = G_FRAME_INDEX \p Idx
   ///
@@ -246,19 +220,6 @@ public:
   MachineInstrBuilder buildUAdde(unsigned Res, unsigned CarryOut, unsigned Op0,
                                  unsigned Op1, unsigned CarryIn);
 
-  /// Build and insert \p Res<def> = G_AND \p Op0, \p Op1
-  ///
-  /// G_AND sets \p Res to the bitwise and of integer parameters \p Op0 and \p
-  /// Op1.
-  ///
-  /// \pre setBasicBlock or setMI must have been called.
-  /// \pre \p Res, \p Op0 and \p Op1 must be generic virtual registers
-  ///      with the same (scalar or vector) type).
-  ///
-  /// \return a MachineInstrBuilder for the newly created instruction.
-  MachineInstrBuilder buildAnd(unsigned Res, unsigned Op0,
-                               unsigned Op1);
-
   /// Build and insert \p Res<def> = G_ANYEXT \p Op0
   ///
   /// G_ANYEXT produces a register of the specified width, with bits 0 to
@@ -312,16 +273,6 @@ public:
   /// \return The newly created instruction.
   MachineInstrBuilder buildSExtOrTrunc(unsigned Res, unsigned Op);
 
-  /// Build and insert \p Res<def> = G_ZEXT \p Op, \p Res = G_TRUNC \p Op, or
-  /// \p Res = COPY \p Op depending on the differing sizes of \p Res and \p Op.
-  ///  ///
-  /// \pre setBasicBlock or setMI must have been called.
-  /// \pre \p Res must be a generic virtual register with scalar or vector type.
-  /// \pre \p Op must be a generic virtual register with scalar or vector type.
-  ///
-  /// \return The newly created instruction.
-  MachineInstrBuilder buildZExtOrTrunc(unsigned Res, unsigned Op);
-
   /// Build and insert G_BR \p Dest
   ///
   /// G_BR is an unconditional branch to \p Dest.
@@ -344,16 +295,6 @@ public:
   ///
   /// \return The newly created instruction.
   MachineInstrBuilder buildBrCond(unsigned Tst, MachineBasicBlock &BB);
-
-  /// Build and insert G_BRINDIRECT \p Tgt
-  ///
-  /// G_BRINDIRECT is an indirect branch to \p Tgt.
-  ///
-  /// \pre setBasicBlock or setMI must have been called.
-  /// \pre \p Tgt must be a generic virtual register with pointer type.
-  ///
-  /// \return a MachineInstrBuilder for the newly created instruction.
-  MachineInstrBuilder buildBrIndirect(unsigned Tgt);
 
   /// Build and insert \p Res = G_CONSTANT \p Val
   ///

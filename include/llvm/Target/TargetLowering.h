@@ -1490,8 +1490,7 @@ protected:
   void computeRegisterProperties(const TargetRegisterInfo *TRI);
 
   /// Indicate that the specified operation does not work with the specified
-  /// type and indicate what to do about it. Note that VT may refer to either
-  /// the type of a result or that of an operand of Op.
+  /// type and indicate what to do about it.
   void setOperationAction(unsigned Op, MVT VT,
                           LegalizeAction Action) {
     assert(Op < array_lengthof(OpActions[0]) && "Table isn't big enough!");

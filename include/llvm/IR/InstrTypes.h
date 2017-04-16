@@ -1061,13 +1061,13 @@ public:
 
   /// @brief Determine if Pred1 implies Pred2 is true when two compares have
   /// matching operands.
-  bool isImpliedTrueByMatchingCmp(Predicate Pred2) const {
+  bool isImpliedTrueByMatchingCmp(Predicate Pred2) {
     return isImpliedTrueByMatchingCmp(getPredicate(), Pred2);
   }
 
   /// @brief Determine if Pred1 implies Pred2 is false when two compares have
   /// matching operands.
-  bool isImpliedFalseByMatchingCmp(Predicate Pred2) const {
+  bool isImpliedFalseByMatchingCmp(Predicate Pred2) {
     return isImpliedFalseByMatchingCmp(getPredicate(), Pred2);
   }
 

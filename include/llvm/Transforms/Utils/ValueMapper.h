@@ -15,9 +15,7 @@
 #ifndef LLVM_TRANSFORMS_UTILS_VALUEMAPPER_H
 #define LLVM_TRANSFORMS_UTILS_VALUEMAPPER_H
 
-#include "llvm/ADT/ArrayRef.h"
 #include "llvm/IR/ValueMap.h"
-#include "llvm/IR/ValueHandle.h"
 
 namespace llvm {
 
@@ -29,9 +27,8 @@ typedef ValueMap<const Value *, WeakVH> ValueToValueMapTy;
 /// cloning constants and instructions.
 class ValueMapTypeRemapper {
   virtual void anchor(); // Out of line method.
-
 public:
-  virtual ~ValueMapTypeRemapper() = default;
+  virtual ~ValueMapTypeRemapper() {}
 
   /// The client should implement this method if they want to remap types while
   /// mapping values.
@@ -95,6 +92,8 @@ static inline RemapFlags operator|(RemapFlags LHS, RemapFlags RHS) {
   return RemapFlags(unsigned(LHS) | unsigned(RHS));
 }
 
+class ValueMapperImpl;
+
 /// Context for (re-)mapping values (and metadata).
 ///
 /// A shared context used for mapping and remapping of Value and Metadata
@@ -134,14 +133,15 @@ static inline RemapFlags operator|(RemapFlags LHS, RemapFlags RHS) {
 class ValueMapper {
   void *pImpl;
 
-public:
-  ValueMapper(ValueToValueMapTy &VM, RemapFlags Flags = RF_None,
-              ValueMapTypeRemapper *TypeMapper = nullptr,
-              ValueMaterializer *Materializer = nullptr);
   ValueMapper(ValueMapper &&) = delete;
   ValueMapper(const ValueMapper &) = delete;
   ValueMapper &operator=(ValueMapper &&) = delete;
   ValueMapper &operator=(const ValueMapper &) = delete;
+
+public:
+  ValueMapper(ValueToValueMapTy &VM, RemapFlags Flags = RF_None,
+              ValueMapTypeRemapper *TypeMapper = nullptr,
+              ValueMaterializer *Materializer = nullptr);
   ~ValueMapper();
 
   /// Register an alternate mapping context.
@@ -268,6 +268,6 @@ inline Constant *MapValue(const Constant *V, ValueToValueMapTy &VM,
   return ValueMapper(VM, Flags, TypeMapper, Materializer).mapConstant(*V);
 }
 
-} // end namespace llvm
+} // End llvm namespace
 
-#endif // LLVM_TRANSFORMS_UTILS_VALUEMAPPER_H
+#endif

@@ -1,4 +1,4 @@
-//===- Transforms/InstrProfiling.h - Instrumentation passes -----*- C++ -*-===//
+//===- Transforms/InstrProfiling.h - Instrumentation passes ---*- C++ -*-===//
 //
 //                     The LLVM Compiler Infrastructure
 //
@@ -14,16 +14,10 @@
 #ifndef LLVM_TRANSFORMS_INSTRPROFILING_H
 #define LLVM_TRANSFORMS_INSTRPROFILING_H
 
-#include "llvm/ADT/DenseMap.h"
-#include "llvm/ADT/StringRef.h"
 #include "llvm/IR/IntrinsicInst.h"
 #include "llvm/IR/PassManager.h"
 #include "llvm/ProfileData/InstrProf.h"
 #include "llvm/Transforms/Instrumentation.h"
-#include <cstddef>
-#include <cstdint>
-#include <cstring>
-#include <vector>
 
 namespace llvm {
 
@@ -34,7 +28,7 @@ class TargetLibraryInfo;
 /// instrumentation pass.
 class InstrProfiling : public PassInfoMixin<InstrProfiling> {
 public:
-  InstrProfiling() = default;
+  InstrProfiling() {}
   InstrProfiling(const InstrProfOptions &Options) : Options(Options) {}
 
   PreservedAnalyses run(Module &M, ModuleAnalysisManager &AM);
@@ -46,10 +40,9 @@ private:
   const TargetLibraryInfo *TLI;
   struct PerFunctionProfileData {
     uint32_t NumValueSites[IPVK_Last + 1];
-    GlobalVariable *RegionCounters = nullptr;
-    GlobalVariable *DataVar = nullptr;
-
-    PerFunctionProfileData() {
+    GlobalVariable *RegionCounters;
+    GlobalVariable *DataVar;
+    PerFunctionProfileData() : RegionCounters(nullptr), DataVar(nullptr) {
       memset(NumValueSites, 0, sizeof(uint32_t) * (IPVK_Last + 1));
     }
   };
@@ -111,6 +104,5 @@ private:
   void emitInitialization();
 };
 
-} // end namespace llvm
-
-#endif // LLVM_TRANSFORMS_INSTRPROFILING_H
+} // End llvm namespace
+#endif

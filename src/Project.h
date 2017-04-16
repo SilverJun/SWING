@@ -24,6 +24,8 @@ namespace swing
 		Project(std::string projFile);		/// Load project from 
 		~Project();
 
+		bool isValid();
+
 		void SetProjectName(std::string name);
 		void SetProjectPath(std::string path);
 		

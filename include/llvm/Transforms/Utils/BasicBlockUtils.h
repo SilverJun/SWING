@@ -78,13 +78,14 @@ void ReplaceInstWithInst(Instruction *From, Instruction *To);
 struct CriticalEdgeSplittingOptions {
   DominatorTree *DT;
   LoopInfo *LI;
-  bool MergeIdenticalEdges = false;
-  bool DontDeleteUselessPHIs = false;
-  bool PreserveLCSSA = false;
+  bool MergeIdenticalEdges;
+  bool DontDeleteUselessPHIs;
+  bool PreserveLCSSA;
 
   CriticalEdgeSplittingOptions(DominatorTree *DT = nullptr,
                                LoopInfo *LI = nullptr)
-      : DT(DT), LI(LI) {}
+      : DT(DT), LI(LI), MergeIdenticalEdges(false),
+        DontDeleteUselessPHIs(false), PreserveLCSSA(false) {}
 
   CriticalEdgeSplittingOptions &setMergeIdenticalEdges() {
     MergeIdenticalEdges = true;

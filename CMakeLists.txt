@@ -8,8 +8,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/src/AST)
 
+#file(GLOB_RECURSE FILESYSTEM "${PROJECT_SOURCE_DIR}/lib/filesystem/*.cpp" "${PROJECT_SOURCE_DIR}/lib/filesystem/*.hpp")
+
+#add_library(filesystem STATIC ${FILESYSTEM})
+#install(TARGETS filesystem DESTINATION lib/filesystem)
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
-
 file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/src/*.cpp" "${PROJECT_SOURCE_DIR}/src/*.h")
-
 add_executable(swing ${SOURCES})

@@ -36,24 +36,18 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/PassManager.h"
 #include <list>
-#include <memory>
-#include <string>
 
 namespace llvm {
-
 class MemoryBuffer;
 
 namespace yaml {
-
 class KeyValueNode;
 class MappingNode;
 class ScalarNode;
 class Stream;
-
-} // end namespace yaml
+}
 
 namespace SymbolRewriter {
-
 /// The basic entity representing a rewrite operation.  It serves as the base
 /// class for any rewrite descriptor.  It has a certain set of specializations
 /// which describe a particular rewrite.
@@ -66,6 +60,11 @@ namespace SymbolRewriter {
 /// select the symbols to rewrite.  This descriptor list is passed to the
 /// SymbolRewriter pass.
 class RewriteDescriptor {
+  RewriteDescriptor(const RewriteDescriptor &) = delete;
+
+  const RewriteDescriptor &
+  operator=(const RewriteDescriptor &) = delete;
+
 public:
   enum class Type {
     Invalid,        /// invalid
@@ -74,9 +73,7 @@ public:
     NamedAlias,     /// named alias - descriptor rewrites a global alias
   };
 
-  RewriteDescriptor(const RewriteDescriptor &) = delete;
-  RewriteDescriptor &operator=(const RewriteDescriptor &) = delete;
-  virtual ~RewriteDescriptor() = default;
+  virtual ~RewriteDescriptor() {}
 
   Type getType() const { return Kind; }
 
@@ -111,8 +108,7 @@ private:
                                          yaml::MappingNode *V,
                                          RewriteDescriptorList *DL);
 };
-
-} // end namespace SymbolRewriter
+}
 
 ModulePass *createRewriteSymbolsPass();
 ModulePass *createRewriteSymbolsPass(SymbolRewriter::RewriteDescriptorList &);
@@ -134,7 +130,6 @@ private:
 
   SymbolRewriter::RewriteDescriptorList Descriptors;  
 };
-
-} // end namespace llvm
+}
 
 #endif //LLVM_TRANSFORMS_UTILS_SYMBOLREWRITER_H

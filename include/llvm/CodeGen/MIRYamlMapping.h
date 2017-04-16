@@ -55,7 +55,7 @@ template <> struct ScalarTraits<StringValue> {
 
 struct FlowStringValue : StringValue {
   FlowStringValue() {}
-  FlowStringValue(std::string Value) : StringValue(std::move(Value)) {}
+  FlowStringValue(std::string Value) : StringValue(Value) {}
 };
 
 template <> struct ScalarTraits<FlowStringValue> {

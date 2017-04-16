@@ -32,7 +32,7 @@ class FunctionImportGlobalProcessing {
 
   /// Globals to import from this module, all other functions will be
   /// imported as declarations instead of definitions.
-  SetVector<GlobalValue *> *GlobalsToImport;
+  DenseSet<const GlobalValue *> *GlobalsToImport;
 
   /// Set to true if the given ModuleSummaryIndex contains any functions
   /// from this source module, in which case we must conservatively assume
@@ -85,7 +85,7 @@ class FunctionImportGlobalProcessing {
 public:
   FunctionImportGlobalProcessing(
       Module &M, const ModuleSummaryIndex &Index,
-      SetVector<GlobalValue *> *GlobalsToImport = nullptr)
+      DenseSet<const GlobalValue *> *GlobalsToImport = nullptr)
       : M(M), ImportIndex(Index), GlobalsToImport(GlobalsToImport) {
     // If we have a ModuleSummaryIndex but no function to import,
     // then this is the primary module being compiled in a ThinLTO
@@ -104,15 +104,16 @@ public:
 
   bool run();
 
-  static bool doImportAsDefinition(const GlobalValue *SGV,
-                                   SetVector<GlobalValue *> *GlobalsToImport);
+  static bool
+  doImportAsDefinition(const GlobalValue *SGV,
+                       DenseSet<const GlobalValue *> *GlobalsToImport);
 };
 
 /// Perform in-place global value handling on the given Module for
 /// exported local functions renamed and promoted for ThinLTO.
 bool renameModuleForThinLTO(
     Module &M, const ModuleSummaryIndex &Index,
-    SetVector<GlobalValue *> *GlobalsToImport = nullptr);
+    DenseSet<const GlobalValue *> *GlobalsToImport = nullptr);
 
 } // End llvm namespace
 

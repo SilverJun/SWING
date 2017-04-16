@@ -1,4 +1,4 @@
-//===- llvm/Transforms/Utils/LoopUtils.h - Loop utilities -------*- C++ -*-===//
+//===- llvm/Transforms/Utils/LoopUtils.h - Loop utilities -*- C++ -*-=========//
 //
 //                     The LLVM Compiler Infrastructure
 //
@@ -14,29 +14,23 @@
 #ifndef LLVM_TRANSFORMS_UTILS_LOOPUTILS_H
 #define LLVM_TRANSFORMS_UTILS_LOOPUTILS_H
 
-#include "llvm/ADT/DenseMap.h"
-#include "llvm/ADT/Optional.h"
-#include "llvm/ADT/SmallPtrSet.h"
 #include "llvm/ADT/SmallVector.h"
-#include "llvm/ADT/StringRef.h"
 #include "llvm/Analysis/AliasAnalysis.h"
 #include "llvm/Analysis/EHPersonalities.h"
 #include "llvm/IR/Dominators.h"
 #include "llvm/IR/IRBuilder.h"
-#include "llvm/IR/InstrTypes.h"
-#include "llvm/IR/Operator.h"
-#include "llvm/IR/ValueHandle.h"
-#include "llvm/Support/Casting.h"
 
 namespace llvm {
-
 class AliasSet;
 class AliasSetTracker;
+class AssumptionCache;
 class BasicBlock;
 class DataLayout;
+class DominatorTree;
 class Loop;
 class LoopInfo;
 class OptimizationRemarkEmitter;
+class Pass;
 class PredicatedScalarEvolution;
 class PredIteratorCache;
 class ScalarEvolution;
@@ -46,13 +40,12 @@ class TargetLibraryInfo;
 /// \brief Captures loop safety information.
 /// It keep information for loop & its header may throw exception.
 struct LoopSafetyInfo {
-  bool MayThrow = false;       // The current loop contains an instruction which
-                               // may throw.
-  bool HeaderMayThrow = false; // Same as previous, but specific to loop header
+  bool MayThrow;       // The current loop contains an instruction which
+                       // may throw.
+  bool HeaderMayThrow; // Same as previous, but specific to loop header
   // Used to update funclet bundle operands.
   DenseMap<BasicBlock *, ColorVector> BlockColors;
-
-  LoopSafetyInfo() = default;
+  LoopSafetyInfo() : MayThrow(false), HeaderMayThrow(false) {}
 };
 
 /// The RecurrenceDescriptor is used to identify recurrences variables in a
@@ -68,6 +61,7 @@ struct LoopSafetyInfo {
 
 /// This struct holds information about recurrence variables.
 class RecurrenceDescriptor {
+
 public:
   /// This enum represents the kinds of recurrences that we support.
   enum RecurrenceKind {
@@ -94,7 +88,10 @@ public:
     MRK_FloatMax
   };
 
-  RecurrenceDescriptor() = default;
+  RecurrenceDescriptor()
+      : StartValue(nullptr), LoopExitInstr(nullptr), Kind(RK_NoRecurrence),
+        MinMaxKind(MRK_Invalid), UnsafeAlgebraInst(nullptr),
+        RecurrenceType(nullptr), IsSigned(false) {}
 
   RecurrenceDescriptor(Value *Start, Instruction *Exit, RecurrenceKind K,
                        MinMaxRecurrenceKind MK, Instruction *UAI, Type *RT,
@@ -106,6 +103,7 @@ public:
 
   /// This POD struct holds information about a potential recurrence operation.
   class InstDesc {
+
   public:
     InstDesc(bool IsRecur, Instruction *I, Instruction *UAI = nullptr)
         : IsRecurrence(IsRecur), PatternLastInst(I), MinMaxKind(MRK_Invalid),
@@ -244,17 +242,17 @@ private:
   // It does not have to be zero!
   TrackingVH<Value> StartValue;
   // The instruction who's value is used outside the loop.
-  Instruction *LoopExitInstr = nullptr;
+  Instruction *LoopExitInstr;
   // The kind of the recurrence.
-  RecurrenceKind Kind = RK_NoRecurrence;
+  RecurrenceKind Kind;
   // If this a min/max recurrence the kind of recurrence.
-  MinMaxRecurrenceKind MinMaxKind = MRK_Invalid;
+  MinMaxRecurrenceKind MinMaxKind;
   // First occurrence of unasfe algebra in the PHI's use-chain.
-  Instruction *UnsafeAlgebraInst = nullptr;
+  Instruction *UnsafeAlgebraInst;
   // The type of the recurrence.
-  Type *RecurrenceType = nullptr;
+  Type *RecurrenceType;
   // True if all source operands of the recurrence are SExtInsts.
-  bool IsSigned = false;
+  bool IsSigned;
   // Instructions used for type-promoting the recurrence.
   SmallPtrSet<Instruction *, 8> CastInsts;
 };
@@ -272,7 +270,9 @@ public:
 
 public:
   /// Default constructor - creates an invalid induction.
-  InductionDescriptor() = default;
+  InductionDescriptor()
+    : StartValue(nullptr), IK(IK_NoInduction), Step(nullptr),
+    InductionBinOp(nullptr) {}
 
   /// Get the consecutive direction. Returns:
   ///   0 - unknown or non-consecutive.
@@ -350,11 +350,11 @@ private:
   /// Start value.
   TrackingVH<Value> StartValue;
   /// Induction kind.
-  InductionKind IK = IK_NoInduction;
+  InductionKind IK;
   /// Step value.
-  const SCEV *Step = nullptr;
+  const SCEV *Step;
   // Instruction that advances induction variable.
-  BinaryOperator *InductionBinOp = nullptr;
+  BinaryOperator *InductionBinOp;
 };
 
 BasicBlock *InsertPreheaderForLoop(Loop *L, DominatorTree *DT, LoopInfo *LI,
@@ -488,7 +488,6 @@ bool canSinkOrHoistInst(Instruction &I, AAResults *AA, DominatorTree *DT,
                         Loop *CurLoop, AliasSetTracker *CurAST,
                         LoopSafetyInfo *SafetyInfo,
                         OptimizationRemarkEmitter *ORE = nullptr);
+}
 
-} // end namespace llvm
-
-#endif // LLVM_TRANSFORMS_UTILS_LOOPUTILS_H
+#endif

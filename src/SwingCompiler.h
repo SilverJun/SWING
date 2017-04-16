@@ -14,6 +14,8 @@
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/Module.h"
+#include <unordered_map>
+#include "Project.h"
 
 
 namespace swing
@@ -23,25 +25,26 @@ namespace swing
 		static std::unique_ptr<SwingCompiler> _instance;
 		static std::once_flag _InitInstance;
 
-		std::vector<Keyword> _keywordList;
-		std::vector<Keyword> _operatorList;
-		std::list<TokenList> _tokenLists;
-		std::vector<Type> _types;
-
-		Lexer* _lexer;
-
-		//ProjectManager
-
-		llvm::LLVMContext _llvmContext;
-		llvm::Module _module;
-		llvm::IRBuilder<> _builder;
-
 		SwingCompiler();
 
 		SwingCompiler(const SwingCompiler& src) = delete;
 		SwingCompiler& operator=(const SwingCompiler& rhs) = delete;
 
 	public:
+		Lexer* _lexer = nullptr;
+		Project* _project = nullptr;
+
+		llvm::LLVMContext _llvmContext;
+		llvm::Module _module;
+		llvm::IRBuilder<> _builder;
+
+		std::vector<Keyword> _keywordList;
+		std::vector<Keyword> _operatorList;
+		std::list<TokenList> _tokenLists;
+
+		std::unordered_map<std::string, llvm::Type*> _types;
+		std::unordered_map<std::string, llvm::Value*> _symbolTable;
+
 		static SwingCompiler& GetInstance()
 		{
 			std::call_once(_InitInstance, []()
@@ -51,31 +54,16 @@ namespace swing
 
 			return *_instance.get();
 		}
-
-		llvm::LLVMContext& GetLLVMContext()
-		{
-			return _llvmContext;
-		}
-		llvm::Module& GetModule()
-		{
-			return _module;
-		}
-		llvm::IRBuilder<>& GetBuilder()
-		{
-			return _builder;
-		}
-		//void SetProject(Project* project);
-		void CompileProject();
-		void CompileFile(std::string file);
-
-		std::list<TokenList>* getTokenLists()
-		{
-			return &_tokenLists;
-		}
 		~SwingCompiler()
 		{
 			delete _lexer;
 		}
+
+		void SetProject(Project* project);
+		void CompileProject();
+		void CompileFile(std::string file);
+
+		std::string GenerateNameMangling(llvm::Function* func);
 	};
 
 }

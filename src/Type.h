@@ -2,23 +2,29 @@
 #define _SWING_TYPE_H_
 
 #include <string>
+#include <unordered_map>
 #include <llvm/IR/Type.h>
 #include <llvm/IR/Function.h>
+#include "SwingCompiler.h"
 
 namespace swing
 {
-	class Type
+	enum class TypeKind
 	{
-	protected:
-		std::string _typeName;
-		llvm::Type* _typeInfo;
-
-	public:
-		Type() : _typeName(""), _typeInfo() {}
-		Type(std::string name, llvm::Type* type) : _typeName(name), _typeInfo(type) {}
-		virtual ~Type(){}
+		Unknown,
+		Void,
+		Int,
+		Double,
+		String,
+		Array,
+		Dictionary,
+		Tuple,
+		Struct,
+		Class,
+		Enum,
+		Protocol,
+		UserDefined
 	};
-
 	enum class AccessModifier
 	{
 		Private,
@@ -26,12 +32,11 @@ namespace swing
 		Public
 	};
 
-	class Struct : Type
+	class Struct
 	{
 	protected:
-		std::vector<llvm::Type*> _mVal;
-		std::vector<llvm::Function*> _mMethod;
-
+		std::vector<llvm::Value*> _value;
+		std::vector<llvm::Function*> _method;
 		/// Todo : AccessModifier 적용하기.
 
 	public:
@@ -39,10 +44,10 @@ namespace swing
 		virtual ~Struct(){}
 	};
 
-	class Int : Struct
+	class String : Struct
 	{
-	public:
-		Int();
+		String(std::string& str);
+		virtual ~String() {}
 	};
 }
 

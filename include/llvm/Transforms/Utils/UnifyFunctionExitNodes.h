@@ -19,18 +19,16 @@
 #define LLVM_TRANSFORMS_UTILS_UNIFYFUNCTIONEXITNODES_H
 
 #include "llvm/Pass.h"
-#include "llvm/PassRegistry.h"
 
 namespace llvm {
 
 struct UnifyFunctionExitNodes : public FunctionPass {
-  BasicBlock *ReturnBlock = nullptr;
-  BasicBlock *UnwindBlock = nullptr;
-  BasicBlock *UnreachableBlock;
+  BasicBlock *ReturnBlock, *UnwindBlock, *UnreachableBlock;
 
 public:
   static char ID; // Pass identification, replacement for typeid
-  UnifyFunctionExitNodes() : FunctionPass(ID) {
+  UnifyFunctionExitNodes() : FunctionPass(ID),
+                             ReturnBlock(nullptr), UnwindBlock(nullptr) {
     initializeUnifyFunctionExitNodesPass(*PassRegistry::getPassRegistry());
   }
 
@@ -49,6 +47,6 @@ public:
 
 Pass *createUnifyFunctionExitNodesPass();
 
-} // end namespace llvm
+} // End llvm namespace
 
-#endif // LLVM_TRANSFORMS_UTILS_UNIFYFUNCTIONEXITNODES_H
+#endif

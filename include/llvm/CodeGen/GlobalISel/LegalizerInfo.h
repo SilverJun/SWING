@@ -144,7 +144,7 @@ public:
   /// Iterate the given function (typically something like doubling the width)
   /// on Ty until we find a legal type for this operation.
   LLT findLegalType(const InstrAspect &Aspect,
-                    function_ref<LLT(LLT)> NextType) const {
+                    std::function<LLT(LLT)> NextType) const {
     LegalizeAction Action;
     const TypeMap &Map = Actions[Aspect.Opcode - FirstOp][Aspect.Idx];
     LLT Ty = Aspect.Type;

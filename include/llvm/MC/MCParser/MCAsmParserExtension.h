@@ -85,7 +85,7 @@ public:
     return getParser().parseToken(T, Msg);
   }
 
-  bool parseMany(function_ref<bool()> parseOne, bool hasComma = true) {
+  bool parseMany(std::function<bool()> parseOne, bool hasComma = true) {
     return getParser().parseMany(parseOne, hasComma);
   }
 

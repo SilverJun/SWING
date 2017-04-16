@@ -5,13 +5,18 @@
 namespace swing
 {
 	Struct::Struct(std::string name, std::vector<llvm::Type*> val, std::vector<llvm::Function*> method) :
-		Type(name, llvm::StructType::create(g_SwingCompiler.GetLLVMContext(), _mVal, name)),
-		_mVal(val),
-		_mMethod(method)
+		_value(),
+		_method(method)
 	{
+
 	}
 
-	Int::Int() : Struct("Int", { llvm::Type::getInt8Ty(g_SwingCompiler.GetLLVMContext()) }, {})
+	String::String(std::string& str) : Struct("String", 
+	{ llvm::VectorType::get(g_SwingCompiler._types["Char"], str.length()) },
 	{
+		llvm::Function::Create(llvm::FunctionType::get(g_SwingCompiler._types["Int"], false), llvm::GlobalValue::ExternalLinkage, "length", &g_SwingCompiler._module)
+	})
+	{
+		
 	}
 }

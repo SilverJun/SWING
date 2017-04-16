@@ -1070,6 +1070,15 @@ public:
     llvm_unreachable("target did not implement shouldClusterMemOps()");
   }
 
+  /// Can this target fuse the given instructions if they are scheduled
+  /// adjacent. Note that you have to add:
+  ///   DAG.addMutation(createMacroFusionDAGMutation());
+  /// to TargetPassConfig::createMachineScheduler() to have an effect.
+  virtual bool shouldScheduleAdjacent(const MachineInstr &First,
+                                      const MachineInstr &Second) const {
+    llvm_unreachable("target did not implement shouldScheduleAdjacent()");
+  }
+
   /// Reverses the branch condition of the specified condition list,
   /// returning false on success and true if it cannot be reversed.
   virtual
@@ -1098,25 +1107,6 @@ public:
   /// Returns true if the instruction is a
   /// terminator instruction that has not been predicated.
   virtual bool isUnpredicatedTerminator(const MachineInstr &MI) const;
-
-  /// Returns true if MI is an unconditional tail call.
-  virtual bool isUnconditionalTailCall(const MachineInstr &MI) const {
-    return false;
-  }
-
-  /// Returns true if the tail call can be made conditional on BranchCond.
-  virtual bool
-  canMakeTailCallConditional(SmallVectorImpl<MachineOperand> &Cond,
-                             const MachineInstr &TailCall) const {
-    return false;
-  }
-
-  /// Replace the conditional branch in MBB with a conditional tail call.
-  virtual void replaceBranchWithTailCall(MachineBasicBlock &MBB,
-                                         SmallVectorImpl<MachineOperand> &Cond,
-                                         const MachineInstr &TailCall) const {
-    llvm_unreachable("Target didn't implement replaceBranchWithTailCall!");
-  }
 
   /// Convert the instruction into a predicated instruction.
   /// It returns true if the operation was successful.
@@ -1498,13 +1488,6 @@ public:
 
   /// Determines whether |Inst| is a tail call instruction.
   virtual bool isTailCall(const MachineInstr &Inst) const {
-    return false;
-  }
-
-  /// True if the instruction is bound to the top of its basic block and no
-  /// other instructions shall be inserted before it. This can be implemented
-  /// to prevent register allocator to insert spills before such instructions.
-  virtual bool isBasicBlockPrologue(const MachineInstr &MI) const {
     return false;
   }
 

@@ -31,7 +31,6 @@ template <typename T> class ArrayRef;
   class Instruction;
   class Loop;
   class LoopInfo;
-  class OptimizationRemarkEmitter;
   class MDNode;
   class StringRef;
   class TargetLibraryInfo;
@@ -53,8 +52,7 @@ template <typename T> class ArrayRef;
                         const DataLayout &DL, unsigned Depth = 0,
                         AssumptionCache *AC = nullptr,
                         const Instruction *CxtI = nullptr,
-                        const DominatorTree *DT = nullptr,
-                        OptimizationRemarkEmitter *ORE = nullptr);
+                        const DominatorTree *DT = nullptr);
   /// Compute known bits from the range metadata.
   /// \p KnownZero the set of bits that are known to be zero
   /// \p KnownOne the set of bits that are known to be one
@@ -169,25 +167,13 @@ template <typename T> class ArrayRef;
   bool CannotBeNegativeZero(const Value *V, const TargetLibraryInfo *TLI,
                             unsigned Depth = 0);
 
-  /// Return true if we can prove that the specified FP value is either NaN or
-  /// never less than -0.0.
-  ///
-  ///      NaN --> true
-  ///       +0 --> true
-  ///       -0 --> true
-  ///   x > +0 --> true
-  ///   x < -0 --> false
-  ///
+  /// Return true if we can prove that the specified FP value is either a NaN or
+  /// never less than 0.0.
+  /// If \p IncludeNeg0 is false, -0.0 is considered less than 0.0.
   bool CannotBeOrderedLessThanZero(const Value *V, const TargetLibraryInfo *TLI);
 
-  /// Return true if we can prove that the specified FP value's sign bit is 0.
-  ///
-  ///      NaN --> true/false (depending on the NaN's sign bit)
-  ///       +0 --> true
-  ///       -0 --> false
-  ///   x > +0 --> true
-  ///   x < -0 --> false
-  ///
+  /// \returns true if we can prove that the specified FP value has a 0 sign
+  /// bit.
   bool SignBitMustBeZero(const Value *V, const TargetLibraryInfo *TLI);
 
   /// If the specified value can be set by repeating the same byte in memory,

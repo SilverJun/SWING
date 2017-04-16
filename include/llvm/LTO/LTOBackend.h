@@ -34,11 +34,10 @@ class Target;
 
 namespace lto {
 
-/// Runs a regular LTO backend. The regular LTO backend can also act as the
-/// regular LTO phase of ThinLTO, which may need to access the combined index.
+/// Runs a regular LTO backend.
 Error backend(Config &C, AddStreamFn AddStream,
               unsigned ParallelCodeGenParallelismLevel,
-              std::unique_ptr<Module> M, ModuleSummaryIndex &CombinedIndex);
+              std::unique_ptr<Module> M);
 
 /// Runs a ThinLTO backend.
 Error thinBackend(Config &C, unsigned Task, AddStreamFn AddStream, Module &M,

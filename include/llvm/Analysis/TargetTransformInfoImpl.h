@@ -171,10 +171,6 @@ public:
 
   bool isSourceOfDivergence(const Value *V) { return false; }
 
-  unsigned getFlatAddressSpace () {
-    return -1;
-  }
-
   bool isLoweredToCall(const Function *F) {
     // FIXME: These should almost certainly not be handled here, and instead
     // handled with the help of TLI or the target itself. This was largely
@@ -254,13 +250,6 @@ public:
 
   bool shouldBuildLookupTables() { return true; }
   bool shouldBuildLookupTablesForConstant(Constant *C) { return true; }
-
-  unsigned getScalarizationOverhead(Type *Ty, bool Insert, bool Extract) {
-    return 0;
-  }
-
-  unsigned getOperandsScalarizationOverhead(ArrayRef<const Value *> Args,
-                                            unsigned VF) { return 0; }
 
   bool enableAggressiveInterleaving(bool LoopHasReductions) { return false; }
 

@@ -12,7 +12,7 @@
 
 #include "llvm/Config/llvm-config.h"
 #include "llvm/DebugInfo/CodeView/CodeView.h"
-#include "llvm/DebugInfo/PDB/Native/RawTypes.h"
+#include "llvm/DebugInfo/PDB/Raw/RawTypes.h"
 #include <cstdint>
 #include <cstring>
 #include <functional>
@@ -68,10 +68,10 @@ class PDBSymbolTypeDimension;
 class PDBSymbolUnknown;
 
 /// Specifies which PDB reader implementation is to be used.  Only a value
-/// of PDB_ReaderType::DIA is currently supported, but Native is in the works.
+/// of PDB_ReaderType::DIA is supported.
 enum class PDB_ReaderType {
   DIA = 0,
-  Native = 1,
+  Raw = 1,
 };
 
 /// An enumeration indicating the type of data contained in this table.

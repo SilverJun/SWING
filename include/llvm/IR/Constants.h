@@ -138,7 +138,7 @@ public:
   static Constant *get(Type* Ty, const APInt& V);
 
   /// Return the constant as an APInt value reference. This allows clients to
-  /// obtain a full-precision copy of the value.
+  /// obtain a copy of the value, with all its precision in tact.
   /// @brief Return the constant's value.
   inline const APInt &getValue() const {
     return Val;
