@@ -6,9 +6,24 @@
 #include <llvm/IR/Type.h>
 #include <llvm/IR/Function.h>
 #include "SwingCompiler.h"
+#include "StoreProperty.h"
 
 namespace swing
 {
+	const std::unordered_map<std::string, llvm::Type*> BuiltinType = {
+		{ "Void", llvm::Type::getVoidTy(g_Context) },
+		{ "Bool", llvm::Type::getInt8Ty(g_Context) },
+		{ "Char", llvm::Type::getInt8Ty(g_Context) },
+		{ "Int", llvm::Type::getInt32Ty(g_Context) },
+		{ "Int8", llvm::Type::getInt64Ty(g_Context) },
+		{ "UInt", llvm::Type::getInt32Ty(g_Context) },
+		{ "UInt8", llvm::Type::getInt64Ty(g_Context) },
+		{ "Float", llvm::Type::getFloatTy(g_Context) },
+		{ "Double", llvm::Type::getDoubleTy(g_Context) }
+	};
+
+
+
 	enum class TypeKind
 	{
 		Unknown,
@@ -26,19 +41,13 @@ namespace swing
 		UserDefined
 	};
 
-	enum class AccessModifier
-	{
-		Private,
-		Inherit,
-		Public
-	};
+	
 
 	class Struct
 	{
 	protected:
-		std::vector<llvm::Value*> _value;
+		std::vector<StoreProperty> _value;
 		std::unordered_map<std::string, llvm::Function*> _method;
-		/// Todo : AccessModifier 적용하기.
 
 	public:
 		Struct(std::string name, std::vector<llvm::Type*> val, std::unordered_map<std::string, llvm::Function*> method);
@@ -47,10 +56,11 @@ namespace swing
 
 	class String : Struct
 	{
+		std::string _str;
+
+	public:
 		String(std::string& str);
 		virtual ~String() {}
-
-		std::string _str;
 	};
 }
 
