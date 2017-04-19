@@ -1,11 +1,12 @@
 ﻿#ifndef _SWING_TYPE_H_
 #define _SWING_TYPE_H_
 
+#include "SwingCompiler.h"
+
 #include <string>
 #include <unordered_map>
 #include <llvm/IR/Type.h>
 #include <llvm/IR/Function.h>
-#include "SwingCompiler.h"
 #include "StoreProperty.h"
 
 namespace swing

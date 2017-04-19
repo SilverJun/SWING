@@ -8,8 +8,6 @@
 #include "Operator.h"
 #include "Token.h"
 
-#include "Type.h"
-
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/LegacyPassManager.h"

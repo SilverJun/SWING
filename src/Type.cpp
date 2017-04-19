@@ -26,7 +26,7 @@ namespace swing
 		g_Builder.SetInsertPoint(funcBody);
 		g_Builder.CreateRet(llvm::ConstantInt::get(g_Context, llvm::APInt(32, _str.length(), true)));
 		llvm::raw_os_ostream ros(std::cout);
-		std::for_each(_method.begin(), _method.end(), [&ros](std::unordered_map<std::string, llvm::Function*>::iterator& method) { verifyFunction(*method->second, &ros); });
+		std::for_each(_method.begin(), _method.end(), [&ros](std::pair<std::string, llvm::Function*> method) { verifyFunction(*method.second, &ros); });
 		///
 
 	}

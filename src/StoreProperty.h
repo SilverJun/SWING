@@ -1,11 +1,13 @@
 ﻿#ifndef _SWING_STORE_PROPERTY_H_
 #define _SWING_STORE_PROPERTY_H_
 
+#include "SwingCompiler.h"
+
 #include <llvm/IR/Value.h>
+#include "Variable.h"
 
 namespace swing
 {
-
 	enum class AccessModifier
 	{
 		Private,
@@ -13,10 +15,31 @@ namespace swing
 		Public
 	};
 
+	inline std::string AccessModifierToString(AccessModifier access)
+	{
+		switch (access)
+		{
+		case AccessModifier::Private:
+			return "Private";
+		case AccessModifier::Inherit:
+			return "Inherit";
+		case AccessModifier::Public:
+			return "Public";
+		default:
+			return "Error";
+		}
+	}
+
 	class StoreProperty
 	{
 		AccessModifier _access;
-		llvm::Value* _value;
+		Variable _var;
+
+		llvm::Function* _setter = nullptr;
+		llvm::Function* _getter = nullptr;
+
+		llvm::Function* _willSet = nullptr;
+		llvm::Function* _didSet = nullptr;
 
 		bool canAccess(AccessModifier auth)
 		{
@@ -37,17 +60,15 @@ namespace swing
 		}
 
 	public:
-		StoreProperty(AccessModifier access, llvm::Value* value) : _access(access), _value(value) {}
+		StoreProperty(AccessModifier access, Variable var) : _access(access), _var(var) {}
 
 		llvm::Value* GetValue(AccessModifier auth)
 		{
-			assert(auth == _access && "StoreProperty Access Denied.");
+			if (!canAccess(auth)) { throw Error(0, this->_var.GetString() + "  Access Denied, Can`t access auth with " + AccessModifierToString(auth)); }
 
-			return nullptr;
+			return _getter == nullptr ? g_Builder.CreateCall(_getter) : _var.GetValue();
 		}
-
-
 	};
-
 }
 #endif
+
