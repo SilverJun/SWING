@@ -6,6 +6,9 @@
 
 namespace swing
 {
+	/**
+	 * \brief SWING basic variable implement class.
+	 */
 	class Variable
 	{
 		bool _isOptional;
@@ -13,7 +16,7 @@ namespace swing
 
 		bool _isLet;
 		std::string _name;
-		llvm::Value* _value;
+		std::unique_ptr<llvm::Value> _value;
 	public:
 		Variable() = delete;
 		
@@ -28,9 +31,8 @@ namespace swing
 		_isLet(false), 
 		_name(name)
 		{
-			_value = llvm::Constant::getNullValue(type);
+			_value.reset(llvm::Constant::getNullValue(type));
 		}
-
 
 		explicit Variable(llvm::Value* value, std::string name, bool let, bool optional = false, bool nil = false) :  
 		_isOptional(optional),
@@ -42,12 +44,14 @@ namespace swing
 		}
 
 		~Variable() {}
-		
+
+		void SetValue(llvm::Value* value) { _value.reset(value); }
+
 		bool IsOptional() const { return _isOptional; }
 		bool IsNil() const { return _isNil; }
 		bool isLet() const { return _isLet; }
 		std::string GetString() const { return _name; }
-		llvm::Value* GetValue() { return _value; }
+		llvm::Value* GetValue() const { return _value.get(); }
 	};
 }
 

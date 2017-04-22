@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <llvm/IR/Type.h>
 #include <llvm/IR/Function.h>
-#include "StoreProperty.h"
+#include "StoredProperty.h"
 
 namespace swing
 {
@@ -23,35 +23,16 @@ namespace swing
 		{ "Double", llvm::Type::getDoubleTy(g_Context) }
 	};
 
-
-
-	enum class TypeKind
-	{
-		Unknown,
-		Void,
-		Int,
-		Double,
-		String,
-		Array,
-		Dictionary,
-		Tuple,
-		Struct,
-		Class,
-		Enum,
-		Protocol,
-		UserDefined
-	};
-
-	
-
 	class Struct
 	{
 	protected:
-		std::vector<StoreProperty> _value;
-		std::unordered_map<std::string, llvm::Function*> _method;
+		std::vector<StoredProperty> _value;
+		std::unordered_map<std::string, std::unique_ptr<llvm::Function> > _method;
+
+		/// Protocol conform _protocols
 
 	public:
-		Struct(std::string name, std::vector<llvm::Type*> val, std::unordered_map<std::string, llvm::Function*> method);
+		Struct(std::string name, std::vector<llvm::Type*> val, std::unordered_map<std::string, std::unique_ptr<llvm::Function> > method);
 		virtual ~Struct(){}
 	};
 
