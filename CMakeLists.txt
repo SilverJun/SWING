@@ -7,6 +7,7 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_SOURCE_DIR}/src/AST)
+include_directories(${PROJECT_SOURCE_DIR}/src/Type)
 
 #file(GLOB_RECURSE FILESYSTEM "${PROJECT_SOURCE_DIR}/lib/filesystem/*.cpp" "${PROJECT_SOURCE_DIR}/lib/filesystem/*.hpp")
 

@@ -2,9 +2,10 @@
 #define _SWING_STORE_PROPERTY_H_
 
 #include "SwingCompiler.h"
-
-#include <llvm/IR/Value.h>
 #include "Variable.h"
+
+#include <memory>
+#include <llvm/IR/Value.h>
 
 namespace swing
 {
@@ -35,7 +36,7 @@ namespace swing
 			}
 		}
 
-		llvm::Value* GetValue()
+		llvm::Value* GetValue() const
 		{
 			return _getter == nullptr ? g_Builder.CreateCall(_getter.get()) : _var.GetValue();
 		}

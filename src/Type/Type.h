@@ -5,9 +5,6 @@
 
 #include <string>
 #include <unordered_map>
-#include <llvm/IR/Type.h>
-#include <llvm/IR/Function.h>
-#include "StoredProperty.h"
 
 namespace swing
 {
@@ -21,28 +18,6 @@ namespace swing
 		{ "UInt8", llvm::Type::getInt64Ty(g_Context) },
 		{ "Float", llvm::Type::getFloatTy(g_Context) },
 		{ "Double", llvm::Type::getDoubleTy(g_Context) }
-	};
-
-	class Struct
-	{
-	protected:
-		std::vector<StoredProperty> _value;
-		std::unordered_map<std::string, std::unique_ptr<llvm::Function> > _method;
-
-		/// Protocol conform _protocols
-
-	public:
-		Struct(std::string name, std::vector<llvm::Type*> val, std::unordered_map<std::string, std::unique_ptr<llvm::Function> > method);
-		virtual ~Struct(){}
-	};
-
-	class String : Struct
-	{
-		std::string _str;
-
-	public:
-		String(std::string& str);
-		virtual ~String() {}
 	};
 }
 
