@@ -9,7 +9,7 @@
 
 namespace swing
 {
-	class Struct
+	class StructType
 	{
 	protected:
 		bool _isSetBody = false;
@@ -19,21 +19,21 @@ namespace swing
 		std::unordered_map<std::string, std::unique_ptr<llvm::Function> > _method;
 
 		/// Protocol conform _protocols
-
+		// std::vector<ProtocolType> _protocols;
 	public:
-		Struct(std::string name, std::vector<llvm::Type*> val, std::unordered_map<std::string, std::unique_ptr<llvm::Function> > method) :
+		StructType(std::string name, std::vector<llvm::Type*> val, std::unordered_map<std::string, std::unique_ptr<llvm::Function> > method) :
 			_value(),
 			_typeLayout(val),
 			_method(method)
 		{
 			_type = llvm::StructType::create(g_Context, name);
 		}
-		virtual ~Struct() {}
+		virtual ~StructType() {}
 
 		void appendType(llvm::Type* type) { _typeLayout.push_back(type); }
 
 		/**
-		 * \brief Set struct body. this method is call once at last Generate time.
+		 * \brief Set struct body. this method is call once at final Generate time.
 		 */
 		void CreateStructType()
 		{

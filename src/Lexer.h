@@ -37,10 +37,7 @@ namespace swing
 		void SkipToLineAnnotation(std::string::iterator& iter);
 		void SkipToBlockAnnotation(std::string::iterator& iter);
 
-		void SetSourceLine(int line)
-		{
-			_sourceLine = line;
-		}
+		void SetSourceLine(int line);
 	};
 
 }

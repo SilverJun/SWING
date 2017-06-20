@@ -79,7 +79,7 @@ namespace swing
 		_project = project;
 	}
 
-	void SwingCompiler::CompileProject()
+	void SwingCompiler::CompileProject(Project* project)
 	{
 
 	}
@@ -88,10 +88,5 @@ namespace swing
 	{
 		_lexer->LoadSourceFile(file);
 		_lexer->GenerateTokenList();
-	}
-
-	std::string SwingCompiler::GenerateNameMangling(llvm::Function* func)
-	{
-		return "";
 	}
 }

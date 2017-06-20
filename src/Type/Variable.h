@@ -1,7 +1,6 @@
 ﻿#ifndef _SWING_VARIABLE_H_
 #define _SWING_VARIABLE_H_
 
-#include <memory>
 #include "Error.h"
 #include <llvm/ADT/Optional.h>
 #include <llvm/IR/Type.h>
@@ -28,7 +27,7 @@ namespace swing
 		 * variable can`t be let type.
 		 * this variable init with nil.
 		 */
-		explicit Variable(llvm::Type* type, std::string name) : 
+		Variable(llvm::Type* type, std::string name) : 
 			_isOptional(true),
 			_isLet(false),
 			_name(name),
@@ -41,7 +40,7 @@ namespace swing
 		 * \brief Initial value variable.
 		 * variable can be let, optional. it`s choice.
 		 */
-		explicit Variable(llvm::Value* value, std::string name, bool let, bool optional) :  
+		Variable(llvm::Value* value, std::string name, bool let, bool optional) :  
 			_isOptional(optional),
 			_isLet(let),
 			_name(name),
@@ -53,7 +52,7 @@ namespace swing
 		/**
 		 * \brief Full option variable.
 		 */
-		explicit Variable(llvm::Type* type, llvm::Value* value, std::string name, bool let, bool optional) :
+		Variable(llvm::Type* type, llvm::Value* value, std::string name, bool let, bool optional) :
 			_isOptional(optional),
 			_isLet(let),
 			_name(name),
@@ -67,9 +66,17 @@ namespace swing
 		void SetValue(llvm::Value* value)
 		{
 			if (!_isOptional && value == nullptr) 
-				throw Error(0, "Variable can`t be nil. Variable is not optional.");
+				throw Error("Variable can`t be nil. Variable is not optional.");
 
 			_value = value;
+		}
+
+		void SetNil()
+		{
+			if (_isOptional)
+			{
+				_value.reset();
+			}
 		}
 
 		bool IsOptional() const { return _isOptional; }

@@ -24,7 +24,6 @@ namespace swing
 		Root.AddMember("SourceFilePath", rapidjson::Value(_projPath.c_str(), allocator), allocator);
 
 		/// add base main swing file automatically.
-
 		std::fstream baseFile(_projPath + "/main.swing", std::ios::out);
 
 		if (baseFile.is_open())

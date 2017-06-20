@@ -169,7 +169,7 @@ namespace swing
 
 		void Expect(const TokenID id) const
 		{
-			if (!(this->_id == id))
+			if (this->_id != id)
 			{
 				throw Error(this->_line, "Unexpected Token, Id-"
 					+ std::to_string(static_cast<int>(this->_id))
@@ -184,6 +184,13 @@ namespace swing
 
 	using TokenList = std::list<Token>;
 	using TokenListIter = TokenList::iterator;
+
+	inline std::ostream& operator<<(std::ostream& os, Token& token)
+	{
+		os << static_cast<int>(token._id) << " " << token._name << " " << token._iNumber << " " << token._dNumber << " " << token._char << std::endl;
+		
+		return os;
+	}
 
 	inline std::ostream& operator<<(std::ostream& os, TokenList& list)
 	{

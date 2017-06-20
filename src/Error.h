@@ -11,10 +11,11 @@ namespace swing
 		std::string _description;
 
 		Error(int line, std::string desc) : _line(line), _description(desc) {}
+		Error(std::string desc) :_line(-1), _description(desc) {}
 		
 		std::string what() const
 		{
-			return "line:" + std::to_string(_line) + " " + _description;
+			return _line != -1 ? "line:" + std::to_string(_line) + " " + _description : _description;
 		}
 	};
 }

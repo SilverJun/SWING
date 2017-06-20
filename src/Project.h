@@ -2,6 +2,7 @@
 #define _SWING_PROJECT_H_
 #include <string>
 #include <list>
+#include <experimental/filesystem>
 #include "rapidjson/document.h"
 
 namespace swing
@@ -20,8 +21,10 @@ namespace swing
 		rapidjson::Document _projJson;
 
 		Project() = delete;
-		Project(std::string projName, std::string projFolderPath); /// Generate new project.
-		Project(std::string projFile);		/// Load project from 
+		/// Generate new project.
+		Project(std::string projName, std::string projFolderPath);
+		/// Load project from 
+		Project(std::string projFile);
 		~Project();
 
 		bool isValid();

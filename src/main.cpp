@@ -1,4 +1,5 @@
 #include <iostream>
+#include "cmdparser.hpp"
 #include "SwingCompiler.h"
 #include "Lexer.h"
 #include "Project.h"
@@ -127,19 +128,71 @@
 #endif
 
 
+void initCmdParser(cli::Parser& parser)
+{
+	/// Compile
+	parser.set_required<std::string>("compile", "compile", "A .swingproj file to compile.");
+	parser.set_optional<int>("opt", "opt", 0, "LLVM Compiler optimize level, non-optimize = 0, level_1 = 1, level_2 = 2, level_3 = 3");
+#ifdef _WINDOWS
+	parser.set_optional<std::string>("out", "out", "a.exe", "Output File name.");
+#else
+	parser.set_optional<std::string>("out", "out", "a.out", "Output File name.");
+#endif
+
+	/// Link
+	parser.set_required<std::vector<std::string>>("link", "link", "Link object files to one executive file.");
+
+	/// Debugger Mode
+	/// result[1] == true or false
+	parser.set_required<std::vector<bool>>("debug", "debug", "VS-Code Debug Protocol Extension Mode.");
+	
+	/// Create Files
+	/// result[1] == folderPath
+	/// result[2] == project name or source name
+	parser.set_required<std::vector<std::string>>("create", "create", "Create swing language files.\n\tcreate project <want-project-folder-path> <project-name>\n\tcreate source <want-source-folder-path> <source-name>\n");
+}
+
 int main(int argc, char* argv[])
 {
+	/// Cmd Line Parse.
+	cli::Parser parser(argc, argv);
+	initCmdParser(parser);
+	parser.run_and_exit_if_error();
 
-	g_SwingCompiler.SetProject(new swing::Project("../../test/ProjectTest/Test.swingproj"));
-
-	g_SwingCompiler.CompileFile("../../example/ex01.swing");
-
-	for (auto i = g_SwingCompiler._tokenLists.begin()->begin(); i != g_SwingCompiler._tokenLists.begin()->end(); ++i)
+	/// Ready some variables.
+	swing::Project* proj = nullptr;
+	
+	/// Compile Command
+	std::string projectFilePath = parser.get<std::string>("compile");
+	if (projectFilePath != "")
 	{
-		std::cout << static_cast<int>((*i)._id) << "\t" << (*i)._name << "\t" << (*i)._iNumber << "\t" << (*i)._dNumber << std::endl;
+		proj = new swing::Project(projectFilePath);
+		g_SwingCompiler.CompileProject(proj);
+		return 0;
 	}
 
-	system("pause");
+	/// Link Command
+	std::vector<std::string> objFiles = parser.get<std::vector<std::string>>("link");
+	if (!objFiles.empty())
+	{
+		/// Link Object Files to one Executive File.
+		return 0;
+	}
+
+	/// Debug Mode Command
+	bool isDebugMode = parser.get<bool>("debug");
+	if (isDebugMode)
+	{
+		/// Debug Mode On
+		/// Wait for Packet.
+	}
+
+	/// Create Command
+	std::vector<std::string> createFile = parser.get<std::vector<std::string>>("create");
+	if (!createFile.empty())
+	{
+		/// Create swing File.
+	}
 
     return 0;
 }

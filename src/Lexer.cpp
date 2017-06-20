@@ -152,11 +152,11 @@ namespace swing
 		--iter;
 
 		/// 키워드인지 비교.
-		for (auto kw = _keywordList->begin(); kw != _keywordList->end(); ++kw)
+		for (auto kw : *_keywordList)
 		{
-			if (word == (*kw)._word)
+			if (word == kw._word)
 			{
-				_tokenList->emplace_back((*kw)._id, _sourceLine, word);
+				_tokenList->emplace_back(kw._id, _sourceLine, word);
 				return;
 			}
 		}
@@ -218,11 +218,11 @@ namespace swing
 		for (;iter != _sourceCode.end() && std::ispunct(*iter) && *iter != '\"' && *iter != '\''; ++iter) {}
 		std::string operatorString(start, iter--);
 
-		for (auto it = _operatorList->begin(); it != _operatorList->end(); ++it)
+		for (auto it : *_operatorList)
 		{
-			if (operatorString == (*it)._word)
+			if (operatorString == it._word)
 			{
-				_tokenList->emplace_back((*it)._id, _sourceLine, (*it)._word);
+				_tokenList->emplace_back(it._id, _sourceLine, it._word);
 				return;
 			}
 		}
@@ -338,7 +338,7 @@ namespace swing
 					/// "	Quotmark		StringLiteral End
 					///
 					newLexer.GenerateTokenList();
-					_tokenList->pop_back();			//EOF TokenPop
+					_tokenList->pop_back();			// EOF TokenPop
 					_tokenList->emplace_back(TokenID::StringInterpolation_End, _sourceLine, ")");
 
 					start = next(iter);
@@ -364,4 +364,8 @@ namespace swing
 		for (; *prev(iter) != '*' && *iter != '/'; ++iter);		/// */까지 iter증가
 	}
 
+	void Lexer::SetSourceLine(int line)
+	{
+		_sourceLine = line;
+	}
 }
