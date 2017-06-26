@@ -14,6 +14,17 @@ include_directories(${PROJECT_SOURCE_DIR}/src/Type)
 #add_library(filesystem STATIC ${FILESYSTEM})
 #install(TARGETS filesystem DESTINATION lib/filesystem)
 
+set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/bin")
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/src)
-file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/src/*.cpp" "${PROJECT_SOURCE_DIR}/src/*.h")
-add_executable(swing ${SOURCES})
+file(GLOB SOURCES "${PROJECT_SOURCE_DIR}/src/*.cpp" "${PROJECT_SOURCE_DIR}/src/*.h" "${PROJECT_SOURCE_DIR}/src/*.hpp")
+file(GLOB_RECURSE SRC_AST "${PROJECT_SOURCE_DIR}/src/AST/*.cpp" "${PROJECT_SOURCE_DIR}/src/AST/*.h")
+file(GLOB_RECURSE SRC_DEBUGGER "${PROJECT_SOURCE_DIR}/src/Debugger/*.cpp" "${PROJECT_SOURCE_DIR}/src/Debugger/*.h")
+file(GLOB_RECURSE SRC_TYPE "${PROJECT_SOURCE_DIR}/src/Type/*.cpp" "${PROJECT_SOURCE_DIR}/src/Type/*.h")
+
+add_executable(swing ${SOURCES} ${SRC_AST} ${SRC_DEBUGGER} ${SRC_TYPE})
+
+source_group("AST" FILES ${SRC_AST})
+source_group("Debugger" FILES ${SRC_DEBUGGER})
+source_group("Type" FILES ${SRC_TYPE})
+
