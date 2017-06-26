@@ -70,6 +70,19 @@ namespace swing
 		_operatorList = oList;
 
 		/// type which is used to generate
+
+		BuiltinType = {
+			{ "Void", llvm::Type::getVoidTy(_llvmContext) },
+			{ "Bool", llvm::Type::getInt8Ty(_llvmContext) },
+			{ "Char", llvm::Type::getInt8Ty(_llvmContext) },
+			{ "Int", llvm::Type::getInt32Ty(_llvmContext) },
+			{ "Int8", llvm::Type::getInt64Ty(_llvmContext) },
+			{ "UInt", llvm::Type::getInt32Ty(_llvmContext) },
+			{ "UInt8", llvm::Type::getInt64Ty(_llvmContext) },
+			{ "Float", llvm::Type::getFloatTy(_llvmContext) },
+			{ "Double", llvm::Type::getDoubleTy(_llvmContext) }
+		};
+
 		_types = BuiltinType;
 
 	}
