@@ -1,10 +1,10 @@
 #include <iostream>
 #include <cstdlib>
-#include <asio.hpp>
+#include <sstream>
+#include <streambuf>
 
-#include "SwingProgram.h"
-#include "Debugger.h"
-#include "Project.h"
+#include "Debugger/Debugger.h"
+#include "Log.h"
 
 #ifdef _WINDOWS
 
@@ -132,9 +132,18 @@
 #endif
 
 
-
 int main(int argc, char* argv[])
 {
+	/*for (int i = 0; i < argc; i++)
+	{
+		swing::Log::Message(argv[i]);
+	}
+	*/
+	std::ios_base::sync_with_stdio(true);
+
+	swing::vscode::Debugger debugger;
+
+	debugger.RunDebugger();
 
 
 	return 0;

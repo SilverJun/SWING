@@ -7,14 +7,15 @@ namespace swing
 	class CommandLine
 	{
 	public:
+		CommandLine() {}
 		virtual ~CommandLine() {}
 		/**
 		 * \brief check correct paramater function
 		 * \param args args.
 		 * \return if it is correct paramater, it will return true
 		 */
-		virtual bool VerifierCommand(std::vector<std::string> args) = 0;
-		virtual int RunCommand() = 0;
+		virtual bool VerifierCommand(std::vector<std::string> args) { return false; }
+		virtual int RunCommand() { return 0; }
 	};
 
 	class HelpCommand : public CommandLine

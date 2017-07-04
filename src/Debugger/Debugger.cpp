@@ -1,12 +1,28 @@
 #include "Debugger.h"
+#include <thread>
+#include <functional>
+#include <iostream>
+#include "Log.h"
 
-
-
-Debugger::Debugger()
+namespace swing
 {
-}
+	namespace vscode
+	{
+		Debugger::Debugger() : _session(new Session())
+		{
+		}
 
+		Debugger::~Debugger()
+		{
+			if (_session != nullptr)
+			{
+				delete _session;
+			}
+		}
 
-Debugger::~Debugger()
-{
+		void Debugger::RunDebugger()
+		{
+			_session->StartSession();
+		}
+	}
 }
