@@ -2,109 +2,110 @@
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
+#include "Log.h"
 
 namespace swing
 {
 	namespace vscode
 	{
-		///
+		void JsonSerializer::Serialize(JsonSerializable* message, std::string& json)
+		{
+			rapidjson::Document doc;
+			rapidjson::StringBuffer buffer;
+			rapidjson::Writer<rapidjson::StringBuffer> writer;
+
+			message->Serialize(doc);
+
+			doc.Accept(writer);
+
+			json = buffer.GetString();
+		}
+
+		void JsonSerializer::DeSerialize(JsonSerializable* message, std::string& json)
+		{
+			rapidjson::Document doc;
+			doc.Parse(json.c_str(), json.length());
+			rapidjson::Value root = doc.GetObject();
+			message->DeSerialize(root);
+		}
+
+		Dynamic::Dynamic(std::string json)
+		{
+			rapidjson::Document doc;
+			doc.Parse(json.c_str(), json.length());
+			rapidjson::Value obj = doc.GetObject();
+			_root.CopyFrom(obj, _allocator);
+		}
+
+		Dynamic::Dynamic(rapidjson::Value& json)
+		{
+			_root.CopyFrom(json, _allocator);
+		}
+
+		Dynamic::Dynamic(const Dynamic& args)
+		{
+			_root.CopyFrom(args._root, _allocator);
+		}
+
+		Dynamic& Dynamic::operator=(Dynamic& rhs)
+		{
+			_root.CopyFrom(rhs._root, _allocator);
+			return *this;
+		}
+
+		///------------------------------------------------------
 
 		ProtocolMessage::ProtocolMessage(std::string typ) :
-			_seq(0), _type(typ), _jsonRoot(_json.GetObject()), _allocator(_json.GetAllocator())
+			_seq(0), _type(typ)
 		{
-			GenerateJson();
 		}
 
 		ProtocolMessage::ProtocolMessage(std::string typ, int sq) :
-			_seq(sq), _type(typ), _jsonRoot(_json.GetObject()), _allocator(_json.GetAllocator())
+			_seq(sq), _type(typ)
 		{
-			GenerateJson();
 		}
 
-		rapidjson::Value* ProtocolMessage::GetValue(std::string key)
+		void ProtocolMessage::Serialize(rapidjson::Document& root)
 		{
-			auto root = _json.GetObject();
-			for (auto iter = _json.MemberBegin(); iter != _json.MemberEnd(); ++iter)
-			{
-				if (key == iter->name.GetString())
-				{
-					return &iter->value;
-				}
-			}
-			return nullptr;
+			root.AddMember("seq", rapidjson::Value().SetInt(_seq), root.GetAllocator());
+			root.AddMember("type", rapidjson::Value(_type.c_str(), root.GetAllocator()), root.GetAllocator());
 		}
 
-		std::string ProtocolMessage::Serialize()
+		void ProtocolMessage::DeSerialize(rapidjson::Value& root)
 		{
-			rapidjson::StringBuffer buffer;
-			rapidjson::Writer<rapidjson::StringBuffer> prettyWriter(buffer);
-
-			_json.CopyFrom(_jsonRoot, _allocator);
-			_json.Accept(prettyWriter);
-
-			return buffer.GetString();
-		}
-
-		void ProtocolMessage::GenerateJson()
-		{
-			_jsonRoot.AddMember("seq", rapidjson::Value(_seq), _allocator);
-			_jsonRoot.AddMember("type", rapidjson::Value(_type.c_str(), _allocator), _allocator);
+			_seq = root["seq"].GetInt();
+			_type = root["type"].GetString();
 		}
 
 		///
 
-		RequestArgs::RequestArgs() :
-			_kind(""), _title(""), _cwd(""), _args({}), _env({})
-		{
-		}
-		RequestArgs::RequestArgs(std::string kind, std::string title, std::string cwd, std::vector<std::string> args, std::map<std::string, std::string> env) :
-			_kind(kind), _title(title), _cwd(cwd), _args(args), _env(env)
-		{
-		}
-
-		///
-
-		Request::Request(std::string cmd, RequestArgs arg) :
+		Request::Request(std::string cmd, Dynamic arg) :
 			ProtocolMessage("request"), _command(cmd), _arguments(arg)
 		{
-			GenerateJson();
 		}
 
-		Request::Request(int id, std::string cmd, RequestArgs arg) :
+		Request::Request(int id, std::string cmd, Dynamic arg) :
 			ProtocolMessage("request", id), _command(cmd), _arguments(arg)
 		{
-			GenerateJson();
 		}
 
-		void Request::GenerateJson()
+		void Request::Serialize(rapidjson::Document& root)
 		{
-			_jsonRoot.AddMember("command", rapidjson::Value(_command.c_str(), _allocator), _allocator);
-
-			rapidjson::Value argRoot(rapidjson::kObjectType);
-			argRoot.AddMember("kind", rapidjson::Value(_arguments._kind.c_str(), _allocator), _allocator);
-			argRoot.AddMember("title", rapidjson::Value(_arguments._title.c_str(), _allocator), _allocator);
-			argRoot.AddMember("cwd", rapidjson::Value(_arguments._cwd.c_str(), _allocator), _allocator);
-
-			rapidjson::Value argArgs(rapidjson::kArrayType);
-			for (auto element : _arguments._args)
-			{
-				argArgs.PushBack(rapidjson::Value(element.c_str(), _allocator), _allocator);
-			}
-			argRoot.AddMember("args", argArgs, _allocator);
-
-			rapidjson::Value argEnv(rapidjson::kObjectType);
-			for (auto element : _arguments._env)
-			{
-				rapidjson::Value key(element.first.c_str(), _allocator);
-				rapidjson::Value value(element.second.c_str(), _allocator);
-				argEnv.AddMember(key, value, _allocator);
-			}
-			argRoot.AddMember("env", argEnv, _allocator);
-
-			_jsonRoot.AddMember("arguments", argRoot, _allocator);
+			ProtocolMessage::Serialize(root);
+			root.AddMember("command", rapidjson::Value(_command.c_str(), root.GetAllocator()), root.GetAllocator());
+			root.AddMember("arguments", _arguments._root, root.GetAllocator());
 		}
 
-		Response::Response(Request req) : 
+		void Request::DeSerialize(rapidjson::Value& root)
+		{
+			ProtocolMessage::DeSerialize(root);
+			_command = root["command"].GetString();
+			_arguments._root.CopyFrom(root["arguments"], _arguments._allocator);
+		}
+
+		///
+
+		Response::Response(Request req) :
 			ProtocolMessage("response"), _success(true), _requestSeq(req._seq), _command(req._command)
 		{
 		}
@@ -122,16 +123,55 @@ namespace swing
 			_body = bdy;
 		}
 
-		void Response::GenerateJson()
+		void Response::Serialize(rapidjson::Document& root)
+		{
+			ProtocolMessage::Serialize(root);
+
+			root.AddMember("request_seq", rapidjson::Value().SetInt(_requestSeq), root.GetAllocator());
+			root.AddMember("success", rapidjson::Value().SetBool(_success), root.GetAllocator());
+			root.AddMember("command", rapidjson::Value(_message.c_str(), root.GetAllocator()), root.GetAllocator());
+			root.AddMember("message", rapidjson::Value(_message.c_str(), root.GetAllocator()), root.GetAllocator());
+			root.AddMember("body", _body._root, root.GetAllocator());
+		}
+
+		void Response::DeSerialize(rapidjson::Value& root)
+		{
+			ProtocolMessage::DeSerialize(root);
+
+			_requestSeq = root["request_seq"].GetInt();
+			_success = root["success"].GetBool();
+			_command = root["command"].GetString();
+			_message = root["message"].GetString();
+			_body._root.CopyFrom(root["body"], _body._allocator);
+		}
+
+		///
+
+		Event::Event(std::string type) :
+			ProtocolMessage("event"), _event(type), _body()
 		{
 		}
 
-		Event::Event(std::string type) : ProtocolMessage("event"), _eventType(type)
+		Event::Event(std::string type, std::string body) :
+			ProtocolMessage("event"), _event(type), _body(body)
 		{
 		}
 
-		void Event::GenerateJson()
+		void Event::Serialize(rapidjson::Document& root)
 		{
+			ProtocolMessage::Serialize(root);
+			root.AddMember("event", rapidjson::Value(_event.c_str(), root.GetAllocator()), root.GetAllocator());
+			root.AddMember("body", _body._root, root.GetAllocator());
 		}
+
+		void Event::DeSerialize(rapidjson::Value& root)
+		{
+			ProtocolMessage::DeSerialize(root);
+			_event = root["event"].GetString();
+			_body._root.CopyFrom(root["body"], _body._allocator);
+		}
+
+		///
+
 	}
 }
