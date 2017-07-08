@@ -1,13 +1,14 @@
 ﻿#include "Session.h"
 #include <iostream>
 #include "Log.h"
-#include <algorithm>
+
 
 namespace swing
 {
 	namespace vscode
 	{
-		Session::Session() : _twoCRLF("\r\n\r\n"), _contentLength("Content-Length: "), _jsonLength(-1), _stopLoop(false)
+		Session::Session() :
+			_twoCRLF("\r\n\r\n"), _contentLength("Content-Length: "), _jsonLength(-1), _stopLoop(false), _sequenceNumber(1)
 		{
 		}
 
@@ -20,9 +21,9 @@ namespace swing
 					// Dispatch Content-Length
 					std::string bufString = FindContentLength();
 
-					if (bufString == "") { break; }
-
 					Log::Message(bufString);
+
+					//if (bufString == "") { break; }
 
 					std::string jsonLength = bufString.substr(_contentLength.length(), bufString.length() - 1);
 
@@ -41,6 +42,7 @@ namespace swing
 					Log::Message(_buffer);
 					DispatchJson(_buffer);
 
+					for (int i = 0; i < _jsonLength; i++) { std::cin.get(); }
 					memset(_buffer, 0, bufsize);
 				}
 
@@ -49,27 +51,43 @@ namespace swing
 
 		std::string Session::FindContentLength()
 		{
-			std::string result = "";
-			char c = '\0';
-
-			while (true)
-			{
-				c = std::cin.get();
-				if (c == '\n')
-				{
-					break;
-				}
-				result += c;
-			}
-
-			auto it = std::find_end(result.begin(), result.end(), _contentLength.begin(), _contentLength.end());
-
-			return std::string(it, result.end());
+			char buf[512];
+			std::cin.getline(buf, 512);
+			return std::string(buf);
 		}
 
 		void Session::DispatchJson(std::string json)
 		{
 			// Dispatch Json, respone json.
+
+			ProtocolMessage message;
+			JsonSerializer::DeSerialize(&message, json);
+
+			if (message._type == "request")
+			{
+				
+			}
+			else if (message._type == "response")
+			{
+				
+			}
+			else
+			{
+				Log::Message("Unknown json type: " + std::string(message._type));
+			}
+		}
+
+		void Session::SendMessage(ProtocolMessage* message)
+		{
+			if (message->_seq == 0) {
+				message->_seq = _sequenceNumber++;
+			}
+
+			std::string json;
+			JsonSerializer::Serialize(message, json);
+
+			std::cout << _contentLength << std::to_string(json.length()) << _twoCRLF << json;
+			std::cout.flush();
 		}
 	}
 }

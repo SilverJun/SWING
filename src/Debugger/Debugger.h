@@ -2,6 +2,7 @@
 #define _SWING_DEBUGGER_H_
 
 #include "Session.h"
+#include "DebugComponent.h"
 
 namespace swing
 {

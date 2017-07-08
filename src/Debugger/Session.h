@@ -1,8 +1,7 @@
 ﻿#ifndef _SWING_SESSION_H_
 #define _SWING_SESSION_H_
 
-#include <vector>
-#include <iostream>
+#include "ProtocolMessage.h"
 
 namespace swing
 {
@@ -15,8 +14,10 @@ namespace swing
 			enum {bufsize = 4096};
 			char _buffer[bufsize];
 			int _jsonLength;
-			
 			bool _stopLoop;
+
+
+			int _sequenceNumber;
 
 		public:
 			Session();
@@ -25,6 +26,8 @@ namespace swing
 		private:
 			std::string FindContentLength();
 			void DispatchJson(std::string json);
+
+			void SendMessage(ProtocolMessage* message);
 		};
 	}
 }

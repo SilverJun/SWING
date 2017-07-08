@@ -1,6 +1,7 @@
 ﻿#include "SwingProgram.h"
 
 #include "crefile.hpp"
+#include "Debugger.h"
 
 swing::SwingProgram::SwingProgram(int argc, char* argv[]) : _args(argc)
 { 

@@ -115,7 +115,7 @@ namespace crefile {
 			static const char Separator = '/';
 		};
 
-		std::vector<String> split_impl(const char* base, size_t size) {
+		inline std::vector<String> split_impl(const char* base, size_t size) {
 			std::vector<String> res;
 			size_t start_pos = 0;
 			for (size_t i = 0; i < size; ++i) {
@@ -134,7 +134,7 @@ namespace crefile {
 
 	} // namespace priv {
 
-	String dirname(const String& filename) {
+	inline String dirname(const String& filename) {
 		auto last_slash = filename.find_last_of('/');
 		if (last_slash == String::npos) {
 			last_slash = filename.find_last_of("\\\\");
@@ -145,7 +145,7 @@ namespace crefile {
 		return filename.substr(0, last_slash);
 	}
 
-	String extension(const String& filename) {
+	inline String extension(const String& filename) {
 		const auto last_dot = filename.find_last_of('.');
 		if (last_dot == String::npos) {
 			return String{};
@@ -155,11 +155,27 @@ namespace crefile {
 		}
 	}
 
-	std::vector<String> split(const String& path) {
+	inline String fileName(const String& path) {
+		auto last_slash = path.find_last_of('/');
+		if (last_slash == String::npos) {
+			last_slash = path.find_last_of("\\\\");
+			if (last_slash == String::npos) {
+				return String();
+			}
+		}
+		auto last_dot = path.find_last_of('.');
+		if (last_slash >= last_dot)
+		{
+			return String();
+		}
+		return path.substr(last_slash + 1, last_dot);
+	}
+
+	inline std::vector<String> split(const String& path) {
 		return priv::split_impl(path.c_str(), path.size());
 	}
 
-	std::vector<String> split(const char* base, size_t size) {
+	inline std::vector<String> split(const char* base, size_t size) {
 		return priv::split_impl(base, size);
 	}
 
@@ -243,15 +259,15 @@ namespace crefile {
 		String path_;
 	};
 
-	bool operator == (const PosixPath& a, const PosixPath& b) {
+	inline bool operator == (const PosixPath& a, const PosixPath& b) {
 		return a.str() == b.str();
 	}
 
-	bool operator != (const PosixPath& a, const PosixPath& b) {
+	inline bool operator != (const PosixPath& a, const PosixPath& b) {
 		return a.str() != b.str();
 	}
 
-	bool operator < (const PosixPath& a, const PosixPath& b) {
+	inline bool operator < (const PosixPath& a, const PosixPath& b) {
 		return a.str() < b.str();
 	}
 
@@ -330,15 +346,15 @@ namespace crefile {
 		String path_;
 	};
 
-	bool operator == (const WinPath& a, const WinPath& b) {
+	inline bool operator == (const WinPath& a, const WinPath& b) {
 		return a.str() == b.str();
 	}
 
-	bool operator != (const WinPath& a, const WinPath& b) {
+	inline bool operator != (const WinPath& a, const WinPath& b) {
 		return a.str() != b.str();
 	}
 
-	bool operator < (const WinPath& a, const WinPath& b) {
+	inline bool operator < (const WinPath& a, const WinPath& b) {
 		return a.str() < b.str();
 	}
 
@@ -365,7 +381,7 @@ namespace crefile {
 	};
 
 	namespace priv {
-		String translate_error_code2string(DWORD win_error_code) {
+		inline String translate_error_code2string(DWORD win_error_code) {
 			if (win_error_code == 0)
 				return String{};
 			LPSTR messageBuffer = nullptr;
@@ -651,7 +667,7 @@ namespace crefile {
 	//    return PathImplWin32{tmp_path};
 	//}
 
-	PathImplWin32 generate_tmp_filename(const PathImplWin32& path, const String& file_prefix) {
+	inline PathImplWin32 generate_tmp_filename(const PathImplWin32& path, const String& file_prefix) {
 		char tmp[MAX_PATH + 1];
 		WINCHECK(GetTempFileName(path.c_str(), file_prefix.c_str(), 0, tmp),
 			std::runtime_error, "generate_tmp_filename failed");
@@ -665,7 +681,7 @@ namespace crefile {
 
 #if CREFILE_PLATFORM == CREFILE_PLATFORM_UNIX || CREFILE_PLATFORM == CREFILE_PLATFORM_DARWIN
 
-	void check_error(ErrorCode code) {
+	inline void check_error(ErrorCode code) {
 		if (code != 0) {
 			const auto error = errno;
 			switch (error) {
@@ -989,11 +1005,11 @@ namespace crefile {
 #endif // #if CREFILE_PLATFORM == CREFILE_PLATFORM_UNIX
 
 
-	bool operator == (const Path& path_a, const char* path_b) {
+	inline bool operator == (const Path& path_a, const char* path_b) {
 		return path_a.str() == path_b;
 	}
 
-	bool operator == (const Path& path_a, const String& path_b) {
+	inline bool operator == (const Path& path_a, const String& path_b) {
 		return path_a.str() == path_b;
 	}
 
@@ -1004,11 +1020,11 @@ namespace crefile {
 	//    to += append.path();
 	//}
 
-	Path operator / (const Path& to, const char* add) {
+	inline Path operator / (const Path& to, const char* add) {
 		return Path{ to, add };
 	}
 
-	Path operator / (const Path& to, const String& add) {
+	inline Path operator / (const Path& to, const String& add) {
 		return Path{ to, add };
 	}
 
@@ -1030,32 +1046,32 @@ namespace crefile {
 		return IterPath{ path };
 	}
 
-	IterPath::const_iterator begin(const IterPath& path) {
+	inline IterPath::const_iterator begin(const IterPath& path) {
 		return IterPath::const_iterator{ path.str() };
 	}
 
-	IterPath::const_iterator end(const IterPath& path) {
+	inline IterPath::const_iterator end(const IterPath& path) {
 		return IterPath::const_iterator{};
 	}
 
-	bool is_abspath(const String& path) {
+	inline bool is_abspath(const String& path) {
 		return Path::is_abspath(path);
 	}
 
-	Path cwd() {
+	inline Path cwd() {
 		return Path::cwd();
 	}
 
-	Path cd(const Path& path) {
+	inline Path cd(const Path& path) {
 		throw NotImplementedException();
 		// return Path::cd(path);
 	}
 
-	Path tmp_dir() {
+	inline Path tmp_dir() {
 		return Path::tmp_dir();
 	}
 
-	Path user_dir() {
+	inline Path user_dir() {
 		throw NotImplementedException();
 		// return Path::user_dir();
 	}
