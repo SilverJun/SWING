@@ -1,4 +1,10 @@
-#include "SwingCLI.h"
+#include <iostream>
+#include <cstdlib>
+#include <sstream>
+#include <streambuf>
+
+#include "Debugger/Debugger.h"
+#include "Log.h"
 
 #ifdef _WINDOWS
 
@@ -128,7 +134,17 @@
 
 int main(int argc, char* argv[])
 {
-	swing::SwingCLI cli(argc, argv);
-	cli.InitProgram();
-	return cli.RunProgram();
+	/*for (int i = 0; i < argc; i++)
+	{
+		swing::Log::Message(argv[i]);
+	}
+	*/
+	std::ios_base::sync_with_stdio(true);
+
+	swing::vscode::Debugger debugger;
+
+	debugger.RunDebugger();
+
+
+	return 0;
 }
