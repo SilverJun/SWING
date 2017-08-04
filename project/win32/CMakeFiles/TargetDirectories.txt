@@ -1,2 +1,0 @@
-C:/Users/SilverJun/Desktop/프로젝트/SWING/project/win32/CMakeFiles/swing.dir
-C:/Users/SilverJun/Desktop/프로젝트/SWING/project/win32/CMakeFiles/ALL_BUILD.dir
