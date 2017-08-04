@@ -1,5 +1,3 @@
-#include "SwingCLI.h"
-
 #ifdef _WINDOWS
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -125,10 +123,26 @@
 
 #endif
 
+#include <SwingCompiler.h>
 
 int main(int argc, char* argv[])
 {
-	swing::SwingCLI cli(argc, argv);
+	/*char* arg[] = {
+		"C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/Debug/swing.exe",
+		"-compile",
+		"-opt",
+		"0",
+		"-out",
+		".obj",
+		"C:/Users/SilverJun/SwingTestProject/Test.swingproj"
+	};
+
+	swing::SwingCLI cli(7, arg);
 	cli.InitProgram();
-	return cli.RunProgram();
+	return cli.RunProgram();*/
+	auto* compiler = g_SwingCompiler;
+
+	compiler->CompileSource("C:/Users/SilverJun/SwingTestProject/main.swing");
+
+	return 0;
 }

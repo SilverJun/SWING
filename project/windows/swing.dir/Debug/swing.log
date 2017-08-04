@@ -1,0 +1,78 @@
+﻿  SwingCompiler.cpp
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xutility(2372): warning C4996: 'std::copy::_Unchecked_iterators::_Deprecate': Call to 'std::copy' with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xutility(2372): note: 'std::copy::_Unchecked_iterators::_Deprecate' 선언을 참조하십시오.
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(726): note: 컴파일 중인 함수 템플릿 인스턴스화 '_OutIt *std::copy<const unsigned char*,unsigned char*>(_InIt,_InIt,_OutIt)'에 대한 참조를 확인하십시오.
+          with
+          [
+              _OutIt=unsigned char *,
+              _InIt=const unsigned char *
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(714): note: 클래스 템플릿 멤버 함수 'llvm::SmallVectorImpl<T> &llvm::SmallVectorImpl<T>::operator =(const llvm::SmallVectorImpl<T> &)'을(를) 컴파일하고 있습니다.
+          with
+          [
+              T=unsigned char
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(877): note: 컴파일 중인 함수 템플릿 인스턴스화 'llvm::SmallVectorImpl<T> &llvm::SmallVectorImpl<T>::operator =(const llvm::SmallVectorImpl<T> &)'에 대한 참조를 확인하십시오.
+          with
+          [
+              T=unsigned char
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(843): note: 컴파일 중인 클래스 템플릿 인스턴스화 'llvm::SmallVectorImpl<T>'에 대한 참조를 확인하십시오.
+          with
+          [
+              T=unsigned char
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/IR/DataLayout.h(119): note: 컴파일 중인 클래스 템플릿 인스턴스화 'llvm::SmallVector<unsigned char,8>'에 대한 참조를 확인하십시오.
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xutility(2636): warning C4996: 'std::move::_Unchecked_iterators::_Deprecate': Call to 'std::move' with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xutility(2636): note: 'std::move::_Unchecked_iterators::_Deprecate' 선언을 참조하십시오.
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(785): note: 컴파일 중인 함수 템플릿 인스턴스화 '_OutIt *std::move<int*,int*>(_InIt,_InIt,_OutIt)'에 대한 참조를 확인하십시오.
+          with
+          [
+              _OutIt=int *,
+              _InIt=int *
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(762): note: 클래스 템플릿 멤버 함수 'llvm::SmallVectorImpl<int> &llvm::SmallVectorImpl<int>::operator =(llvm::SmallVectorImpl<int> &&)'을(를) 컴파일하고 있습니다.
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(883): note: 컴파일 중인 함수 템플릿 인스턴스화 'llvm::SmallVectorImpl<int> &llvm::SmallVectorImpl<int>::operator =(llvm::SmallVectorImpl<int> &&)'에 대한 참조를 확인하십시오.
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(843): note: 컴파일 중인 클래스 템플릿 인스턴스화 'llvm::SmallVectorImpl<int>'에 대한 참조를 확인하십시오.
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/IR/Instructions.h(2234): note: 컴파일 중인 클래스 템플릿 인스턴스화 'llvm::SmallVector<int,16>'에 대한 참조를 확인하십시오.
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory(102): warning C4996: 'std::uninitialized_copy::_Unchecked_iterators::_Deprecate': Call to 'std::uninitialized_copy' with parameters that may be unsafe - this call relies on the caller to check that the passed values are correct. To disable this warning, use -D_SCL_SECURE_NO_WARNINGS. See documentation on how to use Visual C++ 'Checked Iterators'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xmemory(102): note: 'std::uninitialized_copy::_Unchecked_iterators::_Deprecate' 선언을 참조하십시오.
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(202): note: 컴파일 중인 함수 템플릿 인스턴스화 '_FwdIt std::uninitialized_copy<It1,It2>(_InIt,_InIt,_FwdIt)'에 대한 참조를 확인하십시오.
+          with
+          [
+              _FwdIt=llvm::LayoutAlignElem *,
+              It1=const llvm::LayoutAlignElem *,
+              It2=llvm::LayoutAlignElem *,
+              _InIt=const llvm::LayoutAlignElem *
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(754): note: 컴파일 중인 함수 템플릿 인스턴스화 'void llvm::SmallVectorTemplateBase<T,false>::uninitialized_copy<const llvm::LayoutAlignElem*,llvm::LayoutAlignElem*>(It1,It1,It2)'에 대한 참조를 확인하십시오.
+          with
+          [
+              T=llvm::LayoutAlignElem,
+              It1=const llvm::LayoutAlignElem *,
+              It2=llvm::LayoutAlignElem *
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(753): note: 컴파일 중인 함수 템플릿 인스턴스화 'void llvm::SmallVectorTemplateBase<T,false>::uninitialized_copy<const llvm::LayoutAlignElem*,llvm::LayoutAlignElem*>(It1,It1,It2)'에 대한 참조를 확인하십시오.
+          with
+          [
+              T=llvm::LayoutAlignElem,
+              It1=const llvm::LayoutAlignElem *,
+              It2=llvm::LayoutAlignElem *
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(714): note: 클래스 템플릿 멤버 함수 'llvm::SmallVectorImpl<T> &llvm::SmallVectorImpl<T>::operator =(const llvm::SmallVectorImpl<T> &)'을(를) 컴파일하고 있습니다.
+          with
+          [
+              T=llvm::LayoutAlignElem
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(877): note: 컴파일 중인 함수 템플릿 인스턴스화 'llvm::SmallVectorImpl<T> &llvm::SmallVectorImpl<T>::operator =(const llvm::SmallVectorImpl<T> &)'에 대한 참조를 확인하십시오.
+          with
+          [
+              T=llvm::LayoutAlignElem
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/ADT/SmallVector.h(843): note: 컴파일 중인 클래스 템플릿 인스턴스화 'llvm::SmallVectorImpl<T>'에 대한 참조를 확인하십시오.
+          with
+          [
+              T=llvm::LayoutAlignElem
+          ]
+  C:\Users\SilverJun\Desktop\프로젝트\SWING\include\llvm/IR/DataLayout.h(122): note: 컴파일 중인 클래스 템플릿 인스턴스화 'llvm::SmallVector<llvm::LayoutAlignElem,16>'에 대한 참조를 확인하십시오.
+  swing.vcxproj -> C:\Users\SilverJun\Desktop\프로젝트\SWING\bin\Debug\swing.exe

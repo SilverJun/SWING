@@ -2,20 +2,57 @@
 #define _SWING_ERROR_H_
 
 #include <string>
+#include <sstream>
+#include "source.h"
+#include "Token.h"
 
 namespace swing
 {
-	struct Error
+	class Error
 	{
-		int _line;
+	public:
 		std::string _description;
 
-		Error(int line, std::string desc) : _line(line), _description(desc) {}
-		Error(std::string desc) :_line(-1), _description(desc) {}
+		Error(std::string desc) : _description(desc) {}
+		virtual ~Error() {}
 		
-		std::string what() const
+		virtual std::string what() const
 		{
-			return _line != -1 ? "line:" + std::to_string(_line) + " " + _description : _description;
+			return _description;
+		}
+	};
+
+	class LexicalError : public Error
+	{
+	public:
+		int _sourceLine;
+
+		LexicalError(int sourceLine, std::string desc) : Error(desc), _sourceLine(sourceLine) {}
+		~LexicalError() {}
+
+		std::string what() const override
+		{
+			std::string msg;
+			std::stringstream iss(msg);
+			iss << std::string("Lexical Error> Line:") << _sourceLine << "Message> " << _description;
+			return msg;
+		}
+	};
+
+	class ParsingError : public Error
+	{
+	public:
+		const Token& _token;
+
+		ParsingError(const Token& tok, std::string desc) : Error(desc), _token(tok) {}
+		~ParsingError() {}
+
+		std::string what() const override
+		{
+			std::string msg;
+			std::stringstream iss(msg);
+			iss << std::string("Parsing Error> ") << _token  << "Message> " << _description;
+			return msg;
 		}
 	};
 }

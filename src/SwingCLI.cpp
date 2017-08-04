@@ -1,14 +1,14 @@
 ﻿#include "SwingCLI.h"
 
-#include "crefile.hpp"
-#include "Debugger.h"
+//#include "crefile.hpp"
+//#include "Debugger.h"
 
 namespace swing
 {
 
-	SwingCLI::SwingCLI(int argc, char* argv[]) : _args(argc), _commandLines(nullptr), _project(nullptr)
+	SwingCLI::SwingCLI(int argc, char* argv[]) : _args(), _commandLines(nullptr), _project(nullptr)
 	{
-		_outPath = crefile::dirname(argv[0]);
+		//_outPath = crefile::dirname(argv[0]);
 
 		/// char* array -> string vector
 		for (int i = 1; i < argc; i++)

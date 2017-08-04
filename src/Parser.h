@@ -1,15 +1,20 @@
 #ifndef _SWING_PARSER_H_
 #define _SWING_PARSER_H_
+#include "BaseAST.h"
 
-class Parser
+namespace swing
 {
-public:
-	Parser();
-	~Parser();
+	class Parser
+	{
+		BaseAST* _rootTree;
 
-public:
-	void InitializeParser();
+	public:
+		Parser();
+		~Parser();
 
-};
+		void InitializeParser();
 
+		void ParseTree(BaseAST* tree);
+	};
+}
 #endif

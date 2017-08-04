@@ -1,0 +1,11 @@
+func test() -> int
+{
+    return 1
+}
+
+func main() -> int 
+{
+    test()
+    output(str:"Hello Swing! PLEASE!!!!!")
+    return 0
+}

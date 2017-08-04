@@ -2,19 +2,24 @@
 #define _SWING_FUNC_DECL_AST_H_
 
 #include "Token.h"
-#include <llvm/IR/Function.h>
-#include "StmtAST.h"
+#include "Variable.h"
+#include "DeclAST.h"
+#include "BlockAST.h"
 
 namespace swing
 {
-	class FunctionDeclAST : StmtAST
+	class FunctionDeclAST : public DeclAST
 	{
-		
 	public:
-		llvm::Function* CodeGen() override
-		{
-			
-		}
+		llvm::FunctionType* _funcType;
+		llvm::Function* _func;
+		std::string _funcName;
+		llvm::Type* _returnType;
+		std::vector<Variable*> _args;
+		BlockAST::BlockPtr _funcBody;
+
+		static DeclPtr Create(TokenIter& iter);
+		llvm::Value* CodeGen() override;
 	};
 }
 

@@ -13,7 +13,7 @@ namespace swing
 		std::string _funcName;
 		std::vector<std::string> _args;
 	public:
-		llvm::Function* CodeGen() override
+		llvm::Value* CodeGen() override
 		{
 			std::vector<llvm::Type *> arg;
 			llvm::FunctionType *FT =
@@ -22,8 +22,6 @@ namespace swing
 			llvm::Function *F =
 				llvm::Function::Create(FT, llvm::Function::ExternalLinkage, _funcName, &g_Module);
 			
-			// 내 생각에는 모듈 하나에 같은이름 함수는 하나만 들어간다. Name mangling을 사용하자.
-			// 반복자가 들어있는 반복문은 왠만하면 다 범위기반for로 바꾸자.
 			unsigned Idx = 0;
 			for (auto &Arg : F->args())
 				Arg.setName(_args[Idx++]);

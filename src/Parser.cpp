@@ -1,11 +1,17 @@
 #include "Parser.h"
 
-
-Parser::Parser()
+namespace swing
 {
-}
+	Parser::Parser()
+	{
+	}
 
 
-Parser::~Parser()
-{
+	Parser::~Parser()
+	{
+	}
+
+	void Parser::InitializeParser()
+	{
+	}
 }

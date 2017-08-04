@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "SwingCompiler.h"
 #include "CommandLine.h"
 #include "Project.h"
 

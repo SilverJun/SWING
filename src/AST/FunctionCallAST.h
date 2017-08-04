@@ -3,38 +3,78 @@
 
 #include "ExprAST.h"
 #include "Error.h"
+#include "FunctionDeclAST.h"
 
 namespace swing
 {
 	class FunctionCallAST : public ExprAST
 	{
-		std::string _callee;
-		std::vector<std::unique_ptr<ExprAST>> _args;
+		std::string _funcName;
+		std::map<std::string, ExprPtr> _args;
 
 	public:
-		FunctionCallAST(const std::string &Callee, std::vector<std::unique_ptr<ExprAST>> Args)
-		: _callee(Callee), _args(move(Args))
+
+		static ExprPtr Create(TokenIter& iter)
 		{
+			/*
+			 * (const std::string &Callee, std::vector<ExprPtr> Args) :
+			_callee(Callee), _args(Args)
+			 */
+			auto* ast = new FunctionCallAST();
+
+			iter->Expect(TokenID::Identifier);
+			ast->_funcName = iter++->_name;
+			iter++->Expect(TokenID::OpenSmall);
+
+			while (!iter->Is(TokenID::CloseSmall))
+			{
+				iter->Expect(TokenID::Identifier);
+				std::string argName = iter++->_name;
+				iter++->Expect(TokenID::Colon);
+				ast->_args[argName] = CreateTopLevelExpr(iter);
+				++iter;
+				if (!iter->Is(TokenID::Comma))
+					break;
+			}
+			++iter;
+
+			return ExprPtr(ast);
 		}
 
 		virtual ~FunctionCallAST() {}
 
 		llvm::Value* CodeGen() override
 		{
-			llvm::Function* CalleeF = g_Module.getFunction(_callee);
-			if (!CalleeF)
-				throw Error(__LINE__, "FunctionCall Error! in CalleeF");
+			FunctionDeclAST* functionAST = g_SwingCompiler->GetFunction(_funcName);
+			llvm::Function* callFunc = functionAST->_func;
+			if (!callFunc)
+				throw Error("FunctionCall Error! in CalleeF");
 
-			if (CalleeF->arg_size() != _args.size())
-				throw Error(__LINE__, "FunctionCall Error! argument mismatch");
+			if (callFunc->arg_size() != _args.size())
+				throw Error("FunctionCall Error! argument mismatch");
+			
+			/// 인자 순서 맞추기.
 
-			std::vector<llvm::Value*> ArgsV;
-			for (size_t i = 0; i != _args.size(); ++i) {
-				ArgsV.push_back(_args[i]->CodeGen());
-				if (!ArgsV.back())
-					return nullptr;
+			std::vector<llvm::Value*> callArgs;
+			auto declArgs = functionAST->_args;
+			
+			for (auto arg = declArgs.begin(); arg != declArgs.end(); ++arg)
+			{
+				/// 키가 존재하는지.
+				if (_args.count((*arg)->GetName()))
+				{
+					llvm::Value* value = _args[(*arg)->GetName()]->CodeGen();
+					
+					if (value->getType() == (*arg)->GetType())
+					{
+						callArgs.push_back(value);
+					}
+				}
+				else
+					throw Error("FunctionCall Error!, there is no argument: " + (*arg)->GetName());
 			}
-			return g_Builder.CreateCall(CalleeF, ArgsV, _callee.c_str());
+
+			return g_Builder.CreateCall(callFunc->getFunctionType(), callFunc, callArgs);
 		}
 	};
 }

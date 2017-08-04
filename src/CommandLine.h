@@ -7,6 +7,7 @@ namespace swing
 	class CommandLine
 	{
 	public:
+		std::vector<std::string> _args;
 		CommandLine() {}
 		virtual ~CommandLine() {}
 		/**
@@ -29,6 +30,10 @@ namespace swing
 	class CompileCommand : public CommandLine
 	{
 	public:
+		int _optLevel;
+		std::string _outputFormat;
+		std::string _projectPath;
+
 		~CompileCommand() {}
 		bool VerifierCommand(std::vector<std::string> args) override;
 		int RunCommand() override;

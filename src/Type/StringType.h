@@ -15,9 +15,9 @@ namespace swing
 
 	public:
 		StringType(std::string& str) : StructType("String",
-		{ llvm::VectorType::get(g_SwingCompiler._types["Char"], str.length()) },
+		{ llvm::VectorType::get(g_SwingCompiler->_types["char"], str.length()) },
 		{
-			{ "length", llvm::make_unique<llvm::Function>(llvm::Function::Create(llvm::FunctionType::get(g_SwingCompiler._types["Int"], false), llvm::GlobalValue::LinkOnceAnyLinkage, "length", &g_Module)) }
+			{ "length", llvm::make_unique<llvm::Function>(llvm::Function::Create(llvm::FunctionType::get(g_SwingCompiler->_types["int"], false), llvm::GlobalValue::LinkOnceAnyLinkage, "length", &g_Module)) }
 		}), _str(str)
 		{
 			/// Built-In member methods implementation

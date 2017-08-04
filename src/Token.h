@@ -1,17 +1,15 @@
 #ifndef _SWING_TOKEN_H_
 #define _SWING_TOKEN_H_
 
-#include <list>
+#include <vector>
 #include <string>
-#include "Error.h"
+#include <llvm/IR/Type.h>
 
 namespace swing
 {
 	enum class TokenID
 	{
 		Eof = 0,
-
-		Unknown,
 
 		Comma = ',',
 		Equal = '=',
@@ -35,35 +33,44 @@ namespace swing
 		CloseBig = ']',
 		Colon = ':',
 		Dot = '.',
-		wave = '~',
+		Wave = '~',
 		Question = '?',
 
 		Type_Var = 256,
 		Type_Let,
 		Type_Nil,
+
+		Type_Void,
+		Type_Bool,
+		Type_Char,
 		Type_Int,
+		Type_Float,
 		Type_Double,
 		Type_String,
 		Type_Array,
 		Type_Dictionary,
 		Type_Tuple,
+
 		Type_UserDefined,
 
 		Stmt_If,
 		Stmt_Else,
+		Stmt_Switch,
+		Stmt_Case,
+		Stmt_Default,
 		Stmt_Guard,
 		Stmt_While,
 		Stmt_For,
 		Stmt_In,
+		Stmt_Return,
 
 		Stmt_Public,
 		Stmt_Private,
 		Stmt_Inherit,	//protected
 
 		Func_Decl,
-		Func_ReturnType,
 		Func_Call,
-		Func_Return,
+		Func_Inout,
 
 		Struct_Decl,
 		Enum_Decl,
@@ -74,12 +81,16 @@ namespace swing
 		Operator_Prefix,
 		Operator_Infix,
 		Operator_Postfix,
+		Operator_Decl,
+		Operator_Precedence,
 
+		Operator,
 		Operator_UserDefined,
 
 		Identifier,	//변수나 클래스나 함수등 사용자 지정 이름
 
 		Literal_Integer, //정수
+		Literal_Float,
 		Literal_Double, //부동소수점
 		Literal_Letter,	//문자
 		Literal_String,	//문자열
@@ -114,92 +125,100 @@ namespace swing
 		Logical_Or,
 		Logical_Not,
 
+		Boolean_Value,		/// true, false
+
 		Optional_Nilable,		/// ?
 		Optional_Binding,		/// !
 
 		Range_Closed,	/// m...n : [m,n]
-		Range_Opend,	/// m..<n : [m,n)
+		Range_Opened,	/// m..<n : [m,n)
 
+		Arrow,
+
+		Casting_As,
+		Casting_Is,
 	};
 
 	struct Token
 	{
 		TokenID _id;
 		int _line;
-		int _iNumber;
-		char _char;
-		double _dNumber;
+		union
+		{
+			int _int;
+			char _char;
+			float _float;
+			double _double;
+		};
+		std::string _sourceName;
 		std::string _name;
 
-		Token(TokenID id, int line, double number = 0, std::string name = "") :
-			_id(id),
-			_line(line),
-			_iNumber(0),
-			_char(0),
-			_dNumber(number),
-			_name(name)
-		{ }
-
-		Token(TokenID id, int line, int number = 0, std::string name = "") :
-			_id(id),
-			_line(line),
-			_dNumber(0),
-			_char(0),
-			_iNumber(number),
-			_name(name)
-		{ }
-
-		Token(TokenID id, int line, char number = 0, std::string name = "") :
-			_id(id),
-			_line(line),
-			_iNumber(0),
-			_dNumber(0),
-			_char(number),
-			_name(name)
-		{ }
-
-		Token(TokenID id, int line, std::string name = "") :
-			_id(id),
-			_line(line),
-			_iNumber(0),
-			_char(0),
-			_dNumber(0),
-			_name(name)
-		{ }
-
-		void Expect(const TokenID id) const
+		enum class TokenTypeTag
 		{
-			if (this->_id != id)
-			{
-				throw Error(this->_line, "Unexpected Token, Id-"
-					+ std::to_string(static_cast<int>(this->_id))
-					+ " " + this->_name
-					+ std::to_string(this->_iNumber)
-					+ std::to_string(this->_char)
-					+ std::to_string(this->_dNumber)
-				);
-			}
-		}
+			_notuse,
+			_char,
+			_int,
+			_float,
+			_double
+		} _type;
+
+		explicit Token(TokenID id, int line, std::string sourceName, int number, std::string name = "") :
+			_id(id),
+			_line(line),
+			_int(number),
+			_sourceName(sourceName),
+			_name(name),
+			_type(TokenTypeTag::_int)
+		{ }
+
+		explicit Token(TokenID id, int line, std::string sourceName, char number, std::string name = "") :
+			_id(id),
+			_line(line),
+			_char(number),
+			_sourceName(sourceName),
+			_name(name),
+			_type(TokenTypeTag::_char)
+		{ }
+
+		explicit Token(TokenID id, int line, std::string sourceName, float number, std::string name = "") :
+			_id(id),
+			_line(line),
+			_float(number),
+			_sourceName(sourceName),
+			_name(name),
+			_type(TokenTypeTag::_float)
+		{ }
+
+		explicit Token(TokenID id, int line, std::string sourceName, double number, std::string name = "") :
+			_id(id),
+			_line(line),
+			_double(number),
+			_sourceName(sourceName),
+			_name(name),
+			_type(TokenTypeTag::_double)
+		{ }
+
+		Token(TokenID id, int line, std::string sourceName, std::string name = "") :
+			_id(id),
+			_line(line),
+			_double(0),
+			_sourceName(sourceName),
+			_name(name),
+			_type(TokenTypeTag::_notuse)
+		{ }
+
+		void Expect(const TokenID id) const;
+		bool Is(const TokenID id) const;
+		llvm::Type* GetType() const;
 	};
 
-	using TokenList = std::list<Token>;
-	using TokenListIter = TokenList::iterator;
+	using TokenList = std::vector<Token>;
+	using TokenIter = TokenList::iterator;
+	using TokenPattern = std::vector<TokenID>;
+	bool IsSamePattern(TokenIter iter, TokenPattern pattern);
 
-	inline std::ostream& operator<<(std::ostream& os, Token& token)
-	{
-		os << static_cast<int>(token._id) << " " << token._name << " " << token._iNumber << " " << token._dNumber << " " << token._char << std::endl;
-		
-		return os;
-	}
-
-	inline std::ostream& operator<<(std::ostream& os, TokenList& list)
-	{
-		for (auto iter = list.begin(); iter != list.end(); ++iter)
-		{
-			os << static_cast<int>((*iter)._id) << " " << (*iter)._name << " " << (*iter)._iNumber << (*iter)._dNumber << (*iter)._char << std::endl;
-		}
-		return os;
-	}
+	std::ostream& operator<<(std::ostream& os, Token& token);
+	std::ostream& operator<<(std::ostream& os, const Token& token);
 
 	struct Keyword
 	{

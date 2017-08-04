@@ -3,21 +3,25 @@
 
 #include <memory>
 #include <mutex>
+#include <map>
+#include <unordered_map>
+
+#include "Token.h"
 
 #include "Lexer.h"
 #include "Operator.h"
-#include "Token.h"
 
+#include "llvm/IR/Module.h"
 #include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/LegacyPassManager.h"
-#include "llvm/IR/Module.h"
-#include <unordered_map>
 #include "Project.h"
-
+#include "SwingTable.h"
 
 namespace swing
 {
+	class FunctionDeclAST;
+
 	class SwingCompiler
 	{
 		static std::unique_ptr<SwingCompiler> _instance;
@@ -29,43 +33,50 @@ namespace swing
 		SwingCompiler& operator=(const SwingCompiler& rhs) = delete;
 
 	public:
-		Lexer* _lexer = nullptr;
-		Project* _project = nullptr;
-
 		llvm::LLVMContext _llvmContext;
 		llvm::Module _module;
-		llvm::IRBuilder<> _builder;
+		
+		std::vector<llvm::IRBuilder<> > _builder;
 
-		std::vector<Keyword> _keywordList;
-		std::vector<Keyword> _operatorList;
-		std::list<TokenList> _tokenLists;
-
+		/// compiler context
 		std::unordered_map<std::string, llvm::Type*> _types;
-		std::unordered_map<std::string, llvm::Value*> _symbolTable;
+		std::unordered_map<std::string, FunctionDeclAST*> _functions;
 
-		static SwingCompiler& GetInstance()
-		{
-			std::call_once(_InitInstance, []()
-			{
-				_instance.reset(new SwingCompiler);
-			});
+		std::multimap<int, OperatorType> _binOperators;
+		std::vector<OperatorType> _preOperators;
+		std::vector<OperatorType> _postOperators;
 
-			return *_instance.get();
-		}
-		~SwingCompiler()
-		{
-			delete _lexer;
-		}
+		SwingTable _globalTable;
 
-		void SetProject(Project* project);
-		void CompileProject(Project* project);
-		void CompileFile(std::string file);
+		static SwingCompiler* GetInstance();
+		~SwingCompiler();
+
+		void PushIRBuilder(llvm::IRBuilder<> builder);
+		void PopIRBuilder();
+
+		/// Operators.
+		std::vector<OperatorType*> FindOps(int precedenceLevel);
+		OperatorType* FindPreFixOp(std::string op);
+		OperatorType* FindPostFixOp(std::string op);
+		static std::string OpNameMangling(OperatorType* op);
+		void AddOperator(OperatorType* op);
+
+		/// Functions.
+		void AddFunction(std::string name, FunctionDeclAST* func);
+		FunctionDeclAST* GetFunction(std::string name);
+
+		/// Interfaces.
+		void CompileSource(std::string name);
+		void CompileProject(Project* project, int optLevel, std::string outputFormat);
+		void LinkProject(Project* project);
+		void BuildProject(Project* project);
 	};
 }
 
 #define g_SwingCompiler	swing::SwingCompiler::GetInstance()
-#define g_Context	swing::SwingCompiler::GetInstance()._llvmContext
-#define g_Module	swing::SwingCompiler::GetInstance()._module
-#define g_Builder	swing::SwingCompiler::GetInstance()._builder
+#define g_Context	swing::SwingCompiler::GetInstance()->_llvmContext
+#define g_Module	swing::SwingCompiler::GetInstance()->_module
+#define g_Builder	swing::SwingCompiler::GetInstance()->_builder.back()
+#define g_Table	swing::SwingCompiler::GetInstance()->_globalTable
 
 #endif

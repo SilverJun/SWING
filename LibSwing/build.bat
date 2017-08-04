@@ -1,0 +1,1 @@
+clang++ -c -Wall -I / lib.cpp io.cpp && llvm-ar rc libswing.a lib.s

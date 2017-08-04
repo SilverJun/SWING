@@ -4,30 +4,27 @@
 #include "Token.h"
 #include "Operator.h"
 #include <vector>
+#include "Source.h"
+#include "SwingCompiler.h"
 
 namespace swing
 {
 	class Lexer
 	{
-		std::vector<Keyword>* _keywordList;
-		std::vector<Keyword>* _operatorList;
+		static std::vector<Keyword> _keywordList;
 		TokenList* _tokenList;
-		std::string _sourceCode;
-
+		std::string* _sourceCode;
+		std::string* _sourceName;
 		int _sourceLine;
 
+
 	public:
-		Lexer::Lexer(TokenList* tokList, std::vector<Keyword>* keywords, std::vector<Keyword>* operators);
+		Lexer();
 
-		void InitializeKeyword(std::vector<Keyword>* keywords);
+		void LexSource(Source* src);
 
-		void InitializeLexer();
-
-		void LoadSourceFile(std::string filename);
-		void SetSourceCode(std::string source);
-
-		void GenerateTokenList();
-
+	private:
+		void LexStart();
 		void LexCharacter(std::string::iterator& iter);
 		void LexNumber(std::string::iterator& iter);
 		void LexPunct(std::string::iterator& iter);
@@ -36,10 +33,7 @@ namespace swing
 		void LexStringLiteral(std::string::iterator& iter);
 		void SkipToLineAnnotation(std::string::iterator& iter);
 		void SkipToBlockAnnotation(std::string::iterator& iter);
-
-		void SetSourceLine(int line);
 	};
-
 }
 
 #endif

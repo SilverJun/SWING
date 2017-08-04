@@ -261,15 +261,9 @@ a 와 b를 비교했을 때 a의 입장에서 설명하면 아래와 같이 설�
 & | a & b | a와 b를 비트단위 AND연산
 \| | a \| b | a와 b를 비트단위 OR연산
 ~ | ~a | a를 비트단위 NOT연산
-\` | a\`b | a와 b를 비트단위 XOR연산
+^ | a ^ b | a와 b를 비트단위 XOR연산
 << | a << b | a를 b만큼 왼쪽으로 비트단위 SHIFT연산
 >> | a >> b | a를 b만큼 오른쪽으로 비트단위 SHIFT연산
-
-### 삼항조건연산자
-
-연산자 | 사용 예 | 결과
-----|-------|-----
-? : | c ? a : b | c가 참이면 a를 반환, 거짓이면 b를 반환
 
 ### 범위연산자
 
@@ -286,7 +280,6 @@ a 와 b를 비교했을 때 a의 입장에서 설명하면 아래와 같이 설�
 ------|------|------|-----
 ! | a! | 옵셔널 강제 추출 | a의 값을 강제로 추출, nil일때는 런타임 에러
 ? | a? | 옵셔널 바인딩 | a의 값을 안전하게 추출. nil값을 반환할 수 있음
-?? | a ?? b | nil 병합 | a가 nil이 아니면 a, nil이면 b (삼항연산자 축약형식)
 
 ### 사용자 정의 연산자
 
@@ -296,11 +289,31 @@ a 와 b를 비교했을 때 a의 입장에서 설명하면 아래와 같이 설�
 
 중위 연산자인 경우, 연산자 우선순위를 설정해야 하고 두 인자의 타입이 같아야 합니다. 반환타입은 자동으로 두 인자의 타입으로 설정됩니다. 우선순위는 항상 높습니다.
 
-*우선순위그룹을 추가할 예정입니다.*
-
 전위, 후위 연산자는 반환타입과 인자를 설정해야 하며 타입이 달라도 됩니다.
 
 이는 타입 안정성을 보장하기 위함입니다.
+
+연산자 우선순위를 설정할 수 있습니다.
+
+현재 SWING의 연산자들은 아래와 같은 연산자 우선순위를 가지고 있으며, 숫자가 낮을수록 연산자 우선순위가 낮은 것입니다.
+
+Int형 값을 적어도 되고, 아래 PrecedenceLevel을 문자로 적어도 됩니다.
+
+```
+PrecedenceLevel
+{
+	Precedence_Min = 1,
+	Precedence_Assignment = 2,
+	Precedence_Relational = 10,
+	Precedence_Logical = 20,
+	Precedence_Default = 30,
+	Precedence_Bitwise = 40,
+	Precedence_Additive = 50,
+	Precedence_Multiplicative = 60,
+	Precedence_Max = 100
+};
+```
+
 
 ```swift
 prefix operator name(argument) -> type {
@@ -313,7 +326,7 @@ postfix operator name(argument) -> type {
 }
 ```
 ```swift
-infix operator name(argument1, argument2) {
+infix operator name(argument1, argument2):PrecedenceLevel -> type {
     //...
 }
 ```
