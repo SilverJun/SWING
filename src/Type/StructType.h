@@ -11,17 +11,17 @@ namespace swing
 {
 	class StructType
 	{
-	protected:
+	public:
 		bool _isSetBody = false;
 		llvm::StructType* _type;
 		std::vector<StoredProperty> _value;
 		std::vector<llvm::Type*> _typeLayout;
-		std::unordered_map<std::string, std::unique_ptr<llvm::Function> > _method;
-
+		std::unordered_map<std::string, llvm::Function* > _method;
+		
 		/// Protocol conform _protocols
-		// std::vector<ProtocolType> _protocols;
-	public:
-		StructType(std::string name, std::vector<llvm::Type*> val, std::unordered_map<std::string, std::unique_ptr<llvm::Function> > method) :
+		// std::vector<ProtocolType> _protocols; 
+
+		StructType(std::string name, std::vector<llvm::Type*> val, std::unordered_map<std::string, llvm::Function* > method) :
 			_value(),
 			_typeLayout(val),
 			_method(method)
@@ -48,6 +48,16 @@ namespace swing
 		/// TODO : Protocol conform
 		void conformProtocol(/*Protocol* prot*/)
 		{
+		}
+
+		llvm::Value* GetElement(std::string name)
+		{
+			StoredProperty member = std::find_if(_value.begin(), _value.end(), [](StoredProperty& value)
+			{
+				value.;
+			});
+
+			member
 		}
 	};
 }

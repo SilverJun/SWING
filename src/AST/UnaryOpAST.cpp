@@ -49,4 +49,10 @@ namespace swing
 		/// TODO : 유저 정의 op들 Function call 처리
 		return _value->CodeGen();
 	}
+
+	llvm::Type* UnaryOpAST::GetType()
+	{
+		/// TODO : 타입 추론 보강하기.
+		return _value->GetType();
+	}
 }

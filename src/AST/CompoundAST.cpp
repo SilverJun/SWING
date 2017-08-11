@@ -1,6 +1,6 @@
 ﻿#include "CompoundAST.h"
 
-/// return ExprAST::CreateTopExprAST(iter);
+/// TODO : 제대로 만들기.
 swing::ExprAST::ExprPtr swing::CompoundAST::Create(TokenIter& iter)
 {
 	auto* ast = new CompoundAST();

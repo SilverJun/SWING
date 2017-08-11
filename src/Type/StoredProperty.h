@@ -12,7 +12,8 @@ namespace swing
 	class StoredProperty
 	{
 		/// TODO : Think How to Add Access Control
-
+	
+	public:
 		Variable _var;
 
 		std::unique_ptr<llvm::Function> _setter = nullptr;
@@ -21,19 +22,19 @@ namespace swing
 		std::unique_ptr<llvm::Function> _willSet = nullptr;
 		std::unique_ptr<llvm::Function> _didSet = nullptr;
 
-	public:
 		StoredProperty(Variable var) : _var(var) {}
 
 		void SetValue(llvm::Value* value)
 		{
+			auto* oldValue = _var.GetValue();
+
 			if (_setter == nullptr)
-			{
-				g_Builder.CreateCall(_setter.get(), {value});
-			}
+				g_Builder.CreateCall(_setter.get(), { value });
 			else
-			{
 				_var.SetValue(value);
-			}
+
+			if (_didSet != nullptr)
+				g_Builder.CreateCall(_setter.get(), { oldValue });
 		}
 
 		llvm::Value* GetValue() const

@@ -35,7 +35,6 @@ namespace swing
 	public:
 		llvm::LLVMContext _llvmContext;
 		llvm::Module _module;
-		
 		std::vector<llvm::IRBuilder<> > _builder;
 
 		/// compiler context
@@ -58,7 +57,6 @@ namespace swing
 		std::vector<OperatorType*> FindOps(int precedenceLevel);
 		OperatorType* FindPreFixOp(std::string op);
 		OperatorType* FindPostFixOp(std::string op);
-		static std::string OpNameMangling(OperatorType* op);
 		void AddOperator(OperatorType* op);
 
 		/// Functions.

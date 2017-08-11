@@ -3,6 +3,7 @@
 #include <llvm/IR/Function.h>
 #include <llvm/IR/Verifier.h>
 #include "Type.h"
+#include "Error.h"
 #include <iostream>
 #include <llvm/Support/raw_os_ostream.h>
 

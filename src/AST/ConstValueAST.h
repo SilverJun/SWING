@@ -3,6 +3,7 @@
 
 #include "ExprAST.h"
 #include "Type.h"
+#include "Error.h"
 
 namespace swing
 {
@@ -83,6 +84,26 @@ namespace swing
 			case ConstValueType::DoubleValue:
 				return llvm::ConstantFP::get(Double, _double);
 			/*case ConstValueType::NilValue:
+				return llvm::ConstantPointerNull::get(llvm::Type::getInt32PtrTy(g_Context));*/
+			}
+			return nullptr;
+		}
+
+		llvm::Type* GetType() override
+		{
+			switch (_type)
+			{
+			case ConstValueType::BoolValue:
+				return Bool;
+			case ConstValueType::CharValue:
+				return Char;
+			case ConstValueType::IntValue:
+				return Int;
+			case ConstValueType::FloatValue:
+				return Float;
+			case ConstValueType::DoubleValue:
+				return Double;
+				/*case ConstValueType::NilValue:
 				return llvm::ConstantPointerNull::get(llvm::Type::getInt32PtrTy(g_Context));*/
 			}
 			return nullptr;

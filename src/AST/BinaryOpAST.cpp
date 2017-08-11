@@ -2,6 +2,7 @@
 #include "UnaryOpAST.h"
 #include "VariableAST.h"
 #include "Type.h"
+#include "Error.h"
 
 namespace swing
 {
@@ -40,7 +41,6 @@ namespace swing
 				break;
 
 			++iter;
-
 			/// RHS항 넣기.
 			ast->_exprList.push_back(BinaryOpAST::Create(iter, PrecedenceLevel));
 		}
@@ -68,9 +68,13 @@ namespace swing
 		{
 		case TokenID::Assignment:
 		{
+			/// 더 똑똑해져야 한다.
+			/// 1. 일반 변수인지 확인해야 한다.
+			/// 2. 멤버변수인지 확인해줘야 한다.
+
 			VariableExprAST* varAst = dynamic_cast<VariableExprAST*>(_exprList.front().get());
-			g_SwingCompiler->_globalTable.Find(varAst->_variableName)->SetValue(_exprList.back().get()->CodeGen());
-			return nullptr;
+			
+			return g_Builder.CreateStore(_exprList.back().get()->CodeGen(), g_SwingCompiler->_globalTable.Find(varAst->_variableName)->GetValue());
 		}
 		case TokenID::Arithmetic_Add:
 		{
@@ -78,39 +82,94 @@ namespace swing
 			auto* type = value->getType();
 			auto rhs = ++_exprList.begin();
 
-			if (type == Int)
+			if (type == Char || type == Int)
 			{
 				while (rhs == _exprList.end())
 					value = g_Builder.CreateAdd(value, rhs++->get()->CodeGen(), "additmp");
 			}
 			else if(type == Float || type == Double)
 			{
-				
+				while (rhs == _exprList.end())
+					value = g_Builder.CreateFAdd(value, rhs++->get()->CodeGen(), "addftmp");
 			}
 			else
 			{
+				/// TODO : User Defined Function Call.
 			}
 		}
 		case TokenID::Arithmetic_Subtract:
 		{
+			auto* value = _exprList.begin()->get()->CodeGen();
+			auto* type = value->getType();
+			auto rhs = ++_exprList.begin();
 
+			if (type == Char || type == Int)
+			{
+				while (rhs == _exprList.end())
+					value = g_Builder.CreateSub(value, rhs++->get()->CodeGen(), "subitmp");
+			}
+			else if (type == Float || type == Double)
+			{
+				while (rhs == _exprList.end())
+					value = g_Builder.CreateFSub(value, rhs++->get()->CodeGen(), "subftmp");
+			}
+			else
+			{
+				/// TODO : User Defined Function Call.
+			}
 		}
 		case TokenID::Arithmetic_Multiply:
 		{
+			auto* value = _exprList.begin()->get()->CodeGen();
+			auto* type = value->getType();
+			auto rhs = ++_exprList.begin();
+
+			if (type == Char || type == Int)
+			{
+				while (rhs == _exprList.end())
+					value = g_Builder.CreateMul(value, rhs++->get()->CodeGen(), "mulitmp");
+			}
+			else if (type == Float || type == Double)
+			{
+				while (rhs == _exprList.end())
+					value = g_Builder.CreateFMul(value, rhs++->get()->CodeGen(), "mulftmp");
+			}
+			else
+			{
+				/// TODO : User Defined Function Call.
+			}
 		}
 		case TokenID::Arithmetic_Divide:
 		{
+			auto* value = _exprList.begin()->get()->CodeGen();
+			auto* type = value->getType();
+			auto rhs = ++_exprList.begin();
+
+			if (type == Char || type == Int)
+			{
+				while (rhs == _exprList.end())
+					value = g_Builder.CreateSDiv(value, rhs++->get()->CodeGen(), "divitmp");
+			}
+			else if (type == Float || type == Double)
+			{
+				while (rhs == _exprList.end())
+					value = g_Builder.CreateFDiv(value, rhs++->get()->CodeGen(), "divftmp");
+			}
+			else
+			{
+				/// TODO : User Defined Function Call.
+			}
 		}
 		case TokenID::Arithmetic_Modulo:
 		{
+			/// TODO : Modulo Define
 		}
 		case TokenID::Arithmetic_Power:
 		{
+			/// TODO : Lib Function call.
 		}
 		default:
 			throw Error("Unknown infix Operator");
 		}
-
-
 	}
 }

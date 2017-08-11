@@ -4,6 +4,7 @@
 #include "Type.h"
 #include "FunctionDeclAST.h"
 #include <iostream>
+#include "Error.h"
 
 namespace swing
 {
@@ -84,22 +85,6 @@ namespace swing
 		return nullptr;
 	}
 
-	std::string SwingCompiler::OpNameMangling(OperatorType* op)
-	{
-		/// Make Name Mangling.
-		std::string mangled = GetOpLocationString(op->_opLocation);
-		mangled += "@";
-		mangled += GetTypeString(op->_returnType);
-		mangled += "@";
-		mangled += op->_opString;
-		mangled += "@";
-		mangled += GetTypeString(op->_typeOne);
-		mangled += "@";
-		mangled += GetTypeString(op->_typeTwo);
-
-		return mangled;
-	}
-
 	void SwingCompiler::AddOperator(OperatorType* op)
 	{
 		/// TODO : 기능 구현.
@@ -160,21 +145,25 @@ namespace swing
 		catch (LexicalError& e)
 		{
 			std::cout << e.what() << std::endl;
+			system("pause");
 			exit(-1);
 		}
 		catch (ParsingError& e)
 		{
 			std::cout << e.what() << std::endl;
+			system("pause");
 			exit(-1);
 		}
 		catch (Error& e)
 		{
 			std::cout << e.what() << std::endl;
+			system("pause");
 			exit(-1);
 		}
 		catch (const std::exception& e)
 		{
 			std::cout << e.what() << std::endl;
+			system("pause");
 			exit(-1);
 		}
 
@@ -201,8 +190,12 @@ namespace swing
 		cmd += "C:\\Users\\SilverJun\\SwingTestProject\\libswing.o";
 		cmd += ' ';
 		cmd += "C:\\Users\\SilverJun\\SwingTestProject\\io.o";
-
 		system(cmd.c_str());
+
+		std::cout << "Successfully Compiled. Now Executing..." << std::endl << std::endl;
+
+		int retval = system("C:\\Users\\SilverJun\\SwingTestProject\\Test.exe");
+		std::cout << "Return : " << retval << std::endl;
 	}
 
 	void SwingCompiler::CompileProject(Project* project, int optLevel, std::string outputFormat)

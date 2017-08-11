@@ -36,7 +36,6 @@ namespace swing
 		_output->_func = llvm::Function::Create(_output->_funcType, llvm::Function::ExternalLinkage, "output", &g_Module);
 		/// output Function Decl End.
 
-
 		return nullptr;
 	}
 }

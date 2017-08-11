@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "SwingTable.h"
 #include "SwingCompiler.h"
+#include "Error.h"
 
 namespace swing
 {

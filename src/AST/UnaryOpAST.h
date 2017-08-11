@@ -14,6 +14,7 @@ namespace swing
 
 		static ExprPtr Create(TokenIter& iter);
 		llvm::Value* CodeGen() override;
+		llvm::Type* GetType() override;
 	};
 }
 

@@ -15,6 +15,7 @@ namespace swing
 		case TokenID::Func_Decl:
 			return BasePtr(FunctionDeclAST::Create(iter));
 		case TokenID::Type_Var:
+		case TokenID::Type_Let:
 			return BasePtr(VariableDeclAST::Create(iter));
 		
 		case TokenID::Stmt_Return:
