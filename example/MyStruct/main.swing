@@ -1,0 +1,16 @@
+struct MyStruct
+{
+    var mem1:int
+    var mem2:int
+}
+
+func main() -> int 
+{
+    var test:MyStruct
+    var Num:int
+
+    Num = 1234
+    test.mem1 = Num
+    test.mem2 = test.mem1
+    return test.mem2
+}

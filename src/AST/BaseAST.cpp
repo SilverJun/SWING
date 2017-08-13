@@ -4,6 +4,7 @@
 #include "VariableDeclAST.h"
 #include "ExprAST.h"
 #include "ReturnAST.h"
+#include "StructDeclAST.h"
 
 namespace swing
 {
@@ -13,13 +14,16 @@ namespace swing
 		switch (iter->_id)
 		{
 		case TokenID::Func_Decl:
-			return BasePtr(FunctionDeclAST::Create(iter));
+			return FunctionDeclAST::Create(iter);
 		case TokenID::Type_Var:
 		case TokenID::Type_Let:
-			return BasePtr(VariableDeclAST::Create(iter));
+			return VariableDeclAST::Create(iter);
+
+		case TokenID::Struct_Decl:
+			return StructDeclAST::Create(iter);
 		
 		case TokenID::Stmt_Return:
-			return BasePtr(ReturnAST::Create(iter));
+			return ReturnAST::Create(iter);
 
 		case TokenID::Operator:
 		case TokenID::Boolean_Value:
@@ -30,7 +34,7 @@ namespace swing
 		case TokenID::Literal_Letter:
 		case TokenID::Literal_String:
 		case TokenID::Identifier:	/// Maybe assign or member call, function call.
-			return BasePtr(ExprAST::CreateTopLevelExpr(iter));
+			return ExprAST::CreateTopLevelExpr(iter);
 
 		default:
 			throw ParsingError(*iter, "Unexpected Token");

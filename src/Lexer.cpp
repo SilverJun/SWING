@@ -104,6 +104,7 @@ namespace swing
 
 		{ TokenID::Colon, ":" },
 		{ TokenID::Comma, "," },
+		{ TokenID::Dot, "." },
 	};
 
 	Lexer::Lexer() : _tokenList(nullptr), _sourceCode(nullptr), _sourceName(nullptr), _sourceLine(1)
@@ -185,7 +186,7 @@ namespace swing
 				}
 			}
 		}
-		catch (Error& e)
+		catch (LexicalError& e)
 		{
 			std::cout << "Lexer Error : " << e.what() << std::endl;
 			exit(1);

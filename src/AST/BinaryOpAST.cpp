@@ -72,9 +72,10 @@ namespace swing
 			/// 1. 일반 변수인지 확인해야 한다.
 			/// 2. 멤버변수인지 확인해줘야 한다.
 
-			VariableExprAST* varAst = dynamic_cast<VariableExprAST*>(_exprList.front().get());
-			
-			return g_Builder.CreateStore(_exprList.back().get()->CodeGen(), g_SwingCompiler->_globalTable.Find(varAst->_variableName)->GetValue());
+			UnaryOpAST* temp1 = dynamic_cast<UnaryOpAST*>(_exprList.front().get());
+			VariableExprAST* varAST = dynamic_cast<VariableExprAST*>(temp1->_value.get());
+
+			return g_Builder.CreateStore(_exprList.back().get()->CodeGen(), varAST->CodeGenRef());
 		}
 		case TokenID::Arithmetic_Add:
 		{

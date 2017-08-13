@@ -32,10 +32,9 @@ namespace swing
 
 		std::string what() const override
 		{
-			std::string msg;
-			std::stringstream iss(msg);
+			std::stringstream iss;
 			iss << std::string("Lexical Error> Line:") << _sourceLine << "Message> " << _description;
-			return msg;
+			return iss.str();
 		}
 	};
 

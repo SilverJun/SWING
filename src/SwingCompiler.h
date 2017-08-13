@@ -21,6 +21,7 @@
 namespace swing
 {
 	class FunctionDeclAST;
+	class StructType;
 
 	class SwingCompiler
 	{
@@ -40,6 +41,7 @@ namespace swing
 		/// compiler context
 		std::unordered_map<std::string, llvm::Type*> _types;
 		std::unordered_map<std::string, FunctionDeclAST*> _functions;
+		std::unordered_map<std::string, swing::StructType*> _structs;
 
 		std::multimap<int, OperatorType> _binOperators;
 		std::vector<OperatorType> _preOperators;

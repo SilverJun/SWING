@@ -47,8 +47,7 @@ namespace swing
 		if (!_isOptional && value == nullptr)
 			throw Error("Variable can`t be nil. Variable is not optional.");
 
-		//_value.getValue() = value;
-		g_Builder.CreateStore(value, _value);
+		_value = value;
 	}
 
 	void Variable::SetNil()
@@ -61,7 +60,7 @@ namespace swing
 
 	llvm::Value* Variable::GetValue() const
 	{
-		return g_Builder.CreateLoad(_value);
+		return _value;
 	}
 
 	Variable* Variable::operator=(Variable& rhs)
@@ -69,7 +68,7 @@ namespace swing
 		if (rhs.IsNil() == true && this->IsOptional() == false)
 			throw Error("can't assign Nil value to not optional value");
 
-		/// TODO : assign implement
+		g_Builder.CreateStore(rhs.GetValue(), this->_value);
 
 		return this;
 	}

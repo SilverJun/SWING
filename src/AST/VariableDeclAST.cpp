@@ -6,6 +6,8 @@ namespace swing
 	{
 		/// TODO : Struct를 만들 때 Struct에 해당하는 변수여야 하니까 이거 처리해야함.
 		/// TODO : 현재 콘텍스트가 전역인지 로컬인지 Struct안인지 알아야 한다.
+
+		/// 전역이면 GlobalVariable.
 		auto* ast = new VariableDeclAST();
 		
 		std::string name;
@@ -26,8 +28,9 @@ namespace swing
 				if (iter->Is(TokenID::Optional_Nilable))
 					optional = true;
 
-				if (iter++->Is(TokenID::Assignment))
+				if (iter->Is(TokenID::Assignment))
 				{
+					++iter;
 					ast->_initValue = ExprAST::CreateTopLevelExpr(iter);
 					if (type != ast->_initValue->GetType())
 						throw ParsingError(*iter, "VariableDeclAST error, expression type is different from the specified type.");
@@ -61,7 +64,8 @@ namespace swing
 
 		/// 초기값이 있으면 초기값을 할당. (Store)
 		if (_initValue != nullptr)
-			_variable->SetValue(_initValue->CodeGen());
+			g_Builder.CreateStore(_initValue->CodeGen(), _variable->_value);
+
 		return nullptr;
 	}
 }

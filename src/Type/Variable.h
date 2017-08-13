@@ -12,8 +12,8 @@ namespace swing
 	 */
 	class Variable
 	{
+	public:
 		friend class VariableDeclAST;
-	
 		bool _isOptional;
 		bool _isLet;
 		bool _isInout;
@@ -23,7 +23,6 @@ namespace swing
 		llvm::Value* _value;
 
 		Variable() = delete;
-	public:
 		/**
 		 * \brief Type only variable.
 		 * variable will be optional.

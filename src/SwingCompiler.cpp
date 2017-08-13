@@ -3,6 +3,7 @@
 #include "llvm/Support/TargetSelect.h"
 #include "Type.h"
 #include "FunctionDeclAST.h"
+#include "StructType.h"
 #include <iostream>
 #include "Error.h"
 
