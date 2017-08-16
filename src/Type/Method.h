@@ -6,8 +6,6 @@
 
 struct Method
 {
-	bool _isInit;
-	bool _isDeInit;
 	bool _isRequired;
 	bool _isOverride;
 

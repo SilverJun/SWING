@@ -14,33 +14,21 @@ namespace swing
 	{
 	public:
 		friend class VariableDeclAST;
+		bool _isIncompleteType;
+
 		bool _isOptional;
 		bool _isLet;
 		bool _isInout;
 
 		std::string _name;
+		std::string _typeName;
 		llvm::Type* _type;
 		llvm::Value* _value;
 
 		Variable() = delete;
-		/**
-		 * \brief Type only variable.
-		 * variable will be optional.
-		 * variable can`t be let type.
-		 * this variable init with nil.
-		 */
-		Variable(llvm::Type* type, std::string name);
-
-		/**
-		* \brief blueprint variable. no real value.
-		* variable can be let, optional. it`s choice.
-		*/
+		
 		Variable(llvm::Type* type, std::string name, bool let, bool inout, bool optional);
-
-		/**
-		 * \brief Full option variable.
-		 */
-		Variable(llvm::Type* type, llvm::Value* value, std::string name, bool let, bool inout, bool optional);
+		Variable(std::string type, std::string name, bool let, bool inout, bool optional);
 
 		~Variable();
 

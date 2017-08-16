@@ -6,16 +6,26 @@
 
 namespace swing
 {
+	/*enum class ExprType
+	{
+		TopExpr,
+		BinaryOp,
+		UnaryOp,
+		Variable,
+		FunctionCall
+	};*/
+
 	class ExprAST : public BaseAST
 	{
 	public:
-		/// TODO : Expr parsing 추가.
 		virtual ~ExprAST() {}
 
 		using ExprPtr = std::shared_ptr<ExprAST>;
 
 		static ExprPtr CreateTopLevelExpr(TokenIter& iter);
 		virtual llvm::Type* GetType() { return nullptr; }
+		//virtual ExprType GetExprType() { return ExprType::TopExpr; }
+		virtual llvm::Value* CodeGenRef() { return nullptr; }
 		llvm::Value* CodeGen() override;
 	};
 

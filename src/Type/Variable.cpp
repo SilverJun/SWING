@@ -4,17 +4,8 @@
 
 namespace swing
 {
-	Variable::Variable(llvm::Type* type, std::string name):
-		_isOptional(true),
-		_isLet(false),
-		_isInout(false),
-		_name(name),
-		_type(type),
-		_value(nullptr)
-	{
-	}
-
 	Variable::Variable(llvm::Type* type, std::string name, bool let, bool inout, bool optional):
+		_isIncompleteType(false),
 		_isOptional(optional),
 		_isLet(let),
 		_isInout(inout),
@@ -24,12 +15,15 @@ namespace swing
 	{
 	}
 
-	Variable::Variable(llvm::Type* type, llvm::Value* value, std::string name, bool let, bool inout, bool optional):
+	Variable::Variable(std::string type, std::string name, bool let, bool inout, bool optional) :
+		_isIncompleteType(true),
 		_isOptional(optional),
 		_isLet(let),
 		_isInout(inout),
 		_name(name),
-		_type(type)
+		_typeName(type),
+		_type(nullptr),
+		_value(nullptr)
 	{
 	}
 
@@ -39,6 +33,14 @@ namespace swing
 
 	void Variable::CreateAlloca()
 	{
+		if (_isIncompleteType)
+		{
+			_type = g_SwingCompiler->_types[_typeName];
+			_isIncompleteType = false;
+
+			if (_type == nullptr) // throw Error!
+				throw Error("Type Inference failed, Maybe there is no define type name: " + _typeName);
+		}
 		_value = g_Builder.CreateAlloca(_type, nullptr, _name);
 	}
 

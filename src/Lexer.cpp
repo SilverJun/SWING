@@ -316,7 +316,7 @@ namespace swing
 	void Lexer::LexPunct(std::string::iterator& iter)
 	{
 		auto start = iter;
-		for (;iter != _sourceCode->end() && std::ispunct(*iter) && *iter != '\"' && *iter != '\''; ++iter) {}
+		for (;iter != _sourceCode->end() && std::ispunct(*iter) && *iter != '\"' && *iter != '\'' && *iter != '('&& *iter != ')'; ++iter) {}
 		std::string operatorString(start, iter--);
 
 		for (auto it : _keywordList)

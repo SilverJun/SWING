@@ -12,7 +12,7 @@ namespace swing
 		iter->Expect(TokenID::Identifier);
 		std::string structName = iter++->_name;
 
-		/* Protocol Conform
+		/* ProtocolType Conform
 		if (iter->Is(TokenID::Colon))
 		{
 		}
@@ -40,13 +40,12 @@ namespace swing
 		++iter;
 
 		ast->_type._name = structName;
-		ast->_type.CreateStructType();
 		return DeclPtr(ast);
 	}
 
 	llvm::Value* StructDeclAST::CodeGen()
 	{
-		
+		_type.CreateStructType();
 		return nullptr;
 	}
 }

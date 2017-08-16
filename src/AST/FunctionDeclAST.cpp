@@ -21,7 +21,7 @@ namespace swing
 		while (!iter->Is(TokenID::CloseSmall))
 		{
 			std::string name;
-			llvm::Type* type;
+			std::string type;
 			bool inout = false;
 			bool optional = false;
 			if (iter->Is(TokenID::Func_Inout))
@@ -33,7 +33,8 @@ namespace swing
 			++iter;
 			iter->Expect(TokenID::Colon);
 			++iter;
-			type = g_SwingCompiler->_types[iter->_name];
+			///type = g_SwingCompiler->_types[iter->_name];
+			type = iter->_name;
 			++iter;
 			if (iter->Is(TokenID::Optional_Nilable))
 			{
@@ -74,22 +75,33 @@ namespace swing
 		_funcType = llvm::FunctionType::get(_returnType, argTypes.size() != 0 ? argTypes, false : false);
 		_func = llvm::Function::Create(_funcType, llvm::Function::ExternalLinkage, _funcName, &g_Module);
 		
+		/// Table 등록.
+		g_Table.AddVariable(_funcBody->_localTable);
+		
+		/// Function Body Block 삽입.
+		auto blockInst = llvm::BasicBlock::Create(g_Context, "entry", _func);
+		g_SwingCompiler->PushIRBuilder(llvm::IRBuilder<>(blockInst));
+		g_Builder.SetInsertPoint(blockInst);
+
 		/// 인자 등록하는 과정.
 		int Idx = 0;
 		for (auto &Arg : _func->args())
 		{
+			_args[Idx]->CreateAlloca();
+
 			if (_args[Idx]->isInout())
 				Arg.addAttr(llvm::Attribute::Dereferenceable);
 
 			Arg.setName(_args[Idx]->GetName());
-			_args[Idx]->SetValue(&Arg);
+
+			g_Builder.CreateStore(&Arg, _args[Idx]->_value);
 
 			_funcBody->_localTable->AddVariable(_args[Idx]);
 			Idx++;
 		}
-		g_Table.AddVariable(_funcBody->_localTable);
 
 		_funcBody->_func = _func;
+		_funcBody->_blockInst = blockInst;
 		_funcBody->CodeGen();
 
 		llvm::raw_os_ostream os(std::cout);

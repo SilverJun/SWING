@@ -1,11 +1,5 @@
-func test() -> int
-{
-    return 1
-}
-
 func main() -> int 
 {
-    test()
-    output(str:"Hello Swing! PLEASE!!!!!")
+    output(str:"Hello Swing!")
     return 0
 }

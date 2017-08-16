@@ -12,6 +12,7 @@ namespace swing
 		
 		std::string name;
 		llvm::Type* type = nullptr;
+		std::string typeName = "";
 		bool optional = false;
 
 		if (iter->Is(TokenID::Type_Var))
@@ -24,7 +25,9 @@ namespace swing
 			if (iter->Is(TokenID::Colon))
 			{
 				++iter;
-				type = g_SwingCompiler->_types[iter++->_name];
+				typeName = iter++->_name;
+				type = g_SwingCompiler->_types[typeName];
+
 				if (iter->Is(TokenID::Optional_Nilable))
 					optional = true;
 
@@ -44,13 +47,20 @@ namespace swing
 				type = ast->_initValue->GetType();
 			}
 
-			g_SwingCompiler->_globalTable.AddVariable(new Variable(type, name, false, false, optional));
+			if (type != nullptr)
+				g_SwingCompiler->_globalTable.AddVariable(new Variable(type, name, false, false, optional));
+			else
+				g_SwingCompiler->_globalTable.AddVariable(new Variable(typeName, name, false, false, optional));
+
 			ast->_variable = g_SwingCompiler->_globalTable.Find(name);
 		}
-		else if (iter->Is(TokenID::Type_Let))
-		{
-			g_SwingCompiler->_globalTable.AddVariable(new Variable(type, name, true, false, optional));
-		}
+		//else if (iter->Is(TokenID::Type_Let))
+		//{
+		//	if (type == nullptr)
+		//		g_SwingCompiler->_globalTable.AddVariable(new Variable(type, name, true, false, optional));
+		//	else
+		//		g_SwingCompiler->_globalTable.AddVariable(new Variable(typeName, name, true, false, optional));
+		//}
 		else
 			throw ParsingError(*iter, "Unexpected Token, VariableDeclAST, expect var or let.");
 

@@ -140,9 +140,14 @@ int main(int argc, char* argv[])
 	swing::SwingCLI cli(7, arg);
 	cli.InitProgram();
 	return cli.RunProgram();*/
-	auto* compiler = g_SwingCompiler;
 
-	compiler->CompileSource("C:/Users/SilverJun/SwingTestProject/main.swing");
-
+	//*
+	if (argc < 2)
+		return -1;
+	
+	g_SwingCompiler->CompileSource(argv[1]);
+	/*
+	g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\ExprTest\\main.swing");
+	//*/
 	return 0;
 }

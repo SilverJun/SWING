@@ -49,12 +49,16 @@ namespace swing
 		for (auto value : _sourceAST)
 			value->CodeGen();
 
+		std::string folder = _name.substr(0, _name.length() - 10);
+
 		llvm::raw_os_ostream os(std::cout);
-		llvm::verifyModule(g_Module, &os);
+		verifyModule(g_Module, &os);
 
 		std::error_code EC;
-		llvm::raw_fd_ostream OS("C:\\Users\\SilverJun\\SwingTestProject\\Test.ll", EC, llvm::sys::fs::F_None);
-		g_SwingCompiler->_module.print(OS, nullptr, true);
+		std::string file = folder + "Test.ll";
+		
+		llvm::raw_fd_ostream OS(file, EC, llvm::sys::fs::F_None);
+		g_SwingCompiler->_module.print(OS, nullptr);
 		OS.flush();
 	}
 }

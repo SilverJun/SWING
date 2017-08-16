@@ -40,14 +40,14 @@ namespace swing
 		{
 			/// Add blockTable as ChildTable
 			/// Create Block
-			_blockInst = llvm::BasicBlock::Create(g_Context, "entry", _func != nullptr ? _func : nullptr);
+			/*_blockInst = llvm::BasicBlock::Create(g_Context, "entry", _func != nullptr ? _func : nullptr);
 			g_SwingCompiler->PushIRBuilder(llvm::IRBuilder<>(_blockInst));
 			g_Builder.SetInsertPoint(_blockInst);
-
+*/
 			for (auto ast : _astList)
 				ast->CodeGen();
 			
-			return _blockInst;
+			return nullptr;
 		}
 	};
 }

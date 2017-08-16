@@ -4,6 +4,7 @@
 #include "Type.h"
 #include "FunctionDeclAST.h"
 #include "StructType.h"
+#include "ProtocolType.h"
 #include <iostream>
 #include "Error.h"
 
@@ -27,11 +28,13 @@ namespace swing
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Multiplicative, { "%", TokenID::Arithmetic_Modulo, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Multiplicative }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Multiplicative, { "**", TokenID::Arithmetic_Power, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Multiplicative }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Assignment, { "=", TokenID::Assignment, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Assignment }));
+		/*
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Bitwise, { "&", TokenID::Bitwise_And, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Bitwise }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Bitwise, { "|", TokenID::Bitwise_Or, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Bitwise }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Bitwise, { "^", TokenID::Bitwise_Xor, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Bitwise }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Bitwise, { ">>", TokenID::Bitwise_ShiftRight, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Bitwise }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Bitwise, { "<<", TokenID::Bitwise_ShiftLeft, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Bitwise }));
+		*/
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Logical, { "&&", TokenID::Logical_And, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Logical }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Logical, { "||", TokenID::Logical_Or, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Logical }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "==", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
@@ -40,16 +43,16 @@ namespace swing
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { ">=", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "<", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "<=", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
-		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Default, { "...", TokenID::Range_Closed, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Default }));
-		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Default, { "..<", TokenID::Range_Opened, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Default }));
+		//_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Default, { "...", TokenID::Range_Closed, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Default }));
+		//_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Default, { "..<", TokenID::Range_Opened, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Default }));
 		_binOperators.insert(std::pair<int, OperatorType>(70, { "as", TokenID::Casting_As, OperatorType::OperatorLocation::Infix, 70 }));
 		_binOperators.insert(std::pair<int, OperatorType>(70, { "is", TokenID::Casting_Is, OperatorType::OperatorLocation::Infix, 70 }));
-	
+
 		_preOperators.push_back(OperatorType("!", TokenID::Logical_Not, OperatorType::OperatorLocation::Prefix, OperatorType::Precedence_Logical));
-		_preOperators.push_back(OperatorType("~", TokenID::Bitwise_Not, OperatorType::OperatorLocation::Prefix, OperatorType::Precedence_Bitwise));
+		//_preOperators.push_back(OperatorType("~", TokenID::Bitwise_Not, OperatorType::OperatorLocation::Prefix, OperatorType::Precedence_Bitwise));
 		
-		_postOperators.push_back(OperatorType("?", TokenID::Optional_Nilable, OperatorType::OperatorLocation::Postfix, OperatorType::Precedence_Default));
-		_postOperators.push_back(OperatorType("!", TokenID::Optional_Binding, OperatorType::OperatorLocation::Postfix, OperatorType::Precedence_Default));
+		//_postOperators.push_back(OperatorType("?", TokenID::Optional_Nilable, OperatorType::OperatorLocation::Postfix, OperatorType::Precedence_Default));
+		//_postOperators.push_back(OperatorType("!", TokenID::Optional_Binding, OperatorType::OperatorLocation::Postfix, OperatorType::Precedence_Default));
 	}
 
 	std::vector<OperatorType*> SwingCompiler::FindOps(int precedenceLevel)
@@ -125,6 +128,15 @@ namespace swing
 		_builder.pop_back();
 	}
 
+	llvm::Type * SwingCompiler::GetType(std::string name)
+	{
+		llvm::Type* type = nullptr;
+		type = _types[name];
+		if (type == nullptr)
+			type = _structs[name]->_type;
+		return type;
+	}
+
 	void SwingCompiler::CompileSource(std::string name)
 	{
 		/// built-in types
@@ -168,35 +180,40 @@ namespace swing
 			exit(-1);
 		}
 
+		std::string folder = name.substr(0, name.length() - 10);
+
 		/// llc
 		std::string cmd("llc");
 		cmd += ' ';
 		cmd += "-filetype=obj";
 		cmd += ' ';
-		cmd += "C:\\Users\\SilverJun\\SwingTestProject\\Test.ll";
+		cmd += folder + "Test.ll";
 		cmd += ' ';
-		cmd += "-o C:\\Users\\SilverJun\\SwingTestProject\\Test.obj";
+		cmd += "-o " + folder + "Test.obj";
 
 		system(cmd.c_str());
 
 		/// clang-cl
 		cmd = "clang-cl";
 		cmd += ' ';
-		cmd += "-o C:\\Users\\SilverJun\\SwingTestProject\\Test.exe";
+		cmd += "-o" + folder + "Test.exe";
 		cmd += ' ';
-		cmd += "C:\\Users\\SilverJun\\SwingTestProject\\Test.obj";
+		cmd += folder + "Test.obj";
 		cmd += ' ';
-		cmd += "C:\\Users\\SilverJun\\SwingTestProject\\libcmt.lib";
+		cmd += "C:\\Users\\SilverJun\\Desktop\\SWING\\LibSwing\\libcmt.lib";
 		cmd += ' ';
-		cmd += "C:\\Users\\SilverJun\\SwingTestProject\\libswing.o";
+		cmd += "C:\\Users\\SilverJun\\Desktop\\SWING\\LibSwing\\libswing.o";
 		cmd += ' ';
-		cmd += "C:\\Users\\SilverJun\\SwingTestProject\\io.o";
+		cmd += "C:\\Users\\SilverJun\\Desktop\\SWING\\LibSwing\\io.o";
 		system(cmd.c_str());
 
-		std::cout << "Successfully Compiled. Now Executing..." << std::endl << std::endl;
+		std::cout << "Successfully Compiled." << std::endl;
 
-		int retval = system("C:\\Users\\SilverJun\\SwingTestProject\\Test.exe");
-		std::cout << "Return : " << retval << std::endl;
+		cmd = folder + "Test.exe";
+
+		int retval = system(cmd.c_str());
+		std::cout << std::endl;
+		std::cout << "SwingCompiler> Program Return " << retval << std::endl << std::endl;
 	}
 
 	void SwingCompiler::CompileProject(Project* project, int optLevel, std::string outputFormat)

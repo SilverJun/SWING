@@ -11,7 +11,6 @@ namespace swing
 		ExprList _exprList;
 		
 		std::vector<OperatorType*> _opTypes;
-		
 		std::vector<OperatorType*> _opCandidates;
 
 		~BinaryOpAST();

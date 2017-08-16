@@ -14,6 +14,8 @@ namespace swing
 
 	void StructType::CreateStructType()
 	{
+		/// TODO : ProtocolType 요구사항 구현되었는지 체크.
+		_isSetBody = true;
 		_type = llvm::StructType::create(g_Context, _typeLayout, _name);
 		g_SwingCompiler->_types[_name] = _type;
 		g_SwingCompiler->_structs[_name] = this;

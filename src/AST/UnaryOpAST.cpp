@@ -26,9 +26,11 @@ namespace swing
 		{
 			ast->_opType = *g_SwingCompiler->FindPostFixOp(iter->_name);
 			++iter;
+
+			return ExprPtr(ast);
 		}
 
-		return ExprPtr(ast);
+		return ast->_value;
 	}
 
 	llvm::Value* UnaryOpAST::CodeGen()

@@ -22,6 +22,7 @@ namespace swing
 {
 	class FunctionDeclAST;
 	class StructType;
+	class ProtocolType;
 
 	class SwingCompiler
 	{
@@ -41,7 +42,8 @@ namespace swing
 		/// compiler context
 		std::unordered_map<std::string, llvm::Type*> _types;
 		std::unordered_map<std::string, FunctionDeclAST*> _functions;
-		std::unordered_map<std::string, swing::StructType*> _structs;
+		std::unordered_map<std::string, StructType*> _structs;
+		std::unordered_map<std::string, ProtocolType*> _protocols;
 
 		std::multimap<int, OperatorType> _binOperators;
 		std::vector<OperatorType> _preOperators;
@@ -52,8 +54,12 @@ namespace swing
 		static SwingCompiler* GetInstance();
 		~SwingCompiler();
 
+		/// IRBuilder
 		void PushIRBuilder(llvm::IRBuilder<> builder);
 		void PopIRBuilder();
+
+		/// Types.
+		llvm::Type* GetType(std::string name);
 
 		/// Operators.
 		std::vector<OperatorType*> FindOps(int precedenceLevel);
@@ -65,7 +71,7 @@ namespace swing
 		void AddFunction(std::string name, FunctionDeclAST* func);
 		FunctionDeclAST* GetFunction(std::string name);
 
-		/// Interfaces.
+		/// Command Line Interfaces.
 		void CompileSource(std::string name);
 		void CompileProject(Project* project, int optLevel, std::string outputFormat);
 		void LinkProject(Project* project);

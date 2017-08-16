@@ -1,0 +1,6 @@
+func main() -> int
+{
+    var test:int
+    test = 10*2-(3+1)+4/(2+2)
+    return test
+}

@@ -64,113 +64,149 @@ namespace swing
 
 		/// _exprList의 항이 하나만 있으면 걍 해당식 CodeGen을 리턴한다. 부가연산 없다.
 
-		switch (_opTypes.front()->_tokenID)
-		{
-		case TokenID::Assignment:
-		{
-			/// 더 똑똑해져야 한다.
-			/// 1. 일반 변수인지 확인해야 한다.
-			/// 2. 멤버변수인지 확인해줘야 한다.
+		llvm::Value* value = _exprList.begin()->get()->CodeGen();
+		llvm::Type* type;
+		ExprList::iterator rhs = next(_exprList.begin());
 
-			UnaryOpAST* temp1 = dynamic_cast<UnaryOpAST*>(_exprList.front().get());
-			VariableExprAST* varAST = dynamic_cast<VariableExprAST*>(temp1->_value.get());
+		for (auto opIter = _opTypes.begin(); opIter != _opTypes.end(); ++opIter)
+		{
+			switch ((*opIter)->_tokenID)
+			{
+			case TokenID::Assignment:
+			{
+				if (_opTypes.size() > 1)
+					throw Error("Only one Assignment per line is allowed.");
 
-			return g_Builder.CreateStore(_exprList.back().get()->CodeGen(), varAST->CodeGenRef());
-		}
-		case TokenID::Arithmetic_Add:
-		{
-			auto* value = _exprList.begin()->get()->CodeGen();
-			auto* type = value->getType();
-			auto rhs = ++_exprList.begin();
+				VariableExprAST* varAST = dynamic_cast<VariableExprAST*>(_exprList[0].get());
 
-			if (type == Char || type == Int)
-			{
-				while (rhs == _exprList.end())
-					value = g_Builder.CreateAdd(value, rhs++->get()->CodeGen(), "additmp");
+				return g_Builder.CreateStore(rhs->get()->CodeGen(), varAST->CodeGenRef());
 			}
-			else if(type == Float || type == Double)
-			{
-				while (rhs == _exprList.end())
-					value = g_Builder.CreateFAdd(value, rhs++->get()->CodeGen(), "addftmp");
-			}
-			else
-			{
-				/// TODO : User Defined Function Call.
-			}
-		}
-		case TokenID::Arithmetic_Subtract:
-		{
-			auto* value = _exprList.begin()->get()->CodeGen();
-			auto* type = value->getType();
-			auto rhs = ++_exprList.begin();
+			case TokenID::Arithmetic_Add:
+				type = value->getType();
 
-			if (type == Char || type == Int)
-			{
-				while (rhs == _exprList.end())
-					value = g_Builder.CreateSub(value, rhs++->get()->CodeGen(), "subitmp");
-			}
-			else if (type == Float || type == Double)
-			{
-				while (rhs == _exprList.end())
-					value = g_Builder.CreateFSub(value, rhs++->get()->CodeGen(), "subftmp");
-			}
-			else
-			{
-				/// TODO : User Defined Function Call.
-			}
-		}
-		case TokenID::Arithmetic_Multiply:
-		{
-			auto* value = _exprList.begin()->get()->CodeGen();
-			auto* type = value->getType();
-			auto rhs = ++_exprList.begin();
+				if (type == Char || type == Int)
+				{
+					value = g_Builder.CreateAdd(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFAdd(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
+				break;
+			case TokenID::Arithmetic_Subtract:
+				type = value->getType();
 
-			if (type == Char || type == Int)
-			{
-				while (rhs == _exprList.end())
-					value = g_Builder.CreateMul(value, rhs++->get()->CodeGen(), "mulitmp");
-			}
-			else if (type == Float || type == Double)
-			{
-				while (rhs == _exprList.end())
-					value = g_Builder.CreateFMul(value, rhs++->get()->CodeGen(), "mulftmp");
-			}
-			else
-			{
-				/// TODO : User Defined Function Call.
-			}
-		}
-		case TokenID::Arithmetic_Divide:
-		{
-			auto* value = _exprList.begin()->get()->CodeGen();
-			auto* type = value->getType();
-			auto rhs = ++_exprList.begin();
+				if (type == Char || type == Int)
+				{
+					value = g_Builder.CreateSub(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFSub(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
+				break;
+			case TokenID::Arithmetic_Multiply:
+				type = value->getType();
 
-			if (type == Char || type == Int)
-			{
-				while (rhs == _exprList.end())
-					value = g_Builder.CreateSDiv(value, rhs++->get()->CodeGen(), "divitmp");
+				if (type == Char || type == Int)
+				{
+					value = g_Builder.CreateMul(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFMul(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
+				break;
+			case TokenID::Arithmetic_Divide:
+				type = value->getType();
+
+				if (type == Char || type == Int)
+				{
+					llvm::Value* rhsValue = rhs++->get()->CodeGen();
+					if (rhsValue == llvm::ConstantInt::get(Char, llvm::APInt(8, 0)))
+						throw Error("Expression is divided by zero!");
+					if (rhsValue == llvm::ConstantInt::get(Int, llvm::APInt(32, 0)))
+						throw Error("Expression is divided by zero!");
+					value = g_Builder.CreateSDiv(value, rhsValue);
+				}
+				else if (type == Float || type == Double)
+				{
+					llvm::Value* rhsValue = rhs++->get()->CodeGen();
+					if (rhsValue == llvm::ConstantFP::get(Float, 0.0f))
+						throw Error("Expression is divided by zero!");
+					if (rhsValue == llvm::ConstantFP::get(Double, 0.0f))
+						throw Error("Expression is divided by zero!");
+					value = g_Builder.CreateFDiv(value, rhsValue);
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
+				break;
+			case TokenID::Arithmetic_Modulo:
+				type = value->getType();
+
+				if (type == Char || type == Int)
+				{
+					value = g_Builder.CreateSRem(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFRem(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
+				break;
+			case TokenID::Arithmetic_Power:
+				/// TODO : Lib Function call.
+				break;
+			case TokenID::Logical_And:
+				/// TODO : Implement Logical And.
+				break;
+			case TokenID::Logical_Or:
+				/// TODO : Implement Logical Or.
+				break;
+			case TokenID::Logical_Not:
+				/// TODO : Implement Logical Not.
+				break;
+			case TokenID::Relational_Equal:
+				/// TODO : Implement Relational Equal.
+				break;
+			case TokenID::Relational_NotEqual:
+				/// TODO : Implement Relational NotEqual.
+				break;
+			case TokenID::Relational_Greater:
+				/// TODO : Implement Relational Greater.
+				break;
+			case TokenID::Relational_GreaterEqual:
+				/// TODO : Implement Relational GreaterEqual.
+				break;
+			case TokenID::Relational_Less:
+				/// TODO : Implement Relational Less.
+				break;
+			case TokenID::Relational_LessEqual:
+				/// TODO : Implement Relational LessEqual.
+				break;
+
+			default:
+				throw Error("Unknown infix Operator");
 			}
-			else if (type == Float || type == Double)
-			{
-				while (rhs == _exprList.end())
-					value = g_Builder.CreateFDiv(value, rhs++->get()->CodeGen(), "divftmp");
-			}
-			else
-			{
-				/// TODO : User Defined Function Call.
-			}
 		}
-		case TokenID::Arithmetic_Modulo:
-		{
-			/// TODO : Modulo Define
-		}
-		case TokenID::Arithmetic_Power:
-		{
-			/// TODO : Lib Function call.
-		}
-		default:
-			throw Error("Unknown infix Operator");
-		}
+
+		return value;
 	}
 }

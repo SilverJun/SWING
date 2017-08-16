@@ -1,0 +1,4 @@
+C:\Users\SilverJun\Desktop\SWING\bin\Debug\swing.exe
+C:\Users\SilverJun\Desktop\SWING\example\HelloSwing\main.swing
+C:\Users\SilverJun\Desktop\SWING\example\MyStruct\main.swing
+C:\Users\SilverJun\Desktop\SWING\example\ExprTest\main.swing

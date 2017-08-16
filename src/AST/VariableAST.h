@@ -40,13 +40,6 @@ namespace swing
 			if (_variableName.size() == 1)
 				return g_Builder.CreateLoad(g_Table.Find(_variableName.front())->GetValue());
 			
-			/*
-				%val22 = getelementptr inbounds %struct.test2, %struct.test2* %MyStruct, i32 0, i32 1
-				%val13 = getelementptr inbounds %struct.test1, %struct.test1* %val22, i32 0, i32 0
-				%0 = load i32, i32* %val13, align 4
-				ret i32 %0
-			 */
-
 			/// 멤버 참조 연산이 있을 때.
 			std::string name = _variableName.front();
 			
@@ -55,8 +48,9 @@ namespace swing
 			return g_Builder.CreateLoad(structType->GetElementPtr(this->_variableName));
 		}
 
-		llvm::Value* CodeGenRef()
+		llvm::Value* CodeGenRef() override
 		{
+			/// 그냥 변수
 			if (_variableName.size() == 1)
 				return g_Table.Find(_variableName.front())->GetValue();
 

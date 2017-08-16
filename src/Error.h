@@ -48,10 +48,9 @@ namespace swing
 
 		std::string what() const override
 		{
-			std::string msg;
-			std::stringstream iss(msg);
+			std::stringstream iss;
 			iss << std::string("Parsing Error> ") << _token  << "Message> " << _description;
-			return msg;
+			return iss.str();
 		}
 	};
 }
