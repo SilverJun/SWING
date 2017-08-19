@@ -1,7 +1,9 @@
 ﻿#include "SwingTable.h"
+#include "SwingCompiler.h"
 
 namespace swing
 {
+	std::vector<SwingTable*> SwingTable::_localTable = {};
 
 	SwingTable::SwingTable()
 	{
@@ -22,7 +24,7 @@ namespace swing
 	{
 		if (!_childTable.empty())
 		{
-			auto* result = _childTable.back().Find(name);
+			auto result = _childTable.back()->Find(name);
 			if (result != nullptr)
 				return result;
 		}
@@ -36,23 +38,17 @@ namespace swing
 
 	void SwingTable::AddVariable(SwingTable* table)
 	{
-		SwingTable* local = FindLocalTable();
-		
-		local->_childTable.push_back(*table);
+		g_Table->_childTable.push_back(table);
+		_localTable.push_back(table);
 	}
 
 	void SwingTable::AddVariable(Variable* variable)
 	{
-		SwingTable* local = FindLocalTable();
-
-		local->_variables.push_back(variable);
+		g_Table->_variables.push_back(variable);
 	}
 
-	SwingTable* SwingTable::FindLocalTable()
+	void SwingTable::PopLocalTable()
 	{
-		SwingTable* local = this;
-		while (!local->_childTable.empty())
-			local = &local->_childTable.back();
-		return local;
+		g_SwingCompiler->_globalTable._localTable.pop_back();
 	}
 }

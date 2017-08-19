@@ -29,6 +29,7 @@ namespace swing
 		
 		Variable(llvm::Type* type, std::string name, bool let, bool inout, bool optional);
 		Variable(std::string type, std::string name, bool let, bool inout, bool optional);
+		Variable(llvm::Value* value, std::string name, bool let, bool inout, bool optional);
 
 		~Variable();
 

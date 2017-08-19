@@ -14,7 +14,9 @@ namespace swing
 
 	void StructType::CreateStructType()
 	{
-		/// TODO : ProtocolType 요구사항 구현되었는지 체크.
+		for (auto protocol : _protocols)
+			protocol.ConformCheck(this);
+		
 		_isSetBody = true;
 		_type = llvm::StructType::create(g_Context, _typeLayout, _name);
 		g_SwingCompiler->_types[_name] = _type;
@@ -24,11 +26,26 @@ namespace swing
 		{
 			iter->_type = _type;
 		}
+
+		for (auto iter = _method.begin(); iter != _method.end(); ++iter)
+		{
+			/// Self arg, localTable insert
+			Variable* self = new Variable(llvm::PointerType::get(_type, 0), "self", false, false, false);
+			iter->second._funcBody->_localTable->AddVariable(self);
+			iter->second._args.insert(iter->second._args.begin(), self);
+
+			g_SwingCompiler->AddFunction(_name + "." + iter->first, &_method[iter->first]);
+		}
 	}
 
 	llvm::StructType* StructType::GetStructType() const
 	{
 		return _isSetBody ? _type : nullptr;
+	}
+
+	void StructType::conformProtocol(ProtocolType* prot)
+	{
+		_protocols.push_back(*prot);
 	}
 
 	Property* StructType::GetElement(std::string name)
@@ -41,32 +58,8 @@ namespace swing
 		return nullptr;
 	}
 
-	llvm::Value* StructType::GetElementPtr(std::vector<std::string> variableNames)
+	llvm::Value* StructType::GetElementPtr(llvm::Value* structPtr, std::string variableName)
 	{
-		Property* element;
-		std::string structName;
-		StructType* structType;
-		llvm::Value* elementPtr;
-
-		auto iter = variableNames.begin();
-		++iter;
-
-		/// 1차 멤버 참조
-		structType = this;
-		elementPtr = g_Table.Find(variableNames.front())->GetValue();
-		element = structType->GetElement(*iter);
-		elementPtr = element->GetValue(elementPtr);
-		++iter;
-
-		/// 2~n차 멤버 참조
-		for (; iter != variableNames.end(); ++iter)
-		{
-			structName = element->_type->getStructName();
-			structType = g_SwingCompiler->_structs[structName];
-			element = structType->GetElement(*iter);
-			elementPtr = element->GetValue(elementPtr);
-		}
-
-		return elementPtr;
+		return g_Builder.CreateStructGEP(_type, structPtr, GetElement(variableName)->_idx);
 	}
 }

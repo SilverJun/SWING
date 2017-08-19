@@ -9,8 +9,9 @@ namespace swing
 	class SwingTable
 	{
 	public:
+		static std::vector<SwingTable*> _localTable;
 
-		std::vector<SwingTable> _childTable;
+		std::vector<SwingTable*> _childTable;
 		std::vector<Variable*> _variables;
 
 		SwingTable();
@@ -19,10 +20,7 @@ namespace swing
 		Variable* Find(std::string name);
 		void AddVariable(SwingTable* table);
 		void AddVariable(Variable* variable);
-		void PopChildTable();
-
-	private:
-		SwingTable* FindLocalTable();
+		void PopLocalTable();
 	};
 }
 

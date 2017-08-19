@@ -64,7 +64,12 @@ namespace swing
 
 		/// _exprList의 항이 하나만 있으면 걍 해당식 CodeGen을 리턴한다. 부가연산 없다.
 
-		llvm::Value* value = _exprList.begin()->get()->CodeGen();
+		llvm::Value* value = nullptr;
+		
+		auto initOp = (*_opTypes.begin())->_tokenID;
+		if (initOp != TokenID::Assignment && initOp != TokenID::MemberReference)	
+			value = _exprList.begin()->get()->CodeGen();
+
 		llvm::Type* type;
 		ExprList::iterator rhs = next(_exprList.begin());
 
@@ -77,9 +82,48 @@ namespace swing
 				if (_opTypes.size() > 1)
 					throw Error("Only one Assignment per line is allowed.");
 
-				VariableExprAST* varAST = dynamic_cast<VariableExprAST*>(_exprList[0].get());
+				//VariableExprAST* varAST = dynamic_cast<VariableExprAST*>(_exprList[0].get());
 
-				return g_Builder.CreateStore(rhs->get()->CodeGen(), varAST->CodeGenRef());
+				return g_Builder.CreateStore(rhs->get()->CodeGen(), _exprList.front().get()->CodeGenRef());
+			}
+			case TokenID::MemberReference:
+			{
+				if (opIter == _opTypes.begin())
+					value = _exprList.front().get()->CodeGenRef();
+
+				VariableExprAST* rhsMember = nullptr;
+				rhsMember = dynamic_cast<VariableExprAST*>(rhs->get());
+				if (rhsMember != nullptr)
+				{
+					/// GetElementPtr을 여기로 들고오고, 인덱스 들고오는 것만 StructType에서 처리
+					int idx = g_SwingCompiler->_structs[value->getType()->getPointerElementType()->getStructName()]->GetElement(rhsMember->_variableName)->_idx;
+					value = g_Builder.CreateStructGEP(value->getType()->getPointerElementType(), value, idx);
+
+					if (next(opIter) == _opTypes.end())
+					{
+						return g_Builder.CreateLoad(value);
+					}
+				}
+				else
+				{
+					/// Function Call 일 것 이다.
+					FunctionCallAST* rhsFunction = nullptr;
+					rhsFunction = dynamic_cast<FunctionCallAST*>(rhs->get());
+					std::string structName = value->getType()->getPointerElementType()->getStructName();
+					std::string funcName = structName + "." + rhsFunction->_funcName;
+					rhsFunction->_funcName = funcName;
+					Method* method = g_SwingCompiler->GetFunction(funcName);
+					
+					/// Initialize Self arg.
+					rhsFunction->_callArgs.push_back(value);
+					rhsFunction->_args["self"] = nullptr;
+					
+					method->_args.front()->_value = value;
+
+					method->DeclareMethod(g_SwingCompiler->_structs[structName]);
+					g_SwingCompiler->ImplementFunctionLazy(method);
+					value = rhsFunction->CodeGen();
+				}
 			}
 			case TokenID::Arithmetic_Add:
 				type = value->getType();
@@ -171,9 +215,8 @@ namespace swing
 					/// TODO : User Defined Function Call.
 				}
 				break;
-			case TokenID::Arithmetic_Power:
-				/// TODO : Lib Function call.
-				break;
+			//case TokenID::Arithmetic_Power:
+			//	break;
 			case TokenID::Logical_And:
 				/// TODO : Implement Logical And.
 				break;
@@ -204,6 +247,45 @@ namespace swing
 
 			default:
 				throw Error("Unknown infix Operator");
+			}
+		}
+
+		return value;
+	}
+
+	llvm::Value* BinaryOpAST::CodeGenRef()
+	{
+		/// TODO : Member Reference Only.
+
+		llvm::Value* value = _exprList.front().get()->CodeGenRef();
+		auto initOp = (*_opTypes.begin())->_tokenID;
+		ExprList::iterator rhs = next(_exprList.begin());
+
+		for (auto opIter = _opTypes.begin(); opIter != _opTypes.end(); ++opIter)
+		{
+			if ((*opIter)->_tokenID == TokenID::MemberReference)
+			{
+				/// 정말 마음에 안들지만 확실하고 빠른 방법이다.
+				
+				VariableExprAST* rhsMember = nullptr;
+				rhsMember = dynamic_cast<VariableExprAST*>(rhs->get());
+				if (rhsMember != nullptr)
+				{
+					value = g_SwingCompiler->_structs[value->getType()->getPointerElementType()->getStructName()]->GetElementPtr(value, rhsMember->_variableName);
+				}
+				else
+				{
+					/// Function Call 일 것 이다.
+					FunctionCallAST* rhsFunction = nullptr;
+					rhsFunction = dynamic_cast<FunctionCallAST*>(rhs->get());
+					std::string funcName = (value->getType()->getPointerElementType()->getStructName() + "." + rhsFunction->_funcName).str();
+					rhsFunction->_funcName = funcName;
+					value = rhsFunction->CodeGen();
+				}
+			}
+			else
+			{
+				throw Error("BinaryOpAST Error, Not MemberReference Op.");
 			}
 		}
 

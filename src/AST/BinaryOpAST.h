@@ -18,6 +18,7 @@ namespace swing
 		static ExprPtr Create(TokenIter& iter, int PrecedenceLevel);
 		llvm::Type* GetType() override;
 		llvm::Value* CodeGen() override;
+		llvm::Value* CodeGenRef() override;
 	};
 }
 

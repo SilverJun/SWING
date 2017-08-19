@@ -16,7 +16,7 @@ namespace swing
 		{
 			if (next(iter)->Is(TokenID::OpenSmall))
 				return FunctionCallAST::Create(iter);
-
+			
 			return VariableExprAST::Create(iter);
 		}
 		switch (iter->_id)

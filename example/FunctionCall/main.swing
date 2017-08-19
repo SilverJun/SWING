@@ -1,0 +1,11 @@
+func TestFunc1(Num1:int) -> int
+{
+    return Num1
+}
+
+func main() -> int
+{
+    var test:int
+    test = TestFunc1(Num1:10)
+    return TestFunc1(Num1:test)
+}

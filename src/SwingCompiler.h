@@ -20,7 +20,7 @@
 
 namespace swing
 {
-	class FunctionDeclAST;
+	class Method;
 	class StructType;
 	class ProtocolType;
 
@@ -34,6 +34,8 @@ namespace swing
 		SwingCompiler(const SwingCompiler& src) = delete;
 		SwingCompiler& operator=(const SwingCompiler& rhs) = delete;
 
+		Source* _src;
+
 	public:
 		llvm::LLVMContext _llvmContext;
 		llvm::Module _module;
@@ -41,7 +43,7 @@ namespace swing
 
 		/// compiler context
 		std::unordered_map<std::string, llvm::Type*> _types;
-		std::unordered_map<std::string, FunctionDeclAST*> _functions;
+		std::unordered_map<std::string, Method*> _functions;
 		std::unordered_map<std::string, StructType*> _structs;
 		std::unordered_map<std::string, ProtocolType*> _protocols;
 
@@ -53,6 +55,8 @@ namespace swing
 
 		static SwingCompiler* GetInstance();
 		~SwingCompiler();
+
+		void Initialize();
 
 		/// IRBuilder
 		void PushIRBuilder(llvm::IRBuilder<> builder);
@@ -68,8 +72,9 @@ namespace swing
 		void AddOperator(OperatorType* op);
 
 		/// Functions.
-		void AddFunction(std::string name, FunctionDeclAST* func);
-		FunctionDeclAST* GetFunction(std::string name);
+		void AddFunction(std::string name, Method* func);
+		Method* GetFunction(std::string name);
+		void ImplementFunctionLazy(Method* method);
 
 		/// Command Line Interfaces.
 		void CompileSource(std::string name);
@@ -83,6 +88,6 @@ namespace swing
 #define g_Context	swing::SwingCompiler::GetInstance()->_llvmContext
 #define g_Module	swing::SwingCompiler::GetInstance()->_module
 #define g_Builder	swing::SwingCompiler::GetInstance()->_builder.back()
-#define g_Table	swing::SwingCompiler::GetInstance()->_globalTable
+#define g_Table	swing::SwingCompiler::GetInstance()->_globalTable._localTable.back()
 
 #endif

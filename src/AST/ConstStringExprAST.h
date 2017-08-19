@@ -20,7 +20,7 @@ namespace swing
 			iter++->Expect(TokenID::Quotmark);
 			iter->Is(TokenID::Literal_String);
 			ast->_string = iter++->_name;
-			iter->Expect(TokenID::Quotmark);
+			iter++->Expect(TokenID::Quotmark);
 
 			return ExprPtr(ast);
 		}

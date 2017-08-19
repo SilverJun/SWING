@@ -2,18 +2,19 @@
 
 #include "llvm/Support/TargetSelect.h"
 #include "Type.h"
-#include "FunctionDeclAST.h"
+#include "Method.h"
 #include "StructType.h"
 #include "ProtocolType.h"
 #include <iostream>
 #include "Error.h"
+#include "FunctionDeclAST.h"
 
 namespace swing
 {
 	std::unique_ptr<SwingCompiler> SwingCompiler::_instance;
 	std::once_flag SwingCompiler::_InitInstance;
 
-	SwingCompiler::SwingCompiler() : _module("SwingCompiler", _llvmContext), _builder({ llvm::IRBuilder<>(_llvmContext) })
+	SwingCompiler::SwingCompiler() : _module("SwingCompiler", _llvmContext), _builder({ llvm::IRBuilder<>(_llvmContext) }), _src(nullptr)
 	{
 		llvm::InitializeNativeTarget();
 		llvm::InitializeNativeTargetAsmParser();
@@ -26,7 +27,7 @@ namespace swing
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Multiplicative, { "*", TokenID::Arithmetic_Multiply, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Multiplicative }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Multiplicative, { "/", TokenID::Arithmetic_Divide, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Multiplicative }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Multiplicative, { "%", TokenID::Arithmetic_Modulo, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Multiplicative }));
-		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Multiplicative, { "**", TokenID::Arithmetic_Power, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Multiplicative }));
+		//_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Multiplicative, { "**", TokenID::Arithmetic_Power, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Multiplicative }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Assignment, { "=", TokenID::Assignment, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Assignment }));
 		/*
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Bitwise, { "&", TokenID::Bitwise_And, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Bitwise }));
@@ -47,6 +48,8 @@ namespace swing
 		//_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Default, { "..<", TokenID::Range_Opened, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Default }));
 		_binOperators.insert(std::pair<int, OperatorType>(70, { "as", TokenID::Casting_As, OperatorType::OperatorLocation::Infix, 70 }));
 		_binOperators.insert(std::pair<int, OperatorType>(70, { "is", TokenID::Casting_Is, OperatorType::OperatorLocation::Infix, 70 }));
+		_binOperators.insert(std::pair<int, OperatorType>(80, { ".", TokenID::MemberReference, OperatorType::OperatorLocation::Infix, 80 }));
+
 
 		_preOperators.push_back(OperatorType("!", TokenID::Logical_Not, OperatorType::OperatorLocation::Prefix, OperatorType::Precedence_Logical));
 		//_preOperators.push_back(OperatorType("~", TokenID::Bitwise_Not, OperatorType::OperatorLocation::Prefix, OperatorType::Precedence_Bitwise));
@@ -71,20 +74,20 @@ namespace swing
 
 	OperatorType* SwingCompiler::FindPreFixOp(std::string op)
 	{
-		for (auto value : _preOperators)
+		for (auto value = _preOperators.begin(); value != _preOperators.end(); ++value)
 		{
-			if (value._opString == op)
-				return &value;
+			if (value->_opString == op)
+				return &*value;
 		}
 		return nullptr;
 	}
 
 	OperatorType* SwingCompiler::FindPostFixOp(std::string op)
 	{
-		for (auto value : _postOperators)
+		for (auto value = _postOperators.begin(); value != _postOperators.end(); ++value)
 		{
-			if (value._opString == op)
-				return &value;
+			if (value->_opString == op)
+				return &*value;
 		}
 		return nullptr;
 	}
@@ -94,14 +97,22 @@ namespace swing
 		/// TODO : 기능 구현.
 	}
 
-	void SwingCompiler::AddFunction(std::string name, FunctionDeclAST* func)
+	void SwingCompiler::AddFunction(std::string name, Method* func)
 	{
 		_functions[name] = func;
 	}
 
-	FunctionDeclAST* SwingCompiler::GetFunction(std::string name)
+	Method* SwingCompiler::GetFunction(std::string name)
 	{
 		return _functions[name];
+	}
+
+	void SwingCompiler::ImplementFunctionLazy(Method* method)
+	{
+		auto ast = new FunctionDeclAST();
+		ast->_method = method;
+		_src->_sourceAST.push_back(BaseAST::BasePtr(ast));
+		_src->_sourceAST.shrink_to_fit();
 	}
 
 	SwingCompiler* SwingCompiler::GetInstance()
@@ -116,6 +127,19 @@ namespace swing
 
 	SwingCompiler::~SwingCompiler()
 	{
+	}
+
+	void SwingCompiler::Initialize()
+	{
+		/// built-in types
+		_types["void"] = Void;
+		_types["bool"] = Bool;
+		_types["char"] = Char;
+		_types["int"] = Int;
+		_types["float"] = Float;
+		_types["double"] = Double;
+
+		SwingTable::_localTable.push_back(&_globalTable);
 	}
 
 	void SwingCompiler::PushIRBuilder(llvm::IRBuilder<> builder)
@@ -139,21 +163,15 @@ namespace swing
 
 	void SwingCompiler::CompileSource(std::string name)
 	{
-		/// built-in types
-		_types["void"] = Void;
-		_types["bool"] = Bool;
-		_types["char"] = Char;
-		_types["int"] = Int;
-		_types["float"] = Float;
-		_types["double"] = Double;
+		Initialize();
 
-		Source* src = new Source(name);
+		_src = new Source(name);
 		Lexer lex;
 		try
 		{
-			lex.LexSource(src);
-			src->Parse();
-			src->CodeGen();
+			lex.LexSource(_src);
+			_src->Parse();
+			_src->CodeGen();
 		}
 		catch (LexicalError& e)
 		{
@@ -173,12 +191,12 @@ namespace swing
 			system("pause");
 			exit(-1);
 		}
-		catch (const std::exception& e)
+		/*catch (const std::exception& e)
 		{
 			std::cout << e.what() << std::endl;
 			system("pause");
 			exit(-1);
-		}
+		}*/
 
 		std::string folder = name.substr(0, name.length() - 10);
 

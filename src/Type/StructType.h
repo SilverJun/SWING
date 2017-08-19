@@ -17,7 +17,7 @@ namespace swing
 		llvm::StructType* _type;
 		std::vector<Property> _value;
 		std::vector<llvm::Type*> _typeLayout;
-		std::unordered_map<std::string, llvm::Function* > _method;
+		std::unordered_map<std::string, Method> _method;
 		
 		/// ProtocolType conform _protocols
 		std::vector<ProtocolType> _protocols;
@@ -35,7 +35,7 @@ namespace swing
 
 		Property* GetElement(std::string name);
 
-		llvm::Value* GetElementPtr(std::vector<std::string> variableNames);
+		llvm::Value* GetElementPtr(llvm::Value* structPtr, std::string variableName);
 	};
 }
 

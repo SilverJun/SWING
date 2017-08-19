@@ -5,19 +5,22 @@
 #include "Variable.h"
 #include "DeclAST.h"
 #include "BlockAST.h"
+#include "Method.h"
 
 namespace swing
 {
 	class FunctionDeclAST : public DeclAST
 	{
 	public:
+		Method* _method = nullptr;
+		/*
 		llvm::FunctionType* _funcType;
 		llvm::Function* _func;
 		std::string _funcName;
 		llvm::Type* _returnType;
 		std::vector<Variable*> _args;
 		BlockAST::BlockPtr _funcBody;
-
+		*/
 		static DeclPtr Create(TokenIter& iter);
 		llvm::Value* CodeGen() override;
 	};

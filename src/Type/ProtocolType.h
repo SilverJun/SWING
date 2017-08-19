@@ -5,20 +5,22 @@
 #include <unordered_map>
 #include "Property.h"
 #include "Method.h"
+#include "StructType.h"
 
 namespace swing
 {
 	class ProtocolType
 	{
 	public:
-		std::unordered_map<std::string, Property*> _requirePropertys;
-		std::unordered_map<std::string, Method*> _requireMethods;
+		std::vector<Property> _requirePropertys;
+		std::unordered_map<std::string, Method> _requireMethods;
 		std::vector<llvm::Type*> _typeLayout;
 
 		std::string _name;
 		llvm::StructType* _type;
 
 		void CreateProtocolType();
+		void ConformCheck(StructType* structType);
 	};
 }
 

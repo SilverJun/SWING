@@ -1,5 +1,6 @@
 ﻿#include "StructDeclAST.h"
 #include "VariableDeclAST.h"
+#include "FunctionDeclAST.h"
 #include "Error.h"
 
 namespace swing
@@ -12,11 +13,20 @@ namespace swing
 		iter->Expect(TokenID::Identifier);
 		std::string structName = iter++->_name;
 
-		/* ProtocolType Conform
+		/// ProtocolType Conform
 		if (iter->Is(TokenID::Colon))
 		{
+			++iter;
+			iter->Expect(TokenID::Identifier);
+			
+			ast->_type.conformProtocol(g_SwingCompiler->_protocols[iter++->_name]);
+
+			while (iter->Is(TokenID::Comma))
+			{
+				iter->Expect(TokenID::Identifier);
+				ast->_type.conformProtocol(g_SwingCompiler->_protocols[iter++->_name]);
+			}
 		}
-		*/
 
 		iter++->Expect(TokenID::OpenMedium);
 		while (!iter->Is(TokenID::CloseMedium))
@@ -31,7 +41,11 @@ namespace swing
 			}
 				break;
 			case TokenID::Func_Decl:
-
+			{
+				DeclPtr funcDeclAST = FunctionDeclAST::Create(iter);
+				FunctionDeclAST* memberFunc = static_cast<FunctionDeclAST*>(funcDeclAST.get());
+				ast->_type._method[memberFunc->_method->_funcName] = *memberFunc->_method;
+			}
 				break;
 			default:
 				throw Error("StructDeclAST Error!, Only available VariableDecl or FunctionDecl");

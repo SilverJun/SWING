@@ -48,11 +48,9 @@ namespace swing
 			}
 
 			if (type != nullptr)
-				g_SwingCompiler->_globalTable.AddVariable(new Variable(type, name, false, false, optional));
+				ast->_variable = new Variable(type, name, false, false, optional);
 			else
-				g_SwingCompiler->_globalTable.AddVariable(new Variable(typeName, name, false, false, optional));
-
-			ast->_variable = g_SwingCompiler->_globalTable.Find(name);
+				ast->_variable = new Variable(typeName, name, false, false, optional);
 		}
 		//else if (iter->Is(TokenID::Type_Let))
 		//{
@@ -69,6 +67,7 @@ namespace swing
 
 	llvm::Value* VariableDeclAST::CodeGen()
 	{
+		g_SwingCompiler->_globalTable.AddVariable(_variable);
 		/// Alloca 수행.
 		_variable->CreateAlloca();
 

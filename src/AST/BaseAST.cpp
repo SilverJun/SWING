@@ -5,6 +5,7 @@
 #include "ExprAST.h"
 #include "ReturnAST.h"
 #include "StructDeclAST.h"
+#include "ProtocolDeclAST.h"
 
 namespace swing
 {
@@ -15,9 +16,13 @@ namespace swing
 		{
 		case TokenID::Func_Decl:
 			return FunctionDeclAST::Create(iter);
+
 		case TokenID::Type_Var:
-		case TokenID::Type_Let:
+		//case TokenID::Type_Let:
 			return VariableDeclAST::Create(iter);
+
+		case TokenID::Protocol_Decl:
+			return ProtocolDeclAST::Create(iter);
 
 		case TokenID::Struct_Decl:
 			return StructDeclAST::Create(iter);

@@ -27,6 +27,17 @@ namespace swing
 	{
 	}
 
+	Variable::Variable(llvm::Value* value, std::string name, bool let, bool inout, bool optional) :
+		_isIncompleteType(false),
+		_isOptional(optional),
+		_isLet(let),
+		_isInout(inout),
+		_name(name),
+		_type(value->getType()),
+		_value(value)
+	{
+	}
+
 	Variable::~Variable()
 	{
 	}
@@ -35,7 +46,7 @@ namespace swing
 	{
 		if (_isIncompleteType)
 		{
-			_type = g_SwingCompiler->_types[_typeName];
+			_type = g_SwingCompiler->GetType(_typeName);
 			_isIncompleteType = false;
 
 			if (_type == nullptr) // throw Error!

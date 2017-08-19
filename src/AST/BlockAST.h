@@ -14,7 +14,6 @@ namespace swing
 		using BlockPtr = std::shared_ptr<BlockAST>;
 
 		SwingTable* _localTable;
-		llvm::Function* _func;
 		llvm::BasicBlock* _blockInst;
 
 		ASTList _astList;
@@ -24,7 +23,7 @@ namespace swing
 		{
 			auto* ast = new BlockAST();
 			ast->_localTable = new SwingTable();
-			g_Table.AddVariable(ast->_localTable);
+			//g_Table->AddVariable(ast->_localTable);
 			iter->Expect(TokenID::OpenMedium); ++iter;
 			while (!iter->Is(TokenID::CloseMedium))
 			{
@@ -40,13 +39,16 @@ namespace swing
 		{
 			/// Add blockTable as ChildTable
 			/// Create Block
-			/*_blockInst = llvm::BasicBlock::Create(g_Context, "entry", _func != nullptr ? _func : nullptr);
+			g_Table->AddVariable(_localTable);
+			_blockInst = llvm::BasicBlock::Create(g_Context);
 			g_SwingCompiler->PushIRBuilder(llvm::IRBuilder<>(_blockInst));
 			g_Builder.SetInsertPoint(_blockInst);
-*/
+
 			for (auto ast : _astList)
 				ast->CodeGen();
-			
+
+			g_Table->PopLocalTable();
+
 			return nullptr;
 		}
 	};

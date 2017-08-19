@@ -46,8 +46,8 @@ namespace swing
 
 	void Source::CodeGen()
 	{
-		for (auto value : _sourceAST)
-			value->CodeGen();
+		for (int i = 0; i < _sourceAST.size(); ++i)
+			_sourceAST[i]->CodeGen();
 
 		std::string folder = _name.substr(0, _name.length() - 10);
 

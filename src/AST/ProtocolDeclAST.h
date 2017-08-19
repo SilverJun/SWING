@@ -8,7 +8,7 @@ namespace swing
 	class ProtocolDeclAST : public DeclAST
 	{
 	public:
-		ProtocolType _type;
+		ProtocolType* _type;
 
 		static DeclPtr Create(TokenIter& iter);
 		llvm::Value* CodeGen() override;

@@ -146,8 +146,11 @@ int main(int argc, char* argv[])
 		return -1;
 	
 	g_SwingCompiler->CompileSource(argv[1]);
-	/*
-	g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\ExprTest\\main.swing");
+	/*/
+	//g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\MyProtocol\\main.swing");
+	//g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\FunctionCall\\main.swing");
+	g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\HelloSwing\\main.swing");
 	//*/
+	
 	return 0;
 }

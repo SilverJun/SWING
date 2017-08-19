@@ -137,6 +137,8 @@ namespace swing
 
 		Casting_As,
 		Casting_Is,
+
+		MemberReference,
 	};
 
 	struct Token
