@@ -26,7 +26,7 @@ namespace swing
 			{
 				++iter;
 				typeName = iter++->_name;
-				type = g_SwingCompiler->_types[typeName];
+				//type = g_SwingCompiler->GetType(typeName);
 
 				if (iter->Is(TokenID::Optional_Nilable))
 					optional = true;
@@ -35,8 +35,8 @@ namespace swing
 				{
 					++iter;
 					ast->_initValue = ExprAST::CreateTopLevelExpr(iter);
-					if (type != ast->_initValue->GetType())
-						throw ParsingError(*iter, "VariableDeclAST error, expression type is different from the specified type.");
+					//if (type != ast->_initValue->GetType())
+					//	throw ParsingError(*iter, "VariableDeclAST error, expression type is different from the specified type.");
 				}
 			}
 			/// 타입 추론이 필요한 경우,
@@ -47,10 +47,7 @@ namespace swing
 				type = ast->_initValue->GetType();
 			}
 
-			if (type != nullptr)
-				ast->_variable = new Variable(type, name, false, false, optional);
-			else
-				ast->_variable = new Variable(typeName, name, false, false, optional);
+			ast->_variable = new Variable(typeName, name, false, false, optional);
 		}
 		//else if (iter->Is(TokenID::Type_Let))
 		//{
@@ -73,7 +70,12 @@ namespace swing
 
 		/// 초기값이 있으면 초기값을 할당. (Store)
 		if (_initValue != nullptr)
+		{
+			if (_variable->_type != _initValue->GetType())
+				throw Error("VariableDeclAST error, expression type is different from the specified type.");
+
 			g_Builder.CreateStore(_initValue->CodeGen(), _variable->_value);
+		}
 
 		return nullptr;
 	}

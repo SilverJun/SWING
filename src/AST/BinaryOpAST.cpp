@@ -113,18 +113,22 @@ namespace swing
 					std::string funcName = structName + "." + rhsFunction->_funcName;
 					rhsFunction->_funcName = funcName;
 					Method* method = g_SwingCompiler->GetFunction(funcName);
-					
-					/// Initialize Self arg.
-					rhsFunction->_callArgs.push_back(value);
-					rhsFunction->_args["self"] = nullptr;
-					
-					method->_args.front()->_value = value;
 
-					method->DeclareMethod(g_SwingCompiler->_structs[structName]);
-					g_SwingCompiler->ImplementFunctionLazy(method);
+					if (!method->_func)
+					{
+						/// Initialize Self arg.
+						rhsFunction->_callArgs.push_back(value);
+						rhsFunction->_args["self"] = nullptr;
+						method->_args.insert(method->_args.begin(), new Variable(value->getType(), "self", false, false, false));
+
+						method->DeclareMethod(g_SwingCompiler->_structs[structName]);
+						g_SwingCompiler->ImplementFunctionLazy(method);
+					}
+					
 					value = rhsFunction->CodeGen();
 				}
 			}
+			break;
 			case TokenID::Arithmetic_Add:
 				type = value->getType();
 

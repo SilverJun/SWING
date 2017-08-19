@@ -157,7 +157,11 @@ namespace swing
 		llvm::Type* type = nullptr;
 		type = _types[name];
 		if (type == nullptr)
-			type = _structs[name]->_type;
+		{
+			_structs[name]->CreateStructType();
+			type = _types[name];
+			//type = _structs[name]->_type;
+		}
 		return type;
 	}
 

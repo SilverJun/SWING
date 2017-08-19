@@ -5,6 +5,7 @@
 #include "ExprAST.h"
 #include "ReturnAST.h"
 #include "StructDeclAST.h"
+#include "ExtensionDeclAST.h"
 #include "ProtocolDeclAST.h"
 
 namespace swing
@@ -26,6 +27,9 @@ namespace swing
 
 		case TokenID::Struct_Decl:
 			return StructDeclAST::Create(iter);
+
+		case TokenID::Extension_Decl:
+			return ExtensionDeclAST::Create(iter);
 		
 		case TokenID::Stmt_Return:
 			return ReturnAST::Create(iter);

@@ -141,7 +141,7 @@ int main(int argc, char* argv[])
 	cli.InitProgram();
 	return cli.RunProgram();*/
 
-	//*
+	/*
 	if (argc < 2)
 		return -1;
 	
@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 	/*/
 	//g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\MyProtocol\\main.swing");
 	//g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\FunctionCall\\main.swing");
-	g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\HelloSwing\\main.swing");
+	g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\ExtensionTest\\main.swing");
 	//*/
 	
 	return 0;

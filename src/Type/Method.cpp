@@ -19,7 +19,7 @@ namespace swing
 		else
 			_funcType = llvm::FunctionType::get(_returnType, false);
 
-		_func = llvm::Function::Create(_funcType, llvm::Function::LinkOnceAnyLinkage, _funcName, &g_Module);
+		_func = llvm::Function::Create(_funcType, llvm::Function::ExternalLinkage, _funcName, &g_Module);
 
 		/// Create Self AST
 		_funcBody->_astList.insert(_funcBody->_astList.begin(), SelfDeclAST::Create(this));

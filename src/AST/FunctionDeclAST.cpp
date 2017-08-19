@@ -38,7 +38,7 @@ namespace swing
 			++iter;
 			iter->Expect(TokenID::Colon);
 			++iter;
-			type = g_SwingCompiler->_types[iter->_name];
+			type = g_SwingCompiler->GetType(iter->_name);
 			//type = iter->_name;
 			++iter;
 			/*if (iter->Is(TokenID::Optional_Nilable))

@@ -12,7 +12,6 @@ namespace swing
 	class StructType
 	{
 	public:
-		bool _isSetBody = false;
 		std::string _name;
 		llvm::StructType* _type;
 		std::vector<Property> _value;
@@ -26,6 +25,7 @@ namespace swing
 		virtual ~StructType() {}
 
 		void CreateStructType();
+		void UpdateType();
 		llvm::StructType* GetStructType() const;
 
 		/// ProtocolType conform

@@ -51,7 +51,7 @@ namespace swing
 					type = g_SwingCompiler->_globalTable.Find(this->_name)->GetType();
 					if (type != nullptr)
 						return type;
-					type = g_SwingCompiler->_types[this->_name];
+					type = g_SwingCompiler->GetType(this->_name);
 					if (type != nullptr)
 						return type;
 					}

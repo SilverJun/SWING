@@ -1,0 +1,28 @@
+protocol MyProtocol
+{
+    var protMember:int
+    func protFunction() -> int
+}
+
+struct MyStruct
+{
+    var structMember:int
+}
+
+extension MyStruct : MyProtocol
+{
+    var protMember:int
+
+    func protFunction() -> int
+    {
+        protMember = 10
+        structMember = protMember
+        return structMember
+    }
+}
+
+func main() -> int
+{
+    var test:MyStruct
+    return test.protFunction()
+}

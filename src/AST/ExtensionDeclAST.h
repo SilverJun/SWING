@@ -2,14 +2,18 @@
 #define _SWING_EXTENSION_AST_H_
 #include "StructType.h"
 #include "DeclAST.h"
+#include "FunctionDeclAST.h"
 
 namespace swing
 {
-	class ExtenstionAST : DeclAST
+	class ExtensionDeclAST : public DeclAST
 	{
 	public:
-		StructType*	_struct;
-		ProtocolType* _protocol;
+		std::string _structType;
+		std::vector<ProtocolType*> _protocol;
+
+		std::vector<DeclPtr> _var;
+		std::vector<DeclPtr> _method;
 
 		static DeclPtr Create(TokenIter& iter);
 		llvm::Value* CodeGen() override;

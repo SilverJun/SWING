@@ -19,9 +19,9 @@ entry:
   %0 = load %MyStruct*, %MyStruct** %self1
   %1 = getelementptr inbounds %MyStruct, %MyStruct* %0, i32 0, i32 0
   %2 = getelementptr inbounds %MyStruct, %MyStruct* %0, i32 0, i32 1
-  store i32 10, i32* %1
-  %3 = load i32, i32* %1
-  store i32 %3, i32* %2
-  %4 = load i32, i32* %2
+  store i32 10, i32* %2
+  %3 = load i32, i32* %2
+  store i32 %3, i32* %1
+  %4 = load i32, i32* %1
   ret i32 %4
 }
