@@ -56,6 +56,7 @@ namespace swing
 		static SwingCompiler* GetInstance();
 		~SwingCompiler();
 
+		/// SwingCompiler Initialize.
 		void Initialize();
 
 		/// IRBuilder
@@ -75,6 +76,10 @@ namespace swing
 		void AddFunction(std::string name, Method* func);
 		Method* GetFunction(std::string name);
 		void ImplementFunctionLazy(Method* method);
+
+		/// Break Statement.
+		std::vector<llvm::BasicBlock*> _breakBlocks;
+		void BreakCurrentBlock();
 
 		/// Command Line Interfaces.
 		void CompileSource(std::string name);

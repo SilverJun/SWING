@@ -147,11 +147,11 @@ int main(int argc, char* argv[])
 	
 	g_SwingCompiler->CompileSource(argv[1]);
 	/*/
-	//g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\IfStmtTest\\main.swing");
+	//g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\HelloSwing\\main.swing");
 	//*/
 
 	if (argc < 2)
-		g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\IfStmtTest\\main.swing");
+		g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\For\\main.swing");
 	else
 		g_SwingCompiler->CompileSource(argv[1]);
 	

@@ -63,6 +63,7 @@ namespace swing
 		Stmt_While,
 		Stmt_For,
 		Stmt_In,
+		Stmt_Break,
 		Stmt_Return,
 
 		Stmt_Public,

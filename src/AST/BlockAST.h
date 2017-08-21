@@ -49,10 +49,12 @@ namespace swing
 				g_Builder.SetInsertPoint(_blockInst);
 			}
 			
-			//g_SwingCompiler->PushIRBuilder(llvm::IRBuilder<>(_blockInst));
+			g_SwingCompiler->PushIRBuilder(llvm::IRBuilder<>(_blockInst));
 
 			for (auto ast : _astList)
 				ast->CodeGen();
+
+			g_SwingCompiler->PopIRBuilder();
 
 			g_Table->PopLocalTable();
 

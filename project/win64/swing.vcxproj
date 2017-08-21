@@ -264,6 +264,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\AST\BreakAST.h" />
     <ClInclude Include="..\..\src\AST\SelfDeclAST.h" />
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\CommandLine.h" />
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Error.h" />
@@ -291,7 +292,6 @@
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ForAST.h" />
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\FunctionCallAST.h" />
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\FunctionDeclAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\GuardAST.h" />
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\IfAST.h" />
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\NilValueAST.h" />
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\OperatorDeclAST.h" />
@@ -315,6 +315,9 @@
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\StructType.h" />
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Type.h" />
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Variable.h" />
+    <ClCompile Include="..\..\src\AST\ForAST.cpp" />
+    <ClCompile Include="..\..\src\AST\IfAST.cpp" />
+    <ClCompile Include="..\..\src\AST\WhileAST.cpp" />
     <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\CommandLine.cpp" />
     <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Lexer.cpp" />
     <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Log.cpp" />

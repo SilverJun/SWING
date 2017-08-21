@@ -1,0 +1,14 @@
+func main() -> int 
+{
+    var i:int = 0
+    var sum:int = 0
+
+    while i < 10
+    {
+        sum = sum + 1
+        i = i + 1
+        output(str:"while!\n")
+    }
+
+    return sum
+}

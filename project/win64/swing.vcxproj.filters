@@ -91,6 +91,15 @@
     <ClCompile Include="..\..\src\AST\ExtensionDeclAST.cpp">
       <Filter>AST</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\AST\WhileAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\AST\ForAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\AST\IfAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\CommandLine.h">
@@ -168,9 +177,6 @@
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\FunctionDeclAST.h">
       <Filter>AST</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\GuardAST.h">
-      <Filter>AST</Filter>
-    </ClInclude>
     <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\IfAST.h">
       <Filter>AST</Filter>
     </ClInclude>
@@ -244,6 +250,9 @@
       <Filter>AST</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\AST\ExtensionDeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AST\BreakAST.h">
       <Filter>AST</Filter>
     </ClInclude>
   </ItemGroup>

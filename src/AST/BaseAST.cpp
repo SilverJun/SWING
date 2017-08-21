@@ -9,6 +9,8 @@
 #include "ProtocolDeclAST.h"
 #include "IfAST.h"
 #include "BlockAST.h"
+#include "ForAST.h"
+#include "WhileAST.h"
 
 namespace swing
 {
@@ -35,6 +37,15 @@ namespace swing
 		
 		case TokenID::Stmt_If:
 			return IfAST::Create(iter);
+
+		case TokenID::Stmt_Guard:
+			return IfAST::Create(iter);
+
+		case TokenID::Stmt_While:
+			return WhileAST::Create(iter);
+
+		case TokenID::Stmt_For:
+			return ForAST::Create(iter);
 
 		case TokenID::Stmt_Return:
 			return ReturnAST::Create(iter);

@@ -52,6 +52,7 @@ namespace swing
 		{ TokenID::Stmt_While, "while" },
 		{ TokenID::Stmt_For, "for" },
 		{ TokenID::Stmt_In, "in" },
+		{ TokenID::Stmt_Break, "break" },
 		{ TokenID::Stmt_Return, "return" },
 		//{ TokenID::Stmt_Private, "private" },
 		//{ TokenID::Stmt_Inherit, "inherit" },

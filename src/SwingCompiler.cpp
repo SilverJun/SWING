@@ -39,11 +39,11 @@ namespace swing
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Logical, { "&&", TokenID::Logical_And, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Logical }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Logical, { "||", TokenID::Logical_Or, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Logical }));
 		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "==", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
-		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "!=", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
-		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { ">", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
-		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { ">=", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
-		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "<", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
-		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "<=", TokenID::Relational_Equal, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
+		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "!=", TokenID::Relational_NotEqual, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
+		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { ">", TokenID::Relational_Greater, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
+		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { ">=", TokenID::Relational_GreaterEqual, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
+		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "<", TokenID::Relational_Less, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
+		_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Relational, { "<=", TokenID::Relational_LessEqual, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Relational }));
 		//_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Default, { "...", TokenID::Range_Closed, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Default }));
 		//_binOperators.insert(std::pair<int, OperatorType>(OperatorType::Precedence_Default, { "..<", TokenID::Range_Opened, OperatorType::OperatorLocation::Infix, OperatorType::Precedence_Default }));
 		_binOperators.insert(std::pair<int, OperatorType>(70, { "as", TokenID::Casting_As, OperatorType::OperatorLocation::Infix, 70 }));
@@ -163,6 +163,15 @@ namespace swing
 			//type = _structs[name]->_type;
 		}
 		return type;
+	}
+
+	void SwingCompiler::BreakCurrentBlock()
+	{
+		if (_breakBlocks.size() == 0)
+			throw Error("Can't apply break statement, not in the loop.");
+
+		_builder.back().CreateBr(_breakBlocks.back());
+		_breakBlocks.pop_back();
 	}
 
 	void SwingCompiler::CompileSource(std::string name)
