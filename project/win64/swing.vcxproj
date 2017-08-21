@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{A68DB606-E7FB-3437-8957-42B80CEA9C65}</ProjectGUID>
+    <ProjectGUID>{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}</ProjectGUID>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>swing</ProjectName>
@@ -59,25 +59,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\SilverJun\Desktop\프로젝트\SWING\bin\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\SilverJun\Desktop\SWING\bin\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">swing.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">swing</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\SilverJun\Desktop\프로젝트\SWING\bin\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\SilverJun\Desktop\SWING\bin\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">swing.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">swing</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\SilverJun\Desktop\프로젝트\SWING\bin\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\SilverJun\Desktop\SWING\bin\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">swing.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">swing</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\SilverJun\Desktop\프로젝트\SWING\bin\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\SilverJun\Desktop\SWING\bin\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">swing.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">swing</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
@@ -86,7 +86,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -97,16 +97,16 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -119,8 +119,8 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/Debug/swing.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/Debug/swing.pdb</ProgramDataBaseFile>
+      <ImportLibrary>C:/Users/SilverJun/Desktop/SWING/bin/Debug/swing.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/SilverJun/Desktop/SWING/bin/Debug/swing.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -131,7 +131,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -148,10 +148,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -164,8 +164,8 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>No</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/Release/swing.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/Release/swing.pdb</ProgramDataBaseFile>
+      <ImportLibrary>C:/Users/SilverJun/Desktop/SWING/bin/Release/swing.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/SilverJun/Desktop/SWING/bin/Release/swing.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -176,7 +176,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -193,10 +193,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -209,8 +209,8 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>No</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/MinSizeRel/swing.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/MinSizeRel/swing.pdb</ProgramDataBaseFile>
+      <ImportLibrary>C:/Users/SilverJun/Desktop/SWING/bin/MinSizeRel/swing.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/SilverJun/Desktop/SWING/bin/MinSizeRel/swing.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -221,7 +221,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -237,10 +237,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -253,8 +253,8 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>Debug</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/RelWithDebInfo/swing.lib</ImportLibrary>
-      <ProgramDataBaseFile>C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/RelWithDebInfo/swing.pdb</ProgramDataBaseFile>
+      <ImportLibrary>C:/Users/SilverJun/Desktop/SWING/bin/RelWithDebInfo/swing.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/SilverJun/Desktop/SWING/bin/RelWithDebInfo/swing.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
       <Version>
       </Version>
@@ -264,77 +264,87 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\AST\SwingLibDeclAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\CommandLine.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Error.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\LLVMHeader.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Lexer.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Log.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Parser.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Project.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Source.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\SwingCLI.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\SwingCompiler.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\SwingTable.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Token.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\AtomAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\BaseAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\BinaryOpAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\BlockAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\CompoundAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\ConstStringExprAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\ConstValueAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\DeclAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\ExprAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\ForAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\FunctionCallAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\FunctionDeclAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\FunctionPrototypeAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\GuardAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\IfAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\NilValueAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\OperatorDeclAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\ReturnAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\SourceAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\StmtAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\SwitchAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\UnaryOpAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\VariableAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\VariableDeclAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\WhileAST.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type\Class.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type\Enum.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type\Method.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type\Operator.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type\Protocol.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type\StoredProperty.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type\StructType.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type\Type.h" />
-    <ClInclude Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type\Variable.h" />
-    <ClCompile Include="..\..\src\AST\SwingLibDeclAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\CommandLine.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Lexer.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Log.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Parser.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Project.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Source.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\SwingCLI.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\SwingCompiler.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\SwingTable.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Token.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\main.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\AtomAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\BaseAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\BinaryOpAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\CompoundAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\DeclAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\ExprAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\FunctionDeclAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\NilValueAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\OperatorDeclAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\SourceAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\UnaryOpAST.cpp" />
-    <ClCompile Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST\VariableDeclAST.cpp" />
+    <ClInclude Include="..\..\src\AST\SelfDeclAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\CommandLine.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Error.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\LLVMHeader.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Lexer.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Log.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Parser.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Project.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Source.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\SwingCLI.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\SwingCompiler.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\SwingTable.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Token.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\crefile.hpp" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\AtomAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BaseAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BinaryOpAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BlockAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\CompoundAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ConstStringExprAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ConstValueAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\DeclAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ExprAST.h" />
+    <ClInclude Include="..\..\src\AST\ExtensionDeclAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ForAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\FunctionCallAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\FunctionDeclAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\GuardAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\IfAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\NilValueAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\OperatorDeclAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ProtocolDeclAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ReturnAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\StmtAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\StructDeclAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\SwingLibDeclAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\SwitchAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\UnaryOpAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\VariableAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\VariableDeclAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\WhileAST.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Class.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Enum.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Method.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Operator.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Property.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\ProtocolType.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\StringType.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\StructType.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Type.h" />
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Variable.h" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\CommandLine.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Lexer.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Log.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Parser.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Project.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Source.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\SwingCLI.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\SwingCompiler.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\SwingTable.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Token.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\main.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\AtomAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BaseAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BinaryOpAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\CompoundAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\DeclAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ExprAST.cpp" />
+    <ClCompile Include="..\..\src\AST\ExtensionDeclAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\FunctionDeclAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\NilValueAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\OperatorDeclAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ProtocolDeclAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\StructDeclAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\SwingLibDeclAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\UnaryOpAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\VariableDeclAST.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Method.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Type\ProtocolType.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Type\StructType.cpp" />
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Variable.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGUID>{E037D4A9-3CF3-3EF5-9FE2-CA9763453CB8}</ProjectGUID>
+    <ProjectGUID>{E257F916-2461-3194-A197-1691D3AC1BBC}</ProjectGUID>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>ALL_BUILD</ProjectName>
@@ -57,16 +57,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup>
-    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
-  </PropertyGroup>
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -76,7 +76,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -86,7 +86,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -96,7 +96,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\프로젝트\SWING\include;C:\Users\SilverJun\Desktop\프로젝트\SWING\src;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\AST;C:\Users\SilverJun\Desktop\프로젝트\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\SilverJun\Desktop\SWING\include;C:\Users\SilverJun\Desktop\SWING\src;C:\Users\SilverJun\Desktop\SWING\src\AST;C:\Users\SilverJun\Desktop\SWING\src\Type;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -107,8 +107,8 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\SilverJun\Desktop\프로젝트\SWING\project\windows\swing.vcxproj">
-      <Project>A68DB606-E7FB-3437-8957-42B80CEA9C65</Project>
+    <ProjectReference Include="C:\Users\SilverJun\Desktop\SWING\project\win64\swing.vcxproj">
+      <Project>9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD</Project>
       <Name>swing</Name>
     </ProjectReference>
   </ItemGroup>

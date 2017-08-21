@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ALL_BUILD", "ALL_BUILD.vcxproj", "{E257F916-2461-3194-A197-1691D3AC1BBC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD} = {9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "swing", "swing.vcxproj", "{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+		MinSizeRel|x64 = MinSizeRel|x64
+		RelWithDebInfo|x64 = RelWithDebInfo|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E257F916-2461-3194-A197-1691D3AC1BBC}.Debug|x64.ActiveCfg = Debug|x64
+		{E257F916-2461-3194-A197-1691D3AC1BBC}.Release|x64.ActiveCfg = Release|x64
+		{E257F916-2461-3194-A197-1691D3AC1BBC}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{E257F916-2461-3194-A197-1691D3AC1BBC}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}.Debug|x64.ActiveCfg = Debug|x64
+		{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}.Debug|x64.Build.0 = Debug|x64
+		{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}.Release|x64.ActiveCfg = Release|x64
+		{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}.Release|x64.Build.0 = Release|x64
+		{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
+		{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{9657E46B-E5C8-34C6-AE1D-AE16E1BDCAAD}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

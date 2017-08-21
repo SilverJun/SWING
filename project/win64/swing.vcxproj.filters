@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\CommandLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Lexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Project.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\SwingCLI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\SwingCompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\SwingTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\AtomAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BaseAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BinaryOpAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\CompoundAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\DeclAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ExprAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\FunctionDeclAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\NilValueAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\OperatorDeclAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ProtocolDeclAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\StructDeclAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\SwingLibDeclAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\UnaryOpAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\AST\VariableDeclAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Method.cpp">
+      <Filter>Type</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Type\ProtocolType.cpp">
+      <Filter>Type</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Type\StructType.cpp">
+      <Filter>Type</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Variable.cpp">
+      <Filter>Type</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\AST\ExtensionDeclAST.cpp">
+      <Filter>AST</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\CommandLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\LLVMHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Lexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Project.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Source.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\SwingCLI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\SwingCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\SwingTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\crefile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\AtomAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BaseAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BinaryOpAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\BlockAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\CompoundAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ConstStringExprAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ConstValueAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\DeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ExprAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ForAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\FunctionCallAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\FunctionDeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\GuardAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\IfAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\NilValueAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\OperatorDeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ProtocolDeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\ReturnAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\StmtAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\StructDeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\SwingLibDeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\SwitchAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\UnaryOpAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\VariableAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\VariableDeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\AST\WhileAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Class.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Enum.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Method.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Operator.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Property.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\ProtocolType.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\StringType.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\StructType.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Type.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\SilverJun\Desktop\SWING\src\Type\Variable.h">
+      <Filter>Type</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AST\SelfDeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\AST\ExtensionDeclAST.h">
+      <Filter>AST</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{CEB69E84-13FE-3DD4-920F-EEE9BC8BF494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{40156ED6-A4B9-30D1-835F-367849E54661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AST">
+      <UniqueIdentifier>{C4141E4D-6191-30D2-A316-9EA8D507AAA9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Type">
+      <UniqueIdentifier>{2029FF6D-CAD8-39F9-A82A-EC7E1E58671E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
