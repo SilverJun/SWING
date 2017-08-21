@@ -1,6 +1,7 @@
 C:\Users\SilverJun\Desktop\SWING\bin\Debug\swing.exe
 HelloSwing C:\Users\SilverJun\Desktop\SWING\example\HelloSwing\main.swing
-MyStruct C:\Users\SilverJun\Desktop\SWING\example\MyStruct\main.swing
 ExprTest C:\Users\SilverJun\Desktop\SWING\example\ExprTest\main.swing
+IfStmtTest C:\Users\SilverJun\Desktop\SWING\example\IfStmtTest\main.swing
 FunctionCall C:\Users\SilverJun\Desktop\SWING\example\FunctionCall\main.swing
+MyStruct C:\Users\SilverJun\Desktop\SWING\example\MyStruct\main.swing
 MyProtocol C:\Users\SilverJun\Desktop\SWING\example\MyProtocol\main.swing

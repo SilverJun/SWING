@@ -17,7 +17,8 @@ namespace swing
 		SwingTable();
 		~SwingTable();
 
-		Variable* Find(std::string name);
+		static Variable* Find(std::string name);
+		Variable* FindInLocalTable(std::string name);
 		void AddVariable(SwingTable* table);
 		void AddVariable(Variable* variable);
 		void PopLocalTable();

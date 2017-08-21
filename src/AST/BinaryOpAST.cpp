@@ -222,31 +222,126 @@ namespace swing
 			//case TokenID::Arithmetic_Power:
 			//	break;
 			case TokenID::Logical_And:
-				/// TODO : Implement Logical And.
+				type = value->getType();
+
+				if (type == Bool)
+				{
+					value = g_Builder.CreateAnd(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+					throw Error("And expr type is not bool type!");
+				}
 				break;
 			case TokenID::Logical_Or:
-				/// TODO : Implement Logical Or.
-				break;
-			case TokenID::Logical_Not:
-				/// TODO : Implement Logical Not.
+				type = value->getType();
+
+				if (type == Bool)
+				{
+					value = g_Builder.CreateOr(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+					throw Error("Or expr type is not bool type!");
+				}
 				break;
 			case TokenID::Relational_Equal:
-				/// TODO : Implement Relational Equal.
+				type = value->getType();
+
+				if (type == Bool || type == Char || type == Int)
+				{
+					value = g_Builder.CreateICmpEQ(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFCmpOEQ(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
 				break;
 			case TokenID::Relational_NotEqual:
-				/// TODO : Implement Relational NotEqual.
+				type = value->getType();
+
+				if (type == Bool || type == Char || type == Int)
+				{
+					value = g_Builder.CreateICmpNE(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFCmpONE(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
 				break;
 			case TokenID::Relational_Greater:
-				/// TODO : Implement Relational Greater.
+				type = value->getType();
+
+				if (type == Bool || type == Char || type == Int)
+				{
+					value = g_Builder.CreateICmpSGT(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFCmpOGT(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
 				break;
 			case TokenID::Relational_GreaterEqual:
-				/// TODO : Implement Relational GreaterEqual.
+				type = value->getType();
+
+				if (type == Bool || type == Char || type == Int)
+				{
+					value = g_Builder.CreateICmpSGE(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFCmpOGE(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
 				break;
 			case TokenID::Relational_Less:
-				/// TODO : Implement Relational Less.
+				type = value->getType();
+
+				if (type == Bool || type == Char || type == Int)
+				{
+					value = g_Builder.CreateICmpSLT(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFCmpOLT(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
 				break;
 			case TokenID::Relational_LessEqual:
-				/// TODO : Implement Relational LessEqual.
+				type = value->getType();
+
+				if (type == Bool || type == Char || type == Int)
+				{
+					value = g_Builder.CreateICmpSLE(value, rhs++->get()->CodeGen());
+				}
+				else if (type == Float || type == Double)
+				{
+					value = g_Builder.CreateFCmpOLE(value, rhs++->get()->CodeGen());
+				}
+				else
+				{
+					/// TODO : User Defined Function Call.
+				}
 				break;
 
 			default:

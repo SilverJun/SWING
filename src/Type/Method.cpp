@@ -85,9 +85,9 @@ namespace swing
 
 		g_Table->PopLocalTable();
 
-		llvm::raw_os_ostream os(std::cout);
-		if (verifyFunction(*_func, &os))
-			throw Error("Function Generate Error.");
+		//llvm::raw_os_ostream os(std::cout);
+		//if (verifyFunction(*_func, &os))
+		//	throw Error("Function Generate Error.");
 
 		return _func;
 	}

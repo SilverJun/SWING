@@ -22,16 +22,32 @@ namespace swing
 
 	Variable* SwingTable::Find(std::string name)
 	{
-		if (!_childTable.empty())
+		if (!_localTable.front()->_childTable.empty())
 		{
-			auto result = _childTable.back()->Find(name);
+			auto result = _localTable.front()->_childTable.back()->FindInLocalTable(name);
 			if (result != nullptr)
 				return result;
 		}
 		
-		for (auto elem : _variables)
-			if (elem->GetName() == name)
-				return elem;
+		for (auto elem = _localTable.front()->_variables.begin(); elem != _localTable.front()->_variables.end(); ++elem)
+			if ((*elem)->GetName() == name)
+				return *elem;
+
+		return nullptr;
+	}
+
+	Variable* SwingTable::FindInLocalTable(std::string name)
+	{
+		if (!_childTable.empty())
+		{
+			auto result = _childTable.back()->FindInLocalTable(name);
+			if (result != nullptr)
+				return result;
+		}
+
+		for (auto elem = _variables.begin(); elem != _variables.end(); ++elem)
+			if ((*elem)->GetName() == name)
+				return *elem;
 
 		return nullptr;
 	}
@@ -49,6 +65,6 @@ namespace swing
 
 	void SwingTable::PopLocalTable()
 	{
-		g_SwingCompiler->_globalTable._localTable.pop_back();
+		_localTable.pop_back();
 	}
 }

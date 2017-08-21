@@ -45,7 +45,8 @@ namespace swing
 		{
 			/// 그냥 변수
 			//if (_variableName.size() == 1)
-			return g_Builder.CreateLoad(g_Table->Find(_variableName)->GetValue());
+			Variable* value = g_Table->Find(_variableName);
+			return g_Builder.CreateLoad(value->GetValue());
 			/*
 			/// 멤버 참조 연산이 있을 때.
 			std::string name = _variableName.front();
@@ -60,7 +61,8 @@ namespace swing
 		{
 			/// 그냥 변수
 			//if (_variableName.size() == 1)
-			return g_Table->Find(_variableName)->GetValue();
+			Variable* value = g_Table->Find(_variableName);
+			return value->GetValue();
 			/*
 			/// 멤버 참조 연산이 있을 때.
 			std::string name = _variableName.front();

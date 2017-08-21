@@ -29,8 +29,10 @@ namespace swing
 		{
 			/// ConstString 조립하기.
 			/// String Interpolation 때문에 생긴 Expr을 수행하고 string을 만들어서 추가.
-			_strValue = g_Builder.CreateGlobalString(_string.c_str());
-			return g_Builder.CreateConstInBoundsGEP2_64(_strValue, 0, 0);
+			_strValue = g_Builder.CreateGlobalStringPtr(_string.c_str());
+			
+			//return g_Builder.CreateConstInBoundsGEP2_64(_strValue, 0, 0);
+			return _strValue;
 		}
 	};
 }

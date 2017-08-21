@@ -32,6 +32,7 @@ namespace swing
 		OpenBig = '[',
 		CloseBig = ']',
 		Colon = ':',
+		SemiColon = ';',
 		Dot = '.',
 		Wave = '~',
 		Question = '?',

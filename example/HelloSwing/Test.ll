@@ -7,6 +7,6 @@ declare void @output(i8*)
 
 define i32 @main() {
 entry:
-  call void @output(i8* getelementptr inbounds ([13 x i8], [13 x i8]* @0, i64 0, i64 0))
+  call void @output(i8* getelementptr inbounds ([13 x i8], [13 x i8]* @0, i32 0, i32 0))
   ret i32 0
 }

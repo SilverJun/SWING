@@ -7,6 +7,8 @@
 #include "StructDeclAST.h"
 #include "ExtensionDeclAST.h"
 #include "ProtocolDeclAST.h"
+#include "IfAST.h"
+#include "BlockAST.h"
 
 namespace swing
 {
@@ -31,8 +33,14 @@ namespace swing
 		case TokenID::Extension_Decl:
 			return ExtensionDeclAST::Create(iter);
 		
+		case TokenID::Stmt_If:
+			return IfAST::Create(iter);
+
 		case TokenID::Stmt_Return:
 			return ReturnAST::Create(iter);
+
+		case TokenID::OpenMedium:
+			return BlockAST::Create(iter);
 
 		case TokenID::Operator:
 		case TokenID::Boolean_Value:

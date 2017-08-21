@@ -74,7 +74,7 @@ namespace swing
 			switch (_type)
 			{
 			case ConstValueType::BoolValue:
-				return llvm::ConstantInt::get(Bool, llvm::APInt(8, _bool));
+				return llvm::ConstantInt::get(Bool, llvm::APInt(1, _bool));
 			case ConstValueType::CharValue:
 				return llvm::ConstantInt::get(Char, llvm::APInt(8, _char));
 			case ConstValueType::IntValue:

@@ -1,6 +1,6 @@
 ﻿#ifndef _SWING_BLOCK_AST_H_
 #define _SWING_BLOCK_AST_H_
-#include "BaseAST.h"
+#include "StmtAST.h"
 #include <unordered_map>
 #include "SwingTable.h"
 #include "SwingCompiler.h"
@@ -8,13 +8,15 @@
 
 namespace swing
 {
-	class BlockAST : public BaseAST
+	class BlockAST : public StmtAST
 	{
 	public:
 		using BlockPtr = std::shared_ptr<BlockAST>;
 
+		bool _alreadyInsertBlock = false;
 		SwingTable* _localTable;
-		llvm::BasicBlock* _blockInst;
+		llvm::BasicBlock* _beforeBlock = nullptr;
+		llvm::BasicBlock* _blockInst = nullptr;
 
 		ASTList _astList;
 
@@ -40,9 +42,14 @@ namespace swing
 			/// Add blockTable as ChildTable
 			/// Create Block
 			g_Table->AddVariable(_localTable);
-			_blockInst = llvm::BasicBlock::Create(g_Context);
-			g_SwingCompiler->PushIRBuilder(llvm::IRBuilder<>(_blockInst));
-			g_Builder.SetInsertPoint(_blockInst);
+
+			if (!_alreadyInsertBlock)
+			{
+				_blockInst = llvm::BasicBlock::Create(g_Context);
+				g_Builder.SetInsertPoint(_blockInst);
+			}
+			
+			//g_SwingCompiler->PushIRBuilder(llvm::IRBuilder<>(_blockInst));
 
 			for (auto ast : _astList)
 				ast->CodeGen();

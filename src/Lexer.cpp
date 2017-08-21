@@ -18,7 +18,7 @@
 #define CASE_NUMBER			case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
 
 #define CASE_PUNCT			case '+': case '-': case '*': case '%': case '=': case '<': case '>': case '!': case ':': \
-							case '?': case '&': case '|': case '^':  case '.': case ',':
+							case '?': case '&': case '|': case '^':  case '.': case ',': case ';':
 
 //#define CASE_ESCAPE_SQUENCE	case '\n': case '\0': case '\t': case '\r': case '\"': case '\'': case '\\':
 
@@ -105,6 +105,7 @@ namespace swing
 
 		{ TokenID::Colon, ":" },
 		{ TokenID::Comma, "," },
+		{ TokenID::SemiColon, ";" },
 	};
 
 	Lexer::Lexer() : _tokenList(nullptr), _sourceCode(nullptr), _sourceName(nullptr), _sourceLine(1)

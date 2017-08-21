@@ -39,13 +39,11 @@ namespace swing
 		switch (_opType._tokenID)
 		{
 		case TokenID::Logical_Not:
-			return g_Builder.CreateNot(_value->CodeGen(), "nottmp");
-		case TokenID::Bitwise_Not:
-			return g_Builder.CreateNeg(_value->CodeGen(), "negtmp");
+			return g_Builder.CreateNot(_value->CodeGen());
+		//case TokenID::Bitwise_Not:
+		//	return g_Builder.CreateNeg(_value->CodeGen());
 		//case TokenID::Optional_Nilable:
-		//	return g_Builder.CreateNot(_value->CodeGen(), "nottmp");
 		//case TokenID::Optional_Binding:
-		//	return g_Builder.CreateNot(_value->CodeGen(), "nottmp");
 		}
 
 		/// TODO : 유저 정의 op들 Function call 처리

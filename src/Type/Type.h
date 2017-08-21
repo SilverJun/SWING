@@ -16,11 +16,14 @@ namespace swing
 		}
 		
 	#define Void llvm::Type::getVoidTy(g_Context)
-	#define Bool llvm::Type::getInt8Ty(g_Context)
+	#define Bool llvm::Type::getInt1Ty(g_Context)
 	#define Char llvm::Type::getInt8Ty(g_Context)
 	#define Int llvm::Type::getInt32Ty(g_Context)
 	#define Float llvm::Type::getFloatTy(g_Context)
 	#define Double llvm::Type::getDoubleTy(g_Context)
+
+	#define TrueValue llvm::ConstantInt::get(Bool, llvm::APInt(1, true))
+	#define FalseValue llvm::ConstantInt::get(Bool, llvm::APInt(1, false))
 	}
 
 	inline std::string GetTypeString(llvm::Type* type)
