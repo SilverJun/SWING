@@ -10,7 +10,7 @@
 
 namespace swing
 {
-	Source::Source(std::string fullpath) : _name(fullpath), _fullPath(fullpath)
+	Source::Source(std::string fullpath) : _name(), _fullPath(fullpath)
 	{
 		std::ifstream file(fullpath);
 
@@ -19,6 +19,14 @@ namespace swing
 			std::cout << "File open Error, " << fullpath << std::endl;
 			exit(1);
 		}
+		auto iter = _fullPath.rbegin();;
+		for (; iter != _fullPath.rend(); ++iter)
+		{
+			if (*iter == '\\')
+				break;
+		}
+	
+		_name = std::string(iter.base(), _fullPath.end());
 
 		_code = std::string(std::istreambuf_iterator<char>(file),
 			std::istreambuf_iterator<char>());
@@ -48,14 +56,14 @@ namespace swing
 	{
 		for (int i = 0; i < _sourceAST.size(); ++i)
 			_sourceAST[i]->CodeGen();
-
-		std::string folder = _name.substr(0, _name.length() - 10);
+		/*
+		std::string folder = _name.substr(0, _name.length() - 10);*/
 
 		llvm::raw_os_ostream os(std::cout);
 		verifyModule(g_Module, &os);
 
 		std::error_code EC;
-		std::string file = folder + "Test.ll";
+		std::string file = g_SwingCompiler->_outputPath + "Test.ll";
 		
 		llvm::raw_fd_ostream OS(file, EC, llvm::sys::fs::F_None);
 		g_SwingCompiler->_module.print(OS, nullptr);

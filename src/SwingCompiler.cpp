@@ -1,5 +1,8 @@
 ﻿#include "SwingCompiler.h"
 
+#include <fstream>
+#include <sstream>
+
 #include "llvm/Support/TargetSelect.h"
 #include "Type.h"
 #include "Method.h"
@@ -140,6 +143,30 @@ namespace swing
 		_types["double"] = Double;
 
 		SwingTable::_localTable.push_back(&_globalTable);
+
+		std::string line;
+		std::fstream libfile = std::fstream(_swingPath + "libs.txt");
+		std::string libPath;
+
+		if (!libfile.is_open())
+		{
+			std::cout << "libs.txt is not open!"<< std::endl;
+			exit(1);
+		}
+
+		while (getline(libfile, line))
+		{
+			std::istringstream iss(line);
+			if (!(iss >> libPath) || line == "") continue;
+
+			_libs.push_back(libPath);
+		}
+
+		if (_libs.size() == 0)
+		{
+			std::cout << "libs.txt is empty!" << std::endl;
+			exit(1);
+		}
 	}
 
 	void SwingCompiler::PushIRBuilder(llvm::IRBuilder<> builder)
@@ -174,11 +201,26 @@ namespace swing
 		_breakBlocks.pop_back();
 	}
 
-	void SwingCompiler::CompileSource(std::string name)
+	void SwingCompiler::CompileSource(std::string name, std::string output)
 	{
 		Initialize();
 
 		_src = new Source(name);
+
+		g_Module.setSourceFileName(_src->_name);
+
+		auto iter = name.rbegin();
+		for (; iter != name.rend(); ++iter)
+		{
+			if (*iter == '\\')
+				break;
+		}
+
+		_outputPath = output == "" ? std::string(iter.base(), name.end()) : output;
+
+		if (_outputPath.back() != '\\')
+			_outputPath.push_back('\\');
+		
 		Lexer lex;
 		try
 		{
@@ -211,43 +253,137 @@ namespace swing
 			exit(-1);
 		}*/
 
-		std::string folder = name.substr(0, name.length() - 10);
 
 		/// llc
 		std::string cmd("llc");
 		cmd += ' ';
 		cmd += "-filetype=obj";
 		cmd += ' ';
-		cmd += folder + "Test.ll";
+		cmd += _outputPath + "Test.ll";
 		cmd += ' ';
-		cmd += "-o " + folder + "Test.obj";
+		cmd += "-o " + _outputPath + "Test.obj";
 
-		system(cmd.c_str());
-
-		/// clang-cl
-		cmd = "clang-cl";
-		cmd += ' ';
-		cmd += "-o" + folder + "Test.exe";
-		cmd += ' ';
-		cmd += folder + "Test.obj";
-		cmd += ' ';
-		cmd += "C:\\Users\\SilverJun\\Desktop\\SWING\\LibSwing\\libcmt.lib";
-		cmd += ' ';
-		cmd += "C:\\Users\\SilverJun\\Desktop\\SWING\\LibSwing\\libswing.o";
-		cmd += ' ';
-		cmd += "C:\\Users\\SilverJun\\Desktop\\SWING\\LibSwing\\io.o";
 		system(cmd.c_str());
 
 		std::cout << "Successfully Compiled." << std::endl;
+	}
 
-		cmd = folder + "Test.exe";
+	void SwingCompiler::LinkSource(std::string name, std::string output)
+	{
+		Initialize();
+
+		std::string cmd;
+		/// clang-cl
+		cmd = "clang-cl";
+		cmd += ' ';
+		cmd += "-o" + _outputPath + "Test.exe";
+		cmd += ' ';
+		cmd += name;
+		cmd += ' ';
+		for (auto libPath : _libs)
+		{
+			cmd += libPath;
+			cmd += ' ';
+		}
+		system(cmd.c_str());
+
+		std::cout << "Successfully Linked." << std::endl;
+
+		cmd = _outputPath + "Test.exe";
 
 		int retval = system(cmd.c_str());
 		std::cout << std::endl;
 		std::cout << "SwingCompiler> Program Return " << retval << std::endl << std::endl;
 	}
 
-	void SwingCompiler::CompileProject(Project* project, int optLevel, std::string outputFormat)
+	void SwingCompiler::BuildSource(std::string name, std::string output)
+	{
+		Initialize();
+
+		_src = new Source(name);
+
+		g_Module.setSourceFileName(_src->_name);
+
+		auto iter = name.rbegin();
+		for (; iter != name.rend(); ++iter)
+		{
+			if (*iter == '\\')
+				break;
+		}
+
+		_outputPath = output == "" ? std::string(iter.base(), name.end()) : output;
+
+		if (_outputPath.back() != '\\')
+			_outputPath.push_back('\\');
+
+		Lexer lex;
+		try
+		{
+			lex.LexSource(_src);
+			_src->Parse();
+			_src->CodeGen();
+		}
+		catch (LexicalError& e)
+		{
+			std::cout << e.what() << std::endl;
+			system("pause");
+			exit(-1);
+		}
+		catch (ParsingError& e)
+		{
+			std::cout << e.what() << std::endl;
+			system("pause");
+			exit(-1);
+		}
+		catch (Error& e)
+		{
+			std::cout << e.what() << std::endl;
+			system("pause");
+			exit(-1);
+		}
+		/*catch (const std::exception& e)
+		{
+		std::cout << e.what() << std::endl;
+		system("pause");
+		exit(-1);
+		}*/
+
+
+		/// llc
+		std::string cmd("llc");
+		cmd += ' ';
+		cmd += "-filetype=obj";
+		cmd += ' ';
+		cmd += _outputPath + "Test.ll";
+		cmd += ' ';
+		cmd += "-o " + _outputPath + "Test.obj";
+
+		system(cmd.c_str());
+
+		/// clang-cl
+		cmd = "clang-cl";
+		cmd += ' ';
+		cmd += "-o" + _outputPath + "Test.exe";
+		cmd += ' ';
+		cmd += _outputPath + "Test.obj";
+		cmd += ' ';
+		for (auto libPath : _libs)
+		{
+			cmd += libPath;
+			cmd += ' ';
+		}
+		system(cmd.c_str());
+
+		std::cout << "Successfully Built." << std::endl;
+
+		cmd = _outputPath + "Test.exe";
+
+		int retval = system(cmd.c_str());
+		std::cout << std::endl;
+		std::cout << "SwingCompiler> Program Return " << retval << std::endl << std::endl;
+	}
+
+	/*void SwingCompiler::CompileProject(Project* project, int optLevel, std::string outputFormat)
 	{
 		project->CompileProject(optLevel, outputFormat);
 	}
@@ -261,5 +397,5 @@ namespace swing
 	{
 		CompileProject(project, 0, ".obj");
 		LinkProject(project);
-	}
+	}*/
 }

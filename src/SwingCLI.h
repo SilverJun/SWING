@@ -3,9 +3,7 @@
 
 #include <vector>
 
-#include "SwingCompiler.h"
 #include "CommandLine.h"
-#include "Project.h"
 
 namespace swing
 {
@@ -15,8 +13,6 @@ namespace swing
 		std::string _outPath;
 		std::vector<std::string> _args;
 		CommandLine* _commandLines;
-
-		Project* _project;
 
 	public:
 		SwingCLI(int argc, char* argv[]);

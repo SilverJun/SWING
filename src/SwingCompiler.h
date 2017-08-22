@@ -35,6 +35,7 @@ namespace swing
 		SwingCompiler& operator=(const SwingCompiler& rhs) = delete;
 
 		Source* _src;
+		std::vector<std::string> _libs;
 
 	public:
 		llvm::LLVMContext _llvmContext;
@@ -52,6 +53,9 @@ namespace swing
 		std::vector<OperatorType> _postOperators;
 
 		SwingTable _globalTable;
+
+		std::string _swingPath;
+		std::string _outputPath;
 
 		static SwingCompiler* GetInstance();
 		~SwingCompiler();
@@ -82,10 +86,12 @@ namespace swing
 		void BreakCurrentBlock();
 
 		/// Command Line Interfaces.
-		void CompileSource(std::string name);
-		void CompileProject(Project* project, int optLevel, std::string outputFormat);
-		void LinkProject(Project* project);
-		void BuildProject(Project* project);
+		void CompileSource(std::string name, std::string output);
+		void LinkSource(std::string name, std::string output);
+		void BuildSource(std::string name, std::string output);
+		//void CompileProject(Project* project, int optLevel, std::string outputFormat);
+		//void LinkProject(Project* project);
+		//void BuildProject(Project* project);
 	};
 }
 

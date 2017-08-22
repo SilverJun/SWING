@@ -1,5 +1,5 @@
 ; ModuleID = 'SwingCompiler'
-source_filename = "SwingCompiler"
+source_filename = "main.swing"
 
 @0 = private unnamed_addr constant [14 x i8] c"test is 10! \0A\00"
 

@@ -1,5 +1,5 @@
 ; ModuleID = 'SwingCompiler'
-source_filename = "SwingCompiler"
+source_filename = "main.swing"
 
 declare void @output(i8*)
 

@@ -1,5 +1,5 @@
 ; ModuleID = 'SwingCompiler'
-source_filename = "SwingCompiler"
+source_filename = "main.swing"
 
 %MyStruct = type { i32, i32 }
 

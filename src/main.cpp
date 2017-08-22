@@ -123,37 +123,11 @@
 
 #endif
 
-#include <SwingCompiler.h>
+#include "SwingCLI.h"
 
 int main(int argc, char* argv[])
 {
-	/*char* arg[] = {
-		"C:/Users/SilverJun/Desktop/프로젝트/SWING/bin/Debug/swing.exe",
-		"-compile",
-		"-opt",
-		"0",
-		"-out",
-		".obj",
-		"C:/Users/SilverJun/SwingTestProject/Test.swingproj"
-	};
-
-	swing::SwingCLI cli(7, arg);
+	swing::SwingCLI cli(argc, argv);
 	cli.InitProgram();
-	return cli.RunProgram();*/
-
-	/*
-	if (argc < 2)
-		return -1;
-	
-	g_SwingCompiler->CompileSource(argv[1]);
-	/*/
-	//g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\HelloSwing\\main.swing");
-	//*/
-
-	if (argc < 2)
-		g_SwingCompiler->CompileSource("C:\\Users\\SilverJun\\Desktop\\SWING\\example\\For\\main.swing");
-	else
-		g_SwingCompiler->CompileSource(argv[1]);
-	
-	return 0;
+	return cli.RunProgram();
 }

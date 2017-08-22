@@ -27,12 +27,22 @@ namespace swing
 		int RunCommand() override;
 	};
 
+	class BuildCommand : public CommandLine
+	{
+	public:
+		std::string _sourcePath;
+		std::string _output;
+
+		~BuildCommand() {}
+		bool VerifierCommand(std::vector<std::string> args) override;
+		int RunCommand() override;
+	};
+
 	class CompileCommand : public CommandLine
 	{
 	public:
-		int _optLevel;
-		std::string _outputFormat;
-		std::string _projectPath;
+		std::string _sourcePath;
+		std::string _output;
 
 		~CompileCommand() {}
 		bool VerifierCommand(std::vector<std::string> args) override;
@@ -42,6 +52,9 @@ namespace swing
 	class LinkCommand : public CommandLine
 	{
 	public:
+		std::string _sourcePath;
+		std::string _output;
+
 		~LinkCommand() {}
 		bool VerifierCommand(std::vector<std::string> args) override;
 		int RunCommand() override;
