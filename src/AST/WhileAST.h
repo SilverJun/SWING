@@ -11,6 +11,9 @@ namespace swing
 	public:
 		ExprAST::ExprPtr _conditions;
 		BasePtr _loopBody = nullptr;
+		llvm::BasicBlock* condBlock;
+		llvm::BasicBlock* loopBlock;
+		llvm::BasicBlock* endBlock;
 
 		static StmtPtr Create(TokenIter& iter);
 		llvm::Value* CodeGen() override;

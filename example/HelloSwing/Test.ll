@@ -5,6 +5,12 @@ source_filename = "main.swing"
 
 declare void @output(i8*)
 
+declare void @outputInt(i32)
+
+declare void @outputFloat(float)
+
+declare void @outputDouble(double)
+
 define i32 @main() {
 entry:
   call void @output(i8* getelementptr inbounds ([13 x i8], [13 x i8]* @0, i32 0, i32 0))

@@ -19,8 +19,8 @@ namespace swing
 		{
 			Precedence_Min = 1,
 			Precedence_Assignment = 2,
-			Precedence_Relational = 10,
-			Precedence_Logical = 20,
+			Precedence_Logical = 10,
+			Precedence_Relational = 20,
 			Precedence_Default = 30,
 			Precedence_Bitwise = 40,
 			Precedence_Additive = 50,

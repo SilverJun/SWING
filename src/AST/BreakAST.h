@@ -20,6 +20,7 @@ namespace swing
 		llvm::Value* CodeGen() override
 		{
 			g_SwingCompiler->BreakCurrentBlock();
+			return nullptr;
 		}
 	};
 }

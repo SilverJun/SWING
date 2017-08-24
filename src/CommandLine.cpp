@@ -17,13 +17,13 @@ namespace swing
 		std::cout << "\n" << "SWING Command Line Interface" << std::endl;
 		std::cout << std::endl;
 		std::cout << "\t" << "-build [sourcefiles] -out [folder path]\n\tBuild the source file(.swing) to target executive file." << std::endl;
-		std::cout << "\t\t" << "-out [extension]\n\t\toutput folder path." << std::endl;
+		std::cout << "\t\t" << "-out [folder path]\n\t\toutput folder path." << std::endl;
 		std::cout << std::endl;
 		std::cout << "\t" << "-compile [sourcefiles] -out [folder path]\n\tCompile the source file(.swing)" << std::endl;
-		std::cout << "\t\t" << "-out [extension]\n\t\toutput folder path." << std::endl;
+		std::cout << "\t\t" << "-out [folder path]\n\t\toutput folder path." << std::endl;
 		std::cout << std::endl;
 		std::cout << "\t" << "-link [objective file] -out [folder path]\n\tLink SWING Stdlib and source objective file." << std::endl;
-		std::cout << "\t\t" << "-out [extension]\n\t\toutput folder path." << std::endl;
+		std::cout << "\t\t" << "-out [folder path]\n\t\toutput folder path." << std::endl;
 		std::cout << std::endl;
 		/*
 		std::cout << "\t" << "-create [\"project\" | \"source\"] [folder] [name]\n\tCreate SWING project file or source file at [folder], file name with [name]" << std::endl;

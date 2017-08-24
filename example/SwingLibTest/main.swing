@@ -1,0 +1,15 @@
+func main() -> int 
+{
+    var test1:float = 1.0f
+    var test2:double = 1.0
+
+    output(str:"Swing Library Test!\n")
+    outputInt(value:1234)
+    output(str:"\n")
+    outputFloat(value:test1)
+    output(str:"\n")
+    outputDouble(value:test2)
+    output(str:"\n")
+
+    return 0
+}

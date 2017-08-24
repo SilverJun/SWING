@@ -16,7 +16,7 @@ namespace swing
 		BasePtr _else = nullptr;
 		llvm::BasicBlock* thenBlock = nullptr;
 		llvm::BasicBlock* elseBlock = nullptr;
-
+		llvm::BasicBlock* endBlock = nullptr;
 		static StmtPtr Create(TokenIter& iter);
 		llvm::Value* CodeGen() override;
 	};

@@ -127,7 +127,20 @@
 
 int main(int argc, char* argv[])
 {
+	//*/
 	swing::SwingCLI cli(argc, argv);
+	/*/
+	int arg = 5;
+	char* args[] = {
+		"C:\\Users\\SilverJun\\Desktop\\SWING\\bin\\Debug\\swing.exe",
+		"-build",
+		"C:\\Users\\SilverJun\\Desktop\\SWING\\example\\PrimeNumber\\main.swing",
+		"-out",
+		"C:\\Users\\SilverJun\\Desktop\\SWING\\example\\PrimeNumber"
+	};
+
+	swing::SwingCLI cli(arg, args);
+	//*/
 	cli.InitProgram();
 	return cli.RunProgram();
 }

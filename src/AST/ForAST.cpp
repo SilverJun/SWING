@@ -24,12 +24,12 @@ namespace swing
 	{
 		llvm::Function* func = g_Builder.GetInsertBlock()->getParent();
 
-		llvm::BasicBlock* condBlock = llvm::BasicBlock::Create(g_Context, "for.cond", func, _beforeBlock);
-		llvm::BasicBlock* incBlock = llvm::BasicBlock::Create(g_Context, "for.inc", func, _beforeBlock);
-		llvm::BasicBlock* loopBlock = nullptr;
-		llvm::BasicBlock* endBlock = llvm::BasicBlock::Create(g_Context, "for.end", func);
+		condBlock = llvm::BasicBlock::Create(g_Context, "for.cond", func, _beforeBlock);
+		incBlock = llvm::BasicBlock::Create(g_Context, "for.inc", func, _beforeBlock);
+		loopBlock = nullptr;
+		endBlock = llvm::BasicBlock::Create(g_Context, "for.end", func);
 
-		g_SwingCompiler->_breakBlocks.push_back(endBlock);
+		//g_SwingCompiler->_breakBlocks.push_back(endBlock);
 
 		auto* loopBlockAST = dynamic_cast<BlockAST*>(_loopBody.get());
 		/// BlockAST이면
@@ -53,8 +53,13 @@ namespace swing
 		g_Builder.SetInsertPoint(condBlock);
 		g_Builder.CreateCondBr(g_Builder.CreateICmpEQ(_conditions->CodeGen(), TrueValue), loopBlock, endBlock);
 		g_Builder.SetInsertPoint(loopBlock);
+
+		g_SwingCompiler->_breakBlocks.push_back(endBlock);
 		loopBlockAST->CodeGen();
-		g_Builder.CreateBr(incBlock);
+		if (g_SwingCompiler->GetEndBlock() == endBlock)
+			g_Builder.CreateBr(incBlock);
+		//g_Builder.CreateBr(incBlock);
+
 		g_Builder.SetInsertPoint(incBlock);
 		_increment->CodeGen();
 		g_Builder.CreateBr(condBlock);
@@ -62,7 +67,10 @@ namespace swing
 		g_Table->PopLocalTable();
 
 		g_Builder.SetInsertPoint(endBlock);
-		g_SwingCompiler->_breakBlocks.pop_back();
+
+		if (g_SwingCompiler->GetEndBlock() == endBlock)
+			g_SwingCompiler->_breakBlocks.pop_back();
+
 		return nullptr;
 	}
 }

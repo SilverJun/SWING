@@ -84,6 +84,7 @@ namespace swing
 		/// Break Statement.
 		std::vector<llvm::BasicBlock*> _breakBlocks;
 		void BreakCurrentBlock();
+		llvm::BasicBlock* GetEndBlock();
 
 		/// Command Line Interfaces.
 		void CompileSource(std::string name, std::string output);

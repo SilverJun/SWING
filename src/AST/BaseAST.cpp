@@ -11,6 +11,7 @@
 #include "BlockAST.h"
 #include "ForAST.h"
 #include "WhileAST.h"
+#include "BreakAST.h"
 
 namespace swing
 {
@@ -46,6 +47,9 @@ namespace swing
 
 		case TokenID::Stmt_For:
 			return ForAST::Create(iter);
+
+		case TokenID::Stmt_Break:
+			return BreakAST::Create(iter);
 
 		case TokenID::Stmt_Return:
 			return ReturnAST::Create(iter);

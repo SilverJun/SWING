@@ -5,6 +5,12 @@ source_filename = "main.swing"
 
 declare void @output(i8*)
 
+declare void @outputInt(i32)
+
+declare void @outputFloat(float)
+
+declare void @outputDouble(double)
+
 define i32 @main() {
 entry:
   %test = alloca i32

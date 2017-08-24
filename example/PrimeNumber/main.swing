@@ -1,0 +1,21 @@
+func main() -> int {
+    var i = 0
+    var j = 0
+
+    output(str:"Prime Number : ")
+
+    for i = 2; i <= 100; i = i + 1 {
+        for j = 2; j <= i-1; j = j + 1 {
+            if i % j == 0
+            {
+                break
+            }
+        }
+        if i == j {
+            outputInt(value:i)
+            output(str:", ")
+        }
+    }
+
+    return 0
+}

@@ -65,6 +65,13 @@ namespace swing
 	llvm::Value* VariableDeclAST::CodeGen()
 	{
 		g_SwingCompiler->_globalTable.AddVariable(_variable);
+
+		if (_variable->_type == nullptr && _initValue != nullptr)
+		{
+			_variable->_type = _initValue->GetType();
+			_variable->_isIncompleteType = false;
+		}
+
 		/// Alloca 수행.
 		_variable->CreateAlloca();
 

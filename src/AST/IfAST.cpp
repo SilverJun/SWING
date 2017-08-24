@@ -28,8 +28,6 @@ namespace swing
 
 		llvm::Function* func = g_Builder.GetInsertBlock()->getParent();
 
-		llvm::BasicBlock* endBlock = nullptr;
-
 		llvm::Value* conditionValue = _conditions->CodeGen();
 		if (!conditionValue)
 			throw Error("If condition is null!");
@@ -69,15 +67,20 @@ namespace swing
 		g_Builder.CreateCondBr(conditionValue, thenBlock, elseBlock == nullptr ? endBlock : elseBlock);
 
 		g_Builder.SetInsertPoint(thenBlock);
+		g_SwingCompiler->_breakBlocks.push_back(endBlock);
 		_then->CodeGen();
-		g_Builder.CreateBr(endBlock);
+		g_Builder.CreateBr(g_SwingCompiler->GetEndBlock());
 
 		if (_else)
 		{
 			g_Builder.SetInsertPoint(elseBlock);
+			g_SwingCompiler->_breakBlocks.push_back(endBlock);
 			_else->CodeGen();
-			g_Builder.CreateBr(endBlock);
+			g_Builder.CreateBr(g_SwingCompiler->GetEndBlock());
 		}
+
+		if (g_SwingCompiler->GetEndBlock() == endBlock)
+			g_SwingCompiler->_breakBlocks.pop_back();
 
 		g_Builder.SetInsertPoint(endBlock);
 

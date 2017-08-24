@@ -7,3 +7,5 @@ For C:\Users\SilverJun\Desktop\SWING\example\For\main.swing
 FunctionCall C:\Users\SilverJun\Desktop\SWING\example\FunctionCall\main.swing
 MyStruct C:\Users\SilverJun\Desktop\SWING\example\MyStruct\main.swing
 MyProtocol C:\Users\SilverJun\Desktop\SWING\example\MyProtocol\main.swing
+SwingLibTest C:\Users\SilverJun\Desktop\SWING\example\SwingLibTest\main.swing
+PrimeNumber C:\Users\SilverJun\Desktop\SWING\example\PrimeNumber\main.swing

@@ -197,8 +197,13 @@ namespace swing
 		if (_breakBlocks.size() == 0)
 			throw Error("Can't apply break statement, not in the loop.");
 
-		_builder.back().CreateBr(_breakBlocks.back());
 		_breakBlocks.pop_back();
+		//_builder.back().CreateBr(_breakBlocks.back());
+	}
+
+	llvm::BasicBlock* SwingCompiler::GetEndBlock()
+	{
+		return _breakBlocks.back();
 	}
 
 	void SwingCompiler::CompileSource(std::string name, std::string output)
@@ -273,7 +278,7 @@ namespace swing
 		Initialize();
 
 		std::string cmd;
-		/// clang-cl
+		/// cl
 		cmd = "clang-cl";
 		cmd += ' ';
 		cmd += "-o" + _outputPath + "Test.exe";
@@ -360,7 +365,7 @@ namespace swing
 
 		system(cmd.c_str());
 
-		/// clang-cl
+		/// cl
 		cmd = "clang-cl";
 		cmd += ' ';
 		cmd += "-o" + _outputPath + "Test.exe";

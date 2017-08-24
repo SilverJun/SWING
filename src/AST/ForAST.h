@@ -15,6 +15,11 @@ namespace swing
 		BasePtr _increment;
 		BasePtr _loopBody = nullptr;
 
+		llvm::BasicBlock* condBlock;
+		llvm::BasicBlock* incBlock;
+		llvm::BasicBlock* loopBlock;
+		llvm::BasicBlock* endBlock;
+
 		static StmtPtr Create(TokenIter& iter);
 		llvm::Value* CodeGen() override;
 	};
