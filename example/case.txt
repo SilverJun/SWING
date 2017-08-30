@@ -10,3 +10,4 @@ MyProtocol C:\Users\SilverJun\Desktop\SWING\example\MyProtocol\main.swing
 SwingLibTest C:\Users\SilverJun\Desktop\SWING\example\SwingLibTest\main.swing
 PrimeNumber C:\Users\SilverJun\Desktop\SWING\example\PrimeNumber\main.swing
 POPGameObject C:\Users\SilverJun\Desktop\SWING\example\POPGameObject\main.swing
+POPGameObjectExtension C:\Users\SilverJun\Desktop\SWING\example\POPGameObjectExtension\main.swing

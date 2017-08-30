@@ -61,7 +61,6 @@ namespace swing
 	llvm::Value* StructDeclAST::CodeGen()
 	{
 		/// TODO : Struct타입을 변수 생성할때 구체화 하기.
-		//_type.CreateStructType();
 		_type.UpdateType();
 		return nullptr;
 	}

@@ -1,0 +1,91 @@
+protocol GameObject
+{
+    var id:int
+    var health:int
+
+    func init(id:int) -> void
+}
+
+protocol Moveable
+{
+    var xPos:int
+    var yPos:int
+
+    func move(x:int, y:int) -> void
+}
+
+protocol Attackable
+{
+    var damage:int
+    
+    func attack() -> void
+}
+
+struct SilverJun : GameObject
+{
+    var id:int
+    var health:int
+    
+    func init(id:int) -> void
+    {
+        self.id = id
+        health = 100
+        xPos = 10
+        yPos = 10
+        damage = 5
+
+        output(str:"Player id : ")
+        outputInt(value:self.id)
+        output(str:"\n")
+
+        return void
+    }
+}
+
+extension SilverJun : Moveable
+{
+    var xPos:int
+    var yPos:int
+    
+    func move(x:int, y:int) -> void
+    {
+        output(str:"before move ")
+        outputInt(value:xPos)
+        output(str:", ")
+        outputInt(value:yPos)
+        output(str:"\n")
+
+        xPos = xPos + x
+        yPos = yPos + y
+        
+        output(str:"after move ")
+        outputInt(value:xPos)
+        output(str:", ")
+        outputInt(value:yPos)
+        output(str:"\n")
+        
+        return void
+    }
+}
+
+extension SilverJun : Attackable
+{
+    var damage:int
+
+    func attack() -> void
+    {
+        output(str:"Attack Damage is ")
+        outputInt(value:damage)
+        output(str:"\n")
+        return void
+    }
+}
+
+func main() -> int 
+{
+    var player:SilverJun
+    player.init(id:1)
+    player.attack()
+    player.move(x:10, y:20)
+    return 0
+}

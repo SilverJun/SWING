@@ -68,6 +68,11 @@ namespace swing
 			FunctionDeclAST* memberFunc = static_cast<FunctionDeclAST*>(_method[i].get());
 			type->_method[memberFunc->_method->_funcName] = *memberFunc->_method;
 		}
+		for (int i = 0; i < _protocol.size(); ++i)
+		{
+			type->conformProtocol(_protocol[i]);
+		}
+
 		type->UpdateType();
 		return nullptr;
 	}

@@ -30,7 +30,7 @@ namespace swing
 			{
 				if (method.first == structMethod.first)
 				{
-					if (method.second._returnType == structMethod.second._returnType && method.second._funcName == structMethod.second._funcName)
+					if (method.second._returnType == structMethod.second._returnType)
 					{
 						if (method.second._args.size() == 0 && structMethod.second._args.size() == 0)
 						{

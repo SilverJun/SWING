@@ -65,10 +65,6 @@ namespace swing
 					///type = g_SwingCompiler->_types[iter->_name];
 					type = iter->_name;
 					++iter;
-					/*if (iter->Is(TokenID::Optional_Nilable))
-					{
-						optional = true; ++iter;
-					}*/
 
 					nowMethod->_args.push_back(new Variable(type, name, false, inout, optional));
 
