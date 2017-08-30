@@ -70,6 +70,8 @@ namespace swing
 				iter->second._funcBody->_localTable->AddVariable(self);
 				iter->second._args.insert(iter->second._args.begin(), self);*/
 
+				_method[iter->first]._funcName = _name + "." + iter->first;
+
 				g_SwingCompiler->AddFunction(_name + "." + iter->first, &_method[iter->first]);
 			}
 		}

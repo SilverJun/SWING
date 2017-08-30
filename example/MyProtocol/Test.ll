@@ -14,11 +14,11 @@ declare void @outputDouble(double)
 define i32 @main() {
 entry:
   %test = alloca %MyStruct
-  %0 = call i32 @protFunction(%MyStruct* %test)
+  %0 = call i32 @MyStruct.protFunction(%MyStruct* %test)
   ret i32 %0
 }
 
-define i32 @protFunction(%MyStruct* %self) {
+define i32 @MyStruct.protFunction(%MyStruct* %self) {
 entry:
   %self1 = alloca %MyStruct*
   store %MyStruct* %self, %MyStruct** %self1

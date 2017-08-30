@@ -4,7 +4,7 @@ func main() -> int {
 
     output(str:"Prime Number : ")
 
-    for i = 2; i <= 100; i = i + 1 {
+    for i = 2; i <= 100000; i = i + 1 {
         for j = 2; j <= i-1; j = j + 1 {
             if i % j == 0
             {

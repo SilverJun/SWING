@@ -72,8 +72,8 @@ namespace swing
 
 					nowMethod->_args.push_back(new Variable(type, name, false, inout, optional));
 
-					if (!iter->Is(TokenID::Comma))
-						break;
+					if (iter->Is(TokenID::Comma))
+						++iter;
 				}
 				++iter;
 

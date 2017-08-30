@@ -29,8 +29,8 @@ namespace swing
 				std::string argName = iter++->_name;
 				iter++->Expect(TokenID::Colon);
 				ast->_args[argName] = CreateTopLevelExpr(iter);
-				if (!iter->Is(TokenID::Comma))
-					break;
+				if (iter->Is(TokenID::Comma))
+					++iter;
 			}
 			++iter;
 

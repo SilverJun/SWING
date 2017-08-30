@@ -47,7 +47,8 @@ namespace swing
 		g_Builder.SetInsertPoint(loopBlock);
 		g_SwingCompiler->_breakBlocks.push_back(endBlock);
 		loopBlockAST->CodeGen();
-		g_Builder.CreateBr(g_SwingCompiler->GetEndBlock());
+		if (g_SwingCompiler->GetEndBlock() == endBlock)
+			g_Builder.CreateBr(condBlock);
 
 		g_Builder.SetInsertPoint(endBlock);
 

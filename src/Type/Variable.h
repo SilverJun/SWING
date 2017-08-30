@@ -42,7 +42,7 @@ namespace swing
 		bool isLet() const { return _isLet; }
 		bool isInout() const { return _isInout; }
 		std::string GetName() const { return _name; }
-		llvm::Type* GetType() const { return _type; }
+		llvm::Type* GetType();
 		llvm::Value* GetValue() const;
 
 		Variable* operator=(Variable& rhs);

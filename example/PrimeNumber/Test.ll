@@ -24,7 +24,7 @@ entry:
 
 for.cond:                                         ; preds = %for.inc, %entry
   %0 = load i32, i32* %i
-  %1 = icmp sle i32 %0, 100
+  %1 = icmp sle i32 %0, 100000
   %2 = icmp eq i1 %1, true
   br i1 %2, label %for.loop, label %for.end
 

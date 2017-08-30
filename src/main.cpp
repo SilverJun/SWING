@@ -134,9 +134,9 @@ int main(int argc, char* argv[])
 	char* args[] = {
 		"C:\\Users\\SilverJun\\Desktop\\SWING\\bin\\Debug\\swing.exe",
 		"-build",
-		"C:\\Users\\SilverJun\\Desktop\\SWING\\example\\PrimeNumber\\main.swing",
+		"C:\\Users\\SilverJun\\Desktop\\pop\\main.swing",
 		"-out",
-		"C:\\Users\\SilverJun\\Desktop\\SWING\\example\\PrimeNumber"
+		"C:\\Users\\SilverJun\\Desktop\\pop"
 	};
 
 	swing::SwingCLI cli(arg, args);

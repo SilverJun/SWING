@@ -24,8 +24,8 @@ namespace swing
 		while (!iter->Is(TokenID::CloseSmall))
 		{
 			std::string name;
-			//std::string type;
-			llvm::Type* type = nullptr;
+			std::string type;
+			//llvm::Type* type = nullptr;
 
 			bool inout = false;
 			bool optional = false;
@@ -38,7 +38,8 @@ namespace swing
 			++iter;
 			iter->Expect(TokenID::Colon);
 			++iter;
-			type = g_SwingCompiler->GetType(iter->_name);
+			type = iter->_name;
+			//type = g_SwingCompiler->GetType(iter->_name);
 			//type = iter->_name;
 			++iter;
 			/*if (iter->Is(TokenID::Optional_Nilable))
@@ -47,8 +48,8 @@ namespace swing
 			}*/
 			ast->_method->_args.push_back(new Variable(type, name, false, inout, optional));
 
-			if (!iter->Is(TokenID::Comma))
-				break;
+			if (iter->Is(TokenID::Comma))
+				++iter;
 		}
 		++iter;
 

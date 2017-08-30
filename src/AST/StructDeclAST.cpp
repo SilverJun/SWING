@@ -23,6 +23,7 @@ namespace swing
 
 			while (iter->Is(TokenID::Comma))
 			{
+				++iter;
 				iter->Expect(TokenID::Identifier);
 				ast->_type.conformProtocol(g_SwingCompiler->_protocols[iter++->_name]);
 			}

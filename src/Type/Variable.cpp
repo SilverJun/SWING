@@ -71,6 +71,19 @@ namespace swing
 			throw Error("SetNil Error!, " + _name + " is not optional type.");
 	}
 
+	llvm::Type* Variable::GetType()
+	{
+		if (_isIncompleteType)
+		{
+			_type = g_SwingCompiler->GetType(_typeName);
+			_isIncompleteType = false;
+
+			if (_type == nullptr) // throw Error!
+				throw Error("Type Inference failed, Maybe there is no define type name: " + _typeName);
+		}
+		return _type;
+	}
+
 	llvm::Value* Variable::GetValue() const
 	{
 		return _value;
