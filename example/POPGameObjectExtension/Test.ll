@@ -47,8 +47,8 @@ entry:
   %7 = load i32, i32* %id2
   store i32 %7, i32* %6
   store i32 100, i32* %2
-  store i32 10, i32* %3
-  store i32 10, i32* %4
+  store i32 -10, i32* %3
+  store i32 -10, i32* %4
   store i32 5, i32* %5
   call void @output(i8* getelementptr inbounds ([13 x i8], [13 x i8]* @0, i32 0, i32 0))
   %8 = getelementptr inbounds %SilverJun, %SilverJun* %0, i32 0, i32 0

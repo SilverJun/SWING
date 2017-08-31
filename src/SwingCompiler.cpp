@@ -55,6 +55,7 @@ namespace swing
 
 
 		_preOperators.push_back(OperatorType("!", TokenID::Logical_Not, OperatorType::OperatorLocation::Prefix, OperatorType::Precedence_Logical));
+		_preOperators.push_back(OperatorType("-", TokenID::Arithmetic_Subtract, OperatorType::OperatorLocation::Prefix, OperatorType::Precedence_Multiplicative));
 		//_preOperators.push_back(OperatorType("~", TokenID::Bitwise_Not, OperatorType::OperatorLocation::Prefix, OperatorType::Precedence_Bitwise));
 		
 		//_postOperators.push_back(OperatorType("?", TokenID::Optional_Nilable, OperatorType::OperatorLocation::Postfix, OperatorType::Precedence_Default));

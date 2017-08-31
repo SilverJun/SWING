@@ -10,9 +10,10 @@ namespace swing
 		auto* ast = new UnaryOpAST();
 
 		/// prefix 이라면,
-		if (iter->Is(TokenID::Operator))
+		auto* op = g_SwingCompiler->FindPreFixOp(iter->_name);
+		if (op)
 		{
-			ast->_opType = *g_SwingCompiler->FindPreFixOp(iter->_name);
+			ast->_opType = *op;
 			++iter;
 			ast->_value = AtomAST::Create(iter);
 			
@@ -22,9 +23,10 @@ namespace swing
 		ast->_value = AtomAST::Create(iter);
 
 		/// postfix op처리.
-		if (iter->Is(TokenID::Operator))
+		op = g_SwingCompiler->FindPostFixOp(iter->_name);
+		if (op)
 		{
-			ast->_opType = *g_SwingCompiler->FindPostFixOp(iter->_name);
+			ast->_opType = *op;
 			++iter;
 
 			return ExprPtr(ast);
@@ -40,6 +42,11 @@ namespace swing
 		{
 		case TokenID::Logical_Not:
 			return g_Builder.CreateNot(_value->CodeGen());
+		case TokenID::Arithmetic_Subtract:
+			{
+			auto* lhs = _value->CodeGen();
+			return g_Builder.CreateMul(lhs, llvm::ConstantInt::get(lhs->getType(), -1, true));
+			}
 		//case TokenID::Bitwise_Not:
 		//	return g_Builder.CreateNeg(_value->CodeGen());
 		//case TokenID::Optional_Nilable:

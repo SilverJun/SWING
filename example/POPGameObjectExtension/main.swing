@@ -30,8 +30,8 @@ struct SilverJun : GameObject
     {
         self.id = id
         health = 100
-        xPos = 10
-        yPos = 10
+        xPos = -10
+        yPos = -10
         damage = 5
 
         output(str:"Player id : ")
